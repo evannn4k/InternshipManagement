@@ -1,0 +1,34 @@
+import { defineConfig } from "vite";
+import laravel from "laravel-vite-plugin";
+import { bunny } from "laravel-vite-plugin/fonts";
+import tailwindcss from "@tailwindcss/vite";
+import inertia from "@inertiajs/vite";
+import path from "path";
+import react from "@vitejs/plugin-react";
+
+export default defineConfig({
+    plugins: [
+        react(),
+        laravel({
+            input: ["resources/css/app.css", "resources/js/app.jsx"],
+            refresh: true,
+            fonts: [
+                bunny("Instrument Sans", {
+                    weights: [400, 500, 600],
+                }),
+            ],
+        }),
+        tailwindcss(),
+        // inertia(),
+    ],
+    resolve: {
+        alias: {
+            "@": path.resolve(__dirname, "./resources/js"),
+        },
+    },
+    server: {
+        watch: {
+            ignored: ["**/storage/framework/views/**"],
+        },
+    },
+});

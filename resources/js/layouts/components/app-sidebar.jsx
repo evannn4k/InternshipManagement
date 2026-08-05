@@ -1,0 +1,166 @@
+import {
+    Sidebar,
+    SidebarContent,
+    SidebarGroup,
+    SidebarGroupContent,
+    SidebarGroupLabel,
+    SidebarHeader,
+    SidebarMenu,
+    SidebarMenuButton,
+    SidebarMenuItem,
+    SidebarFooter,
+    useSidebar,
+} from "@/components/ui/sidebar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuGroup,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Link, router } from "@inertiajs/react";
+
+export function AppSidebar({ ...props }) {
+    const { isMobile } = useSidebar();
+
+    return (
+        <Sidebar collapsible="offcanvas" {...props}>
+            <SidebarHeader>
+                <SidebarMenu>
+                    <SidebarMenuItem>
+                        <div className="h-auto p-2 rounded-lg hover:bg-muted cursor-default">
+                            <div className="flex items-center gap-2 h-full">
+                                <img
+                                    src="/storage/images/main/logo.png"
+                                    alt="logo"
+                                    className="h-10"
+                                />
+                                <div className="flex flex-col gap-0 leading-none">
+                                    <span className="font-semibold">
+                                        Internship
+                                    </span>
+                                    <span className="text-sm">Management</span>
+                                </div>
+                            </div>
+                        </div>
+                    </SidebarMenuItem>
+                </SidebarMenu>
+            </SidebarHeader>
+            <SidebarContent>
+                <SidebarGroup>
+                    <SidebarGroupLabel>Master Data</SidebarGroupLabel>
+                    <SidebarGroupContent>
+                        <SidebarMenu>
+                            <SidebarMenuItem>
+                                <SidebarMenuButton
+                                    render={
+                                        <Link href="/dashboard">Dashboard</Link>
+                                    }
+                                />
+                                <SidebarMenuButton
+                                    render={<Link href="/users">Users</Link>}
+                                />
+                            </SidebarMenuItem>
+                        </SidebarMenu>
+                    </SidebarGroupContent>
+                </SidebarGroup>
+                <SidebarGroup>
+                    <SidebarGroupLabel>Management Data</SidebarGroupLabel>
+                    <SidebarGroupContent>
+                        <SidebarMenu>
+                            <SidebarMenuItem>
+                                <SidebarMenuButton
+                                    render={<Link href="/school">School</Link>}
+                                />
+                                <SidebarMenuButton
+                                    render={
+                                        <Link href="/users">Internship</Link>
+                                    }
+                                />
+                            </SidebarMenuItem>
+                        </SidebarMenu>
+                    </SidebarGroupContent>
+                </SidebarGroup>
+            </SidebarContent>
+            <SidebarFooter>
+                <SidebarMenu>
+                    <SidebarMenuItem>
+                        <DropdownMenu>
+                            <DropdownMenuTrigger
+                                render={
+                                    <SidebarMenuButton
+                                        size="lg"
+                                        className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+                                    >
+                                        <Avatar className="h-8 w-8 rounded-lg grayscale">
+                                            <AvatarImage />
+                                            <AvatarFallback className="rounded-lg">
+                                                CN
+                                            </AvatarFallback>
+                                        </Avatar>
+                                        <div className="grid flex-1 text-left text-sm leading-tight">
+                                            <span className="truncate font-medium">
+                                                name{" "}
+                                            </span>
+                                            <span className="truncate text-xs text-muted-foreground">
+                                                email{" "}
+                                            </span>
+                                        </div>
+                                        {/* <IconDotsVertical className="ml-auto size-4" />*/}
+                                    </SidebarMenuButton>
+                                }
+                            />
+                            <DropdownMenuContent
+                                className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
+                                side={isMobile ? "bottom" : "right"}
+                                align="end"
+                                sideOffset={4}
+                            >
+                                <DropdownMenuGroup>
+                                    <DropdownMenuLabel className="p-0 font-normal">
+                                        <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
+                                            <Avatar className="h-8 w-8 rounded-lg">
+                                                <AvatarImage />
+                                                <AvatarFallback className="rounded-lg">
+                                                    CN
+                                                </AvatarFallback>
+                                            </Avatar>
+                                            <div className="grid flex-1 text-left text-sm leading-tight">
+                                                <span className="truncate font-medium">
+                                                    name
+                                                </span>
+                                                <span className="truncate text-xs text-muted-foreground">
+                                                    email{" "}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </DropdownMenuLabel>
+                                </DropdownMenuGroup>
+                                <DropdownMenuSeparator />
+                                <DropdownMenuGroup>
+                                    <DropdownMenuItem>
+                                        {/* <IconUserCircle />*/}
+                                        Account
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem>
+                                        {/* <IconCreditCard />*/}
+                                        Billing
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem>
+                                        {/* <IconNotification />*/}
+                                        Notifications
+                                    </DropdownMenuItem>
+                                </DropdownMenuGroup>
+                                <DropdownMenuSeparator />
+                                <DropdownMenuItem onClick={() => router.post("/logout")}>Log out</DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                    </SidebarMenuItem>
+                </SidebarMenu>
+            </SidebarFooter>
+        </Sidebar>
+    );
+}
