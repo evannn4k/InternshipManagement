@@ -2,15 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Attributes\Guarded;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class RoleHasPermission extends Model
+#[Guarded([''])]
+class RoleHasPermission extends Pivot 
 {
-    public function role() {
-        return $this->belongsToMany(Role::class);
-    }
+    protected $table = 'role_has_permissions';
     
-    public function permission() {
-        return $this->belongsToMany(Permission::class);
-    }
+    public $timestamps = false;
 }

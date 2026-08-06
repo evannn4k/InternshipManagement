@@ -6,13 +6,18 @@ use Illuminate\Database\Eloquent\Model;
 
 class Role extends Model
 {
-    public function user()
+    public function users()
     {
         return $this->hasMany(User::class);
     }
 
-    public function roleHasPermission()
+    public function permissions()
     {
-        return $this->hasMany(RoleHasPermission::class);
+        return $this->belongsToMany(
+            Permission::class,
+            "role_has_permissions",
+            "role_id",
+            "permission_id",
+        )->using(RoleHasPermission::class);
     }
 }

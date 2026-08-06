@@ -40,23 +40,18 @@ class User extends Authenticatable
         ];
     }
 
-    public function roleHasPermission()
-    {
-        return $this->hasMany(RoleHasPermission::class);
-    }
-
     public function role()
     {
         return $this->belongsTo(Role::class);
     }
 
-    public function isActive()
+    public function hasPermission($permissionName)
     {
-        return $this->is_active;
+        return $this->role->permissions->contains('name', $permissionName);
     }
 
     public function getAllPermission()
     {
-        return 'test';
+        return $this->role->permissions->pluck('name');
     }
 }

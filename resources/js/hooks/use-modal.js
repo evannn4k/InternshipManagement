@@ -1,12 +1,12 @@
 import { useState } from "react";
 
-export default function useFormModal() {
+export function useModal() {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedData, setSelectedData] = useState(false);
 
     // modal delete
     const [isOpenDelete, setIsOpenDelete] = useState(false);
-    
+
     // modal form create dan ediy
     const openCreate = () => {
         setIsOpen(true);

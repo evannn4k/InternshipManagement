@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\School\UpdateSchoolRequest;
 use App\Models\School;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 
 class UpdateSchoolController extends Controller
@@ -15,7 +16,9 @@ class UpdateSchoolController extends Controller
      */
     public function __invoke(UpdateSchoolRequest $request, School $school)
     {
+        Gate::authorize("school:update");
         $credentials = $request->validated();
+            
         try {
             $school->update($credentials);
 

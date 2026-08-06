@@ -14,20 +14,22 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-    faBoxOpen,
-    faCircleCheck,
-    faCircleInfo,
-    faCircleXmark,
-    faEllipsisVertical,
-    faPenToSquare,
-    faTrash,
-} from "@fortawesome/free-solid-svg-icons";
 import { Link } from "@inertiajs/react";
 import { Badge } from "@/components/ui/badge";
+import {
+    FiCheckCircle,
+    FiXCircle,
+    FiMoreVertical,
+    FiPackage,
+    FiFileText,
+    FiEdit,
+    FiTrash2,
+} from "react-icons/fi";
+import { useCan } from "@/hooks/use-can";
 
 export default function SchoolTable({ schools, form }) {
+    const { can } = useCan();
+
     return (
         <div className="overflow-hidden rounded-lg border">
             <Table className="m-0">
@@ -53,19 +55,18 @@ export default function SchoolTable({ schools, form }) {
                                 <TableCell>{school.city ?? "-"}</TableCell>
                                 <TableCell>
                                     {school.is_active ? (
-                                        <Badge variant="success" className="font-semibold">
-                                            <FontAwesomeIcon
-                                                className="text-green-600"
-                                                icon={faCircleCheck}
-                                            />
-                                            Aktif
+                                        <Badge
+                                            variant="success"
+                                            className="font-semibold"
+                                        >
+                                            <FiCheckCircle /> Aktif
                                         </Badge>
                                     ) : (
-                                        <Badge variant="destructive" className="font-semibold">
-                                            <FontAwesomeIcon
-                                                className="text-red-600"
-                                                icon={faCircleXmark}
-                                            />
+                                        <Badge
+                                            variant="destructive"
+                                            className="font-semibold"
+                                        >
+                                            <FiXCircle />
                                             Tidak Aktif
                                         </Badge>
                                     )}
@@ -79,11 +80,7 @@ export default function SchoolTable({ schools, form }) {
                                                     size="icon"
                                                     className="size-8"
                                                 >
-                                                    <FontAwesomeIcon
-                                                        icon={
-                                                            faEllipsisVertical
-                                                        }
-                                                    />
+                                                    <FiMoreVertical />
                                                     <span className="sr-only">
                                                         Open menu
                                                     </span>
@@ -91,43 +88,45 @@ export default function SchoolTable({ schools, form }) {
                                             }
                                         />
                                         <DropdownMenuContent align="end">
-                                            <DropdownMenuItem
-                                                onClick={() =>
-                                                    form.openEdit(school)
-                                                }
-                                            >
-                                                <FontAwesomeIcon
-                                                    icon={faPenToSquare}
-                                                />
-                                                Edit
-                                            </DropdownMenuItem>
+                                            {can("school:update") && (
+                                                <DropdownMenuItem
+                                                    onClick={() =>
+                                                        form.openEdit(school)
+                                                    }
+                                                >
+                                                    <FiEdit />
+                                                    Edit
+                                                </DropdownMenuItem>
+                                            )}
                                             <DropdownMenuItem
                                                 render={
                                                     <Link
                                                         href={
-                                                            "school/" +
+                                                            "/school/" +
                                                             school.id
                                                         }
                                                     />
                                                 }
                                             >
-                                                <FontAwesomeIcon
-                                                    icon={faCircleInfo}
-                                                />
+                                                <FiFileText />
                                                 Detail
                                             </DropdownMenuItem>
-                                            <DropdownMenuSeparator />
-                                            <DropdownMenuItem
-                                                variant="destructive"
-                                                onClick={() =>
-                                                    form.openDelete(school.id)
-                                                }
-                                            >
-                                                <FontAwesomeIcon
-                                                    icon={faTrash}
-                                                />
-                                                Delete
-                                            </DropdownMenuItem>
+                                            {can("school:delete") && (
+                                                <>
+                                                    <DropdownMenuSeparator />
+                                                    <DropdownMenuItem
+                                                        variant="destructive"
+                                                        onClick={() =>
+                                                            form.openDelete(
+                                                                school.id,
+                                                            )
+                                                        }
+                                                    >
+                                                        <FiTrash2 />
+                                                        Delete
+                                                    </DropdownMenuItem>
+                                                </>
+                                            )}
                                         </DropdownMenuContent>
                                     </DropdownMenu>
                                 </TableCell>
@@ -137,11 +136,8 @@ export default function SchoolTable({ schools, form }) {
                         <TableRow>
                             <TableCell colSpan={6} className="p-8">
                                 <div className="flex items-center flex-col gap-2">
-                                    <FontAwesomeIcon
-                                        icon={faBoxOpen}
-                                        size="xl"
-                                    />
-                                    Tidak ada data
+                                    <FiPackage className="size-8 text-muted-foreground" />
+                                    <span>Tidak ada data</span>
                                 </div>
                             </TableCell>
                         </TableRow>

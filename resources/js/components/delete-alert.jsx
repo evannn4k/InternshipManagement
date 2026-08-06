@@ -1,5 +1,3 @@
-import { Trash2Icon } from "lucide-react";
-
 import {
     AlertDialog,
     AlertDialogAction,
@@ -10,16 +8,16 @@ import {
     AlertDialogHeader,
     AlertDialogMedia,
     AlertDialogTitle,
-    AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { FaRegTrashCan } from "react-icons/fa6";
 
-export function DeleteAlert({title, description, onDelete, form}) {
+export function DeleteAlert({ title, description, onDelete, form }) {
     return (
         <AlertDialog open={form.isOpenDelete} onOpenChange={form.closeDelete}>
             <AlertDialogContent size="sm">
                 <AlertDialogHeader>
                     <AlertDialogMedia className="bg-destructive/10 text-destructive dark:bg-destructive/20 dark:text-destructive">
-                        <Trash2Icon />
+                        <FaRegTrashCan />
                     </AlertDialogMedia>
                     <AlertDialogTitle>{title}</AlertDialogTitle>
                     <AlertDialogDescription>

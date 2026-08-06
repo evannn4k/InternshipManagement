@@ -1,12 +1,5 @@
 import Layout from "@/layouts/layout";
 import {
-    faChevronLeft,
-    faChevronRight,
-    faMagnifyingGlass,
-    faPlus,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
     InputGroup,
     InputGroupAddon,
     InputGroupInput,
@@ -22,7 +15,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import SchoolTable from "./components/school-table";
 import SchoolForm from "./components/school-form";
-import useFormModal from "@/hooks/use-form-modal";
+import { useModal } from "@/hooks/use-modal";
 import { DeleteAlert } from "@/components/delete-alert";
 import { Link, router, Head, usePage } from "@inertiajs/react";
 import { useEffect, useState } from "react";
@@ -32,10 +25,13 @@ import {
     PaginationContent,
     PaginationItem,
 } from "@/components/ui/pagination";
+import { ChevronLeft, ChevronRight, Plus, Search } from "lucide-react";
+import { useCan } from "@/hooks/use-can";
 
 export default function SchoolIndex({ data }) {
     const [search, setSearch] = useState("");
     const { flash } = usePage().props;
+    const { can } = useCan();
 
     useEffect(() => {
         if (flash.success) {
@@ -46,11 +42,11 @@ export default function SchoolIndex({ data }) {
         }
     }, [flash]);
 
-    const form = useFormModal();
+    const modal = useModal();
 
     const handleDelete = () => {
-        router.delete("/school/" + form.data);
-        form.closeDelete();
+        router.delete("/school/" + modal.data);
+        modal.closeDelete();
     };
 
     const handleSearch = (e) => {
@@ -70,12 +66,12 @@ export default function SchoolIndex({ data }) {
             </Head>
             <Layout header="Sekolah">
                 <DeleteAlert
-                    form={form}
+                    form={modal}
                     title="Hapus data sekolah"
                     description="Ini akan menghapus data sekolah secara permanen"
                     onDelete={handleDelete}
                 />
-                <SchoolForm form={form} />
+                <SchoolForm form={modal} />
                 <div className="typeset typeset-docs flex flex-col gap-4">
                     <div className="">
                         <h1>Sekolah</h1>
@@ -89,19 +85,15 @@ export default function SchoolIndex({ data }) {
                                     value={search}
                                     onChange={(e) => setSearch(e.target.value)}
                                 />
-                                <Button
-                                    type="submit"
-                                    variant="ghost"
-                                    className="px-2 cursor-pointer"
-                                    nativeButton={false}
-                                    render={
-                                        <InputGroupAddon align="end">
-                                            <FontAwesomeIcon
-                                                icon={faMagnifyingGlass}
-                                            />
-                                        </InputGroupAddon>
-                                    }
-                                />
+                                <InputGroupAddon align="end">
+                                    <Button
+                                        type="submit"
+                                        variant="ghost"
+                                        className="px-2 cursor-pointer"
+                                    >
+                                        <Search />
+                                    </Button>
+                                </InputGroupAddon>
                             </InputGroup>
                         </form>
                         <div className="flex gap-2 items-center">
@@ -133,13 +125,14 @@ export default function SchoolIndex({ data }) {
                                     </DropdownMenuGroup>
                                 </DropdownMenuContent>
                             </DropdownMenu>
-                            <Button onClick={() => form.openCreate()}>
-                                <FontAwesomeIcon icon={faPlus} />
-                                Tambah
-                            </Button>
+                            {can("school:create") && (
+                                <Button onClick={() => modal.openCreate()}>
+                                    <Plus /> Tambah
+                                </Button>
+                            )}
                         </div>
                     </div>
-                    <SchoolTable schools={data.data} form={form} />
+                    <SchoolTable schools={data.data} form={modal} />
                     <div className="flex flex-col md:flex-row gap-4 justify-between">
                         <div className="">
                             <p>
@@ -152,37 +145,36 @@ export default function SchoolIndex({ data }) {
                                 {data.prev_page_url && (
                                     <PaginationItem>
                                         <Button
-                                            nativeButton={false}
                                             variant="ghost"
                                             className="no-underline px-3 font-medium"
-                                            render={
-                                                <Link href={data.prev_page_url}>
-                                                    <FontAwesomeIcon
-                                                        size="sm"
-                                                        icon={faChevronLeft}
-                                                    />
-                                                    Sebelumnya
-                                                </Link>
-                                            }
-                                        />
+                                        >
+                                            <Link
+                                                href={data.prev_page_url}
+                                                className="no-underline flex items-center gap-1"
+                                            >
+                                                <ChevronLeft />
+                                                Sebelumnya
+                                            </Link>
+                                        </Button>
                                     </PaginationItem>
                                 )}
                                 {data.links.slice(1, -1).map((link) => (
                                     <PaginationItem key={link.page}>
                                         <Button
-                                            nativeButton={false}
                                             variant={
                                                 link.active
                                                     ? "secondary"
                                                     : "ghost"
                                             }
-                                            className="no-underline px-3 font-medium"
-                                            render={
-                                                <Link href={link.url}>
-                                                    {link.label}
-                                                </Link>
-                                            }
-                                        />
+                                            className="px-3 font-medium"
+                                        >
+                                            <Link
+                                                href={link.url}
+                                                className="no-underline"
+                                            >
+                                                {link.label}
+                                            </Link>
+                                        </Button>
                                     </PaginationItem>
                                 ))}
                                 {data.next_page_url && (
@@ -190,17 +182,15 @@ export default function SchoolIndex({ data }) {
                                         <Button
                                             variant="ghost"
                                             className="no-underline px-3 font-medium"
-                                            nativeButton={false}
-                                            render={
-                                                <Link href={data.next_page_url}>
-                                                    Selanjutnya
-                                                    <FontAwesomeIcon
-                                                        size="sm"
-                                                        icon={faChevronRight}
-                                                    />
-                                                </Link>
-                                            }
-                                        />
+                                        >
+                                            <Link
+                                                href={data.next_page_url}
+                                                className="no-underline flex items-center gap-1"
+                                            >
+                                                Selanjutnya
+                                                <ChevronRight />
+                                            </Link>
+                                        </Button>
                                     </PaginationItem>
                                 )}
                             </PaginationContent>

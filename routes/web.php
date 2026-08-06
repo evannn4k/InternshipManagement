@@ -10,6 +10,7 @@ use App\Http\Controllers\School\DeleteSchoolController;
 use App\Http\Controllers\School\UpdateSchoolController;
 use App\Http\Controllers\School\ViewSchoolController;
 use App\Http\Controllers\TestingController;
+use App\Http\Controllers\ViewRoleController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', TestingController::class);
@@ -29,6 +30,15 @@ Route::middleware('auth')->group(function () {
 
     Route::prefix("/school")->name("school.")->group(function () {
         Route::get('/', [ViewSchoolController::class, "index"])->name("index");
+        Route::post('/', CreateSchoolController::class)->name("create");
+
+        Route::get('/{school}', [ViewSchoolController::class, "show"])->name("show");
+        Route::put('/{school}', UpdateSchoolController::class)->name("update");
+        Route::delete('/{school}', DeleteSchoolController::class)->name("delete");
+    });
+    
+    Route::prefix("/role")->name("role.")->group(function () {
+        Route::get('/', [ViewRoleController::class, "index"])->name("index");
         Route::post('/', CreateSchoolController::class)->name("create");
 
         Route::get('/{school}', [ViewSchoolController::class, "show"])->name("show");

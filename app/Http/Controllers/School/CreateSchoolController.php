@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\School\CreateSchoolRequest;
 use App\Models\School;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 
 class CreateSchoolController extends Controller
@@ -15,7 +16,9 @@ class CreateSchoolController extends Controller
      */
     public function __invoke(CreateSchoolRequest $request)
     {
+        Gate::authorize("school:create");
         $credentials = $request->validated();
+        
         try {
             School::create($credentials);
             

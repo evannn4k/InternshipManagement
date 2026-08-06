@@ -4,9 +4,11 @@ namespace Database\Seeders;
 
 use App\Models\Permission;
 use App\Models\Role;
+use App\Models\RoleHasPermission;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -20,6 +22,13 @@ class DatabaseSeeder extends Seeder
         // User::create([
         //     "email" => "test@example.com",
         // ]);
+
+        User::create([
+            "name" => "evan",
+            "email" => "evan@gmail.com",
+            "password" => Hash::make("123123123"),
+            "is_active" => true,
+        ]);
 
         Role::insert([
             [
@@ -35,17 +44,36 @@ class DatabaseSeeder extends Seeder
 
         Permission::insert([
             [
-                'name' => 'school:view',
+                'name' => 'school:read',
             ],
             [
                 'name' => 'school:create',
             ],
             [
-                'name' => 'shcool:edit',
+                'name' => 'school:update',
             ],
             [
-                'name' => 'shcool:delete',
+                'name' => 'school:delete',
             ],
+        ]);
+
+        RoleHasPermission::insert([
+            [
+                "role_id" => 1,
+                "permission_id" => 1
+            ],
+            [
+                "role_id" => 1,
+                "permission_id" => 2
+            ],
+            [
+                "role_id" => 1,
+                "permission_id" => 3
+            ],
+            [
+                "role_id" => 1,
+                "permission_id" => 4
+            ]
         ]);
     }
 }

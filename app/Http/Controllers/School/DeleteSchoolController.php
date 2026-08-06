@@ -5,6 +5,7 @@ namespace App\Http\Controllers\School;
 use App\Http\Controllers\Controller;
 use App\Models\School;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 
 class DeleteSchoolController extends Controller
@@ -14,6 +15,8 @@ class DeleteSchoolController extends Controller
      */
     public function __invoke(School $school)
     {
+        Gate::authorize("school:delete");
+        
         try {
             $school->delete();
 

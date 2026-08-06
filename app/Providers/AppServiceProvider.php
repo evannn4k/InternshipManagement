@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\User;
+use App\Policies\SchoolPolicy;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +22,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Gate::define('school:read', [SchoolPolicy::class, "read"]);
+        Gate::define('school:create', [SchoolPolicy::class, "create"]);
+        Gate::define('school:update', [SchoolPolicy::class, "update"]);
+        Gate::define('school:delete', [SchoolPolicy::class, "delete"]);
     }
 }

@@ -1,17 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import useFormModal from "@/hooks/use-form-modal";
+import { useModal } from "@/hooks/use-modal";
 import Layout from "@/layouts/layout";
-import {
-    faArrowLeft,
-    faCircleCheck,
-    faCircleXmark,
-    faEnvelope,
-    faPenToSquare,
-    faPhone,
-    faUser,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import SchoolForm from "./components/school-form";
 import {
     Card,
@@ -23,14 +13,25 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { formatDate } from "@/lib/format-date";
 import { Separator } from "@/components/ui/separator";
-import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
+import {
+    ArrowLeft,
+    CheckCircle2,
+    CircleX,
+    Mail,
+    MessageCircle,
+    Phone,
+    SquarePen,
+    User,
+} from "lucide-react";
+import { useCan } from "@/hooks/use-can";
 
 export default function SchoolShow({ school }) {
-    const form = useFormModal();
+    const modal = useModal();
+    const { can } = useCan();
 
     return (
         <Layout header={school.name}>
-            <SchoolForm form={form} />
+            <SchoolForm form={modal} />
             <div className="flex flex-col gap-6 typeset typeset-docs">
                 <div className="w-full flex justify-between items-start md:items-end flex-col md:flex-row gap-6">
                     <div className="flex flex-col gap-2">
@@ -39,23 +40,17 @@ export default function SchoolShow({ school }) {
                             {school.is_active ? (
                                 <Badge
                                     variant="success"
-                                    className="font-semibold m-0"
+                                    className="font-semibold m-0 flex items-center gap-1"
                                 >
-                                    <FontAwesomeIcon
-                                        className="text-green-600"
-                                        icon={faCircleCheck}
-                                    />
+                                    <CheckCircle2 className="size-4" />
                                     Aktif
                                 </Badge>
                             ) : (
                                 <Badge
                                     variant="destructive"
-                                    className="font-semibold"
+                                    className="font-semibold flex items-center gap-1"
                                 >
-                                    <FontAwesomeIcon
-                                        className="text-red-600"
-                                        icon={faCircleXmark}
-                                    />
+                                    <CircleX className="size-4" />
                                     Tidak Aktif
                                 </Badge>
                             )}
@@ -67,19 +62,20 @@ export default function SchoolShow({ school }) {
                             variant="outline"
                             onClick={() => window.history.back()}
                         >
-                            <FontAwesomeIcon icon={faArrowLeft} />
+                            <ArrowLeft />
                             Kembali
                         </Button>
-                        <Button
-                            variant="default"
-                            onClick={() => form.openEdit(school)}
-                        >
-                            <FontAwesomeIcon icon={faPenToSquare} />
-                            Edit
-                        </Button>
+                        {can("school:update") && (
+                            <Button
+                                variant="default"
+                                onClick={() => modal.openEdit(school)}
+                            >
+                                <SquarePen /> Edit
+                            </Button>
+                        )}
                     </div>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-start">
                     <Tabs
                         defaultValue="ringkasan"
                         className="col-span-1 md:col-span-2"
@@ -169,7 +165,7 @@ export default function SchoolShow({ school }) {
                         </TabsContent>
                     </Tabs>
                     <div className="col-span-1 md:pt-[40px]">
-                        <Card>
+                        <Card className="bg-white">
                             <CardHeader>
                                 <h2 className="m-0">Kontak Utama</h2>
                             </CardHeader>
@@ -180,7 +176,7 @@ export default function SchoolShow({ school }) {
                                             Nama Narahubung
                                         </CardDescription>
                                         <div className="flex items-center gap-2">
-                                            <FontAwesomeIcon icon={faUser} />
+                                            <User className="size-4" />
                                             <CardTitle className="text-neutral-700">
                                                 {school.contact_person_name ??
                                                     "-"}
@@ -192,7 +188,7 @@ export default function SchoolShow({ school }) {
                                             Nomor Narahubung
                                         </CardDescription>
                                         <div className="flex items-center gap-2">
-                                            <FontAwesomeIcon icon={faPhone} />
+                                            <Phone className="size-4" />
                                             <CardTitle className="text-neutral-700">
                                                 {school.contact_person_phone ??
                                                     "-"}
@@ -204,9 +200,7 @@ export default function SchoolShow({ school }) {
                                             Email Narahubung
                                         </CardDescription>
                                         <div className="flex items-center gap-2">
-                                            <FontAwesomeIcon
-                                                icon={faEnvelope}
-                                            />
+                                            <Mail className="size-4" />
                                             <CardTitle className="text-neutral-700">
                                                 {school.contact_person_email ??
                                                     "-"}
@@ -217,7 +211,7 @@ export default function SchoolShow({ school }) {
                                     <div className="flex gap-2">
                                         <Button
                                             variant="outline"
-                                            className="flex-1"
+                                            className="flex-1 gap-2"
                                             nativeButton={false}
                                             render={
                                                 <a
@@ -229,13 +223,11 @@ export default function SchoolShow({ school }) {
                                                 />
                                             }
                                         >
-                                            <FontAwesomeIcon
-                                                icon={faWhatsapp}
-                                            />
+                                            <MessageCircle className="size-4" />
                                             WhatsApp
                                         </Button>
                                         <Button
-                                            className="flex-1"
+                                            className="flex-1 gap-2"
                                             nativeButton={false}
                                             render={
                                                 <a
@@ -247,9 +239,7 @@ export default function SchoolShow({ school }) {
                                                 />
                                             }
                                         >
-                                            <FontAwesomeIcon
-                                                icon={faEnvelope}
-                                            />
+                                            <Mail className="size-4" />
                                             Email
                                         </Button>
                                     </div>

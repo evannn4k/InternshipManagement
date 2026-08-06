@@ -22,16 +22,30 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Link, router } from "@inertiajs/react";
+import {
+    PieChart,
+    Users,
+    School,
+    Shield,
+    IdCard,
+    User,
+    CreditCard,
+    Bell,
+    MoreVertical,
+    LogOut,
+} from "lucide-react";
+import { useCan } from "@/hooks/use-can";
 
 export function AppSidebar({ ...props }) {
     const { isMobile } = useSidebar();
+    const { can } = useCan();
 
     return (
         <Sidebar collapsible="offcanvas" {...props}>
             <SidebarHeader>
                 <SidebarMenu>
                     <SidebarMenuItem>
-                        <div className="h-auto p-2 rounded-lg hover:bg-muted cursor-default">
+                        <div className="h-auto rounded-lg hover:bg-muted cursor-default">
                             <div className="flex items-center gap-2 h-full">
                                 <img
                                     src="/storage/images/main/logo.png"
@@ -57,11 +71,25 @@ export function AppSidebar({ ...props }) {
                             <SidebarMenuItem>
                                 <SidebarMenuButton
                                     render={
-                                        <Link href="/dashboard">Dashboard</Link>
+                                        <Link href="/dashboard">
+                                            <PieChart className="size-4" />{" "}
+                                            Dashboard
+                                        </Link>
                                     }
                                 />
                                 <SidebarMenuButton
-                                    render={<Link href="/users">Users</Link>}
+                                    render={
+                                        <Link href="/users">
+                                            <Users className="size-4" /> Users
+                                        </Link>
+                                    }
+                                />
+                                <SidebarMenuButton
+                                    render={
+                                        <Link href="/role">
+                                            <Shield className="size-4" /> Role
+                                        </Link>
+                                    }
                                 />
                             </SidebarMenuItem>
                         </SidebarMenu>
@@ -72,12 +100,22 @@ export function AppSidebar({ ...props }) {
                     <SidebarGroupContent>
                         <SidebarMenu>
                             <SidebarMenuItem>
-                                <SidebarMenuButton
-                                    render={<Link href="/school">School</Link>}
-                                />
+                                {can("school:read") && (
+                                    <SidebarMenuButton
+                                        render={
+                                            <Link href="/school">
+                                                <School className="size-4" />{" "}
+                                                School
+                                            </Link>
+                                        }
+                                    />
+                                )}
                                 <SidebarMenuButton
                                     render={
-                                        <Link href="/users">Internship</Link>
+                                        <Link href="/users">
+                                            <IdCard className="size-4" />{" "}
+                                            Internship
+                                        </Link>
                                     }
                                 />
                             </SidebarMenuItem>
@@ -109,7 +147,7 @@ export function AppSidebar({ ...props }) {
                                                 email{" "}
                                             </span>
                                         </div>
-                                        {/* <IconDotsVertical className="ml-auto size-4" />*/}
+                                        <MoreVertical className="ml-auto size-4" />
                                     </SidebarMenuButton>
                                 }
                             />
@@ -141,21 +179,27 @@ export function AppSidebar({ ...props }) {
                                 </DropdownMenuGroup>
                                 <DropdownMenuSeparator />
                                 <DropdownMenuGroup>
-                                    <DropdownMenuItem>
-                                        {/* <IconUserCircle />*/}
+                                    <DropdownMenuItem className="flex items-center gap-2 cursor-pointer">
+                                        <User className="size-4" />
                                         Account
                                     </DropdownMenuItem>
-                                    <DropdownMenuItem>
-                                        {/* <IconCreditCard />*/}
+                                    <DropdownMenuItem className="flex items-center gap-2 cursor-pointer">
+                                        <CreditCard className="size-4" />
                                         Billing
                                     </DropdownMenuItem>
-                                    <DropdownMenuItem>
-                                        {/* <IconNotification />*/}
+                                    <DropdownMenuItem className="flex items-center gap-2 cursor-pointer">
+                                        <Bell className="size-4" />
                                         Notifications
                                     </DropdownMenuItem>
                                 </DropdownMenuGroup>
                                 <DropdownMenuSeparator />
-                                <DropdownMenuItem onClick={() => router.post("/logout")}>Log out</DropdownMenuItem>
+                                <DropdownMenuItem
+                                    className="flex items-center gap-2 cursor-pointer"
+                                    onClick={() => router.post("/logout")}
+                                >
+                                    <LogOut className="size-4" />
+                                    Log out
+                                </DropdownMenuItem>
                             </DropdownMenuContent>
                         </DropdownMenu>
                     </SidebarMenuItem>

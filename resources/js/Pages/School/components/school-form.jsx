@@ -7,8 +7,6 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     Field,
     FieldDescription,
@@ -24,6 +22,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Textarea } from "@/components/ui/textarea";
 import { useEffect } from "react";
 import { Spinner } from "@/components/ui/spinner";
+import { FaRegFloppyDisk } from "react-icons/fa6";
 
 export default function SchoolForm({ form }) {
     const { data, setData, post, put, processing, errors, clearErrors, reset } =
@@ -373,11 +372,7 @@ export default function SchoolForm({ form }) {
                     <AlertDialogFooter className="mt-4">
                         <AlertDialogCancel>Batal</AlertDialogCancel>
                         <AlertDialogAction type="submit" disabled={processing}>
-                            {processing ? (
-                                <Spinner />
-                            ) : (
-                                <FontAwesomeIcon icon={faFloppyDisk} />
-                            )}
+                            {processing ? <Spinner /> : <FaRegFloppyDisk />}
                             Simpan
                         </AlertDialogAction>
                     </AlertDialogFooter>
