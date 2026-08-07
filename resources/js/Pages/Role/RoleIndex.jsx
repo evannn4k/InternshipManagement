@@ -5,14 +5,24 @@ import {
     InputGroupInput,
 } from "@/components/ui/input-group";
 import Layout from "@/layouts/layout";
-import { Head } from "@inertiajs/react";
+import { Head, usePage } from "@inertiajs/react";
 import { Plus, Search } from "lucide-react";
-import RoleTable from "./components/role-table";
+import RoleMenu from "./components/role-menu";
+import { useEffect } from "react";
+import { toast } from "sonner";
 
 export default function RoleIndex({ roles, permissions }) {
-    // console.log(roles);
-    // console.log(permissions);
-   
+    const { flash } = usePage().props;
+
+    useEffect(() => {
+        if (flash.success) {
+            toast.success(flash.success);
+        }
+        if (flash.error) {
+            toast.error(flash.error);
+        }
+    }, [flash]);
+
     return (
         <>
             <Head>
@@ -50,7 +60,7 @@ export default function RoleIndex({ roles, permissions }) {
                             </Button>
                         </div>
                     </div>
-                    <RoleTable roles={roles} permissions={permissions}/>
+                    <RoleMenu roles={roles} permissions={permissions} />
                 </div>
             </Layout>
         </>

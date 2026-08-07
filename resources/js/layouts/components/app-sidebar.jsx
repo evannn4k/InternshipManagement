@@ -84,13 +84,16 @@ export function AppSidebar({ ...props }) {
                                         </Link>
                                     }
                                 />
-                                <SidebarMenuButton
-                                    render={
-                                        <Link href="/role">
-                                            <Shield className="size-4" /> Role
-                                        </Link>
-                                    }
-                                />
+                                {can("role:manage") && (
+                                    <SidebarMenuButton
+                                        render={
+                                            <Link href="/role">
+                                                <Shield className="size-4" />{" "}
+                                                Role
+                                            </Link>
+                                        }
+                                    />
+                                )}
                             </SidebarMenuItem>
                         </SidebarMenu>
                     </SidebarGroupContent>

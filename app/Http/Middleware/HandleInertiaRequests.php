@@ -41,11 +41,11 @@ class HandleInertiaRequests extends Middleware
                 'error' => $request->session()->get('error'),
             ],
             'auth' => [
-                "name" => $request->user()->name,
-                "email" => $request->user()->email,
-                "phone" => $request->user()->phont,
-                "avatar" => $request->user()->avatar,
-                "permission" => $request->user()->getAllPermission()
+                "name" => $request->user()->name ?? "",
+                "email" => $request->user()->email ?? "",
+                "phone" => $request->user()->phont ?? "",
+                "avatar" => $request->user()->avatar ?? "",
+                "permission" => $request->user() ? $request->user()->getAllPermission() : ""
             ]
         ]);
     }
