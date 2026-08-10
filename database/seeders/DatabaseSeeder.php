@@ -23,13 +23,6 @@ class DatabaseSeeder extends Seeder
         //     "email" => "test@example.com",
         // ]);
 
-        User::create([
-            "name" => "evan",
-            "email" => "evan@gmail.com",
-            "password" => Hash::make("123123123"),
-            "is_active" => true,
-        ]);
-
         Role::insert([
             [
                 'name' => 'admin',
@@ -42,7 +35,18 @@ class DatabaseSeeder extends Seeder
             ],
         ]);
 
+        User::create([
+            "name" => "evan",
+            "email" => "evan@gmail.com",
+            "password" => Hash::make("123123123"),
+            "is_active" => true,
+            "role_id" => 1,
+        ]);
+
         Permission::insert([
+            [
+                'name' => 'role:manage',
+            ],
             [
                 'name' => 'school:read',
             ],
@@ -55,6 +59,21 @@ class DatabaseSeeder extends Seeder
             [
                 'name' => 'school:delete',
             ],
+            [
+                'name' => 'user:read',
+            ],
+            [
+                'name' => 'user:create',
+            ],
+            [
+                'name' => 'user:reset-password',
+            ],
+            [
+                'name' => 'user:update',
+            ],
+            [
+                'name' => 'user:delete',
+            ],
         ]);
 
         RoleHasPermission::insert([
@@ -62,18 +81,6 @@ class DatabaseSeeder extends Seeder
                 "role_id" => 1,
                 "permission_id" => 1
             ],
-            [
-                "role_id" => 1,
-                "permission_id" => 2
-            ],
-            [
-                "role_id" => 1,
-                "permission_id" => 3
-            ],
-            [
-                "role_id" => 1,
-                "permission_id" => 4
-            ]
         ]);
     }
 }

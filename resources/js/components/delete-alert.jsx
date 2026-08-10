@@ -13,7 +13,7 @@ import { FaRegTrashCan } from "react-icons/fa6";
 
 export function DeleteAlert({ title, description, onDelete, form }) {
     return (
-        <AlertDialog open={form.isOpenDelete} onOpenChange={form.closeDelete}>
+        <AlertDialog open={form.isOpen("delete")} onOpenChange={form.closeModal}>
             <AlertDialogContent size="sm">
                 <AlertDialogHeader>
                     <AlertDialogMedia className="bg-destructive/10 text-destructive dark:bg-destructive/20 dark:text-destructive">

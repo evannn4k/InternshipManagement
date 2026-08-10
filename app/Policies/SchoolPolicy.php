@@ -16,7 +16,7 @@ class SchoolPolicy
         $this->user = Auth::user();
     }
 
-public function read()
+    public function read()
     {
         return $this->user->hasPermission("school:read");
     }

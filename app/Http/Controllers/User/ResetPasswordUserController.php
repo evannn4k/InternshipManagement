@@ -1,33 +1,31 @@
 <?php
 
-namespace App\Http\Controllers\Role;
+namespace App\Http\Controllers\User;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Role\SyncRoleRequest;
-use App\Models\Role;
+use App\Http\Requests\User\ResetPasswordUserRequest;
+use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 
-class SyncRoleController extends Controller
+class ResetPasswordUserController extends Controller
 {
-    /**
-     * Handle the incoming request.
-     */
-    public function __invoke(SyncRoleRequest $request, Role $role)
+    public function __invoke(ResetPasswordUserRequest $request, User $user)
     {
-        Gate::authorize("role:manage");
-
+        Gate::authorize("user:update");
         $credentials = $request->validated();
 
         try {
-            $role->permissions()->sync($credentials['permissions']);
+            $user->password = Hash::make($credentials['password']);
+            $user->save();
 
             return redirect()
                 ->back()
                 ->with(
                     "success",
-                    "Berhasil merubah perizinan.",
+                    "Berhasil mengubah data pengguna.",
                 );
         } catch (\Exception $e) {
             Log::error("Error : " . $e->getMessage());

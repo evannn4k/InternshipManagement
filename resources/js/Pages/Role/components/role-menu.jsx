@@ -20,8 +20,6 @@ export default function RoleMenu({ roles, permissions }) {
         permissions: null,
     });
 
-    console.log(errors);
-
     useEffect(() => {
         setData({ permissions: selectedRole?.permissions.map((p) => p.id) });
     }, [selectedRole]);

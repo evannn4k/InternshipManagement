@@ -1,17 +1,27 @@
 <?php
 
-use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Auth\LogoutController;
-use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\Auth\ViewAuthController;
 use App\Http\Controllers\DashboardController;
+
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\ViewAuthController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\LogoutController;
+
+use App\Http\Controllers\Role\ViewRoleController;
+use App\Http\Controllers\Role\SyncRoleController;
+
 use App\Http\Controllers\School\CreateSchoolController;
 use App\Http\Controllers\School\DeleteSchoolController;
 use App\Http\Controllers\School\UpdateSchoolController;
 use App\Http\Controllers\School\ViewSchoolController;
+
+use App\Http\Controllers\User\CreateUserController;
+use App\Http\Controllers\User\DeleteUserController;
+use App\Http\Controllers\User\UpdateUserController;
+use App\Http\Controllers\User\ViewUserController;
+use App\Http\Controllers\User\ResetPasswordUserController;
+
 use App\Http\Controllers\TestingController;
-use App\Http\Controllers\Role\ViewRoleController;
-use App\Http\Controllers\Role\SyncRoleController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', TestingController::class);
@@ -29,6 +39,12 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/dashboard', DashboardController::class);
 
+
+    Route::prefix("/role")->name("role.")->group(function () {
+        Route::get('/', [ViewRoleController::class, "index"])->name("index");
+        Route::put('/sync-permission/{role}', SyncRoleController::class);
+    });
+
     Route::prefix("/school")->name("school.")->group(function () {
         Route::get('/', [ViewSchoolController::class, "index"])->name("index");
         Route::post('/', CreateSchoolController::class)->name("create");
@@ -38,8 +54,13 @@ Route::middleware('auth')->group(function () {
         Route::delete('/{school}', DeleteSchoolController::class)->name("delete");
     });
 
-    Route::prefix("/role")->name("role.")->group(function () {
-        Route::get('/', [ViewRoleController::class, "index"])->name("index");
-        Route::put('/sync-permission/{role}', SyncRoleController::class);
+    Route::prefix("/user")->name("user.")->group(function () {
+        Route::get('/', [ViewUserController::class, "index"])->name("index");
+        Route::post('/', CreateUserController::class)->name("create");
+
+        Route::get('/{user}', [ViewUserController::class, "show"])->name("show");
+        Route::patch('/reset-password/{user}', ResetPasswordUserController::class)->name("resetPassword");
+        Route::put('/{user}', UpdateUserController::class)->name("update");
+        Route::delete('/{user}', DeleteUserController::class)->name("delete");
     });
 });

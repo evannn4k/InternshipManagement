@@ -1,33 +1,29 @@
 <?php
 
-namespace App\Http\Controllers\Role;
+namespace App\Http\Controllers\User;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Role\SyncRoleRequest;
-use App\Models\Role;
+use App\Http\Requests\User\CreateUserRequest;
+use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 
-class SyncRoleController extends Controller
+class CreateUserController extends Controller
 {
-    /**
-     * Handle the incoming request.
-     */
-    public function __invoke(SyncRoleRequest $request, Role $role)
+    public function __invoke(CreateUserRequest $request)
     {
-        Gate::authorize("role:manage");
-
+        Gate::authorize("user:create");
         $credentials = $request->validated();
 
         try {
-            $role->permissions()->sync($credentials['permissions']);
-
+            User::create($credentials);
+            
             return redirect()
                 ->back()
                 ->with(
                     "success",
-                    "Berhasil merubah perizinan.",
+                    "Berhasil membuat data akun.",
                 );
         } catch (\Exception $e) {
             Log::error("Error : " . $e->getMessage());

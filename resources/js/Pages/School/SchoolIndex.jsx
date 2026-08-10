@@ -46,7 +46,7 @@ export default function SchoolIndex({ data }) {
 
     const handleDelete = () => {
         router.delete("/school/" + modal.data);
-        modal.closeDelete();
+        modal.closeModal();
     };
 
     const handleSearch = (e) => {

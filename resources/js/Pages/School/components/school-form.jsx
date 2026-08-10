@@ -43,34 +43,34 @@ export default function SchoolForm({ form }) {
         if (form.isOpen) {
             clearErrors();
             setData({
-                name: form.isEdit ? (form.data?.name ?? "") : "",
-                npsn: form.isEdit ? (form.data?.npsn ?? "") : "",
-                address: form.isEdit ? (form.data?.address ?? "") : "",
-                city: form.isEdit ? (form.data?.city ?? "") : "",
-                province: form.isEdit ? (form.data?.province ?? "") : "",
-                contact_person_name: form.isEdit
+                name: form.isOpen("edit") ? (form.data?.name ?? "") : "",
+                npsn: form.isOpen("edit") ? (form.data?.npsn ?? "") : "",
+                address: form.isOpen("edit") ? (form.data?.address ?? "") : "",
+                city: form.isOpen("edit") ? (form.data?.city ?? "") : "",
+                province: form.isOpen("edit") ? (form.data?.province ?? "") : "",
+                contact_person_name: form.isOpen("edit")
                     ? (form.data?.contact_person_name ?? "")
                     : "",
-                contact_person_phone: form.isEdit
+                contact_person_phone: form.isOpen("edit")
                     ? (form.data?.contact_person_phone ?? "")
                     : "",
-                contact_person_email: form.isEdit
+                contact_person_email: form.isOpen("edit")
                     ? (form.data?.contact_person_email ?? "")
                     : "",
-                notes: form.isEdit ? (form.data?.notes ?? "") : "",
-                is_active: form.isEdit
+                notes: form.isOpen("edit") ? (form.data?.notes ?? "") : "",
+                is_active: form.isOpen("edit")
                     ? form.data?.is_active
                         ? "1"
                         : "0"
                     : "1",
             });
         }
-    }, [form.isOpen, form.data, form.isEdit]);
+    }, [form.isOpen, form.data, form.isOpen("edit")]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        if (form.isEdit) {
+        if (form.isOpen("edit")) {
             put("/school/" + form.data.id, {
                 onSuccess: () => {
                     form.closeModal();
@@ -95,12 +95,12 @@ export default function SchoolForm({ form }) {
     };
 
     return (
-        <AlertDialog open={form.isOpen} onOpenChange={() => form.closeModal()}>
+        <AlertDialog open={form.isOpen("create") || form.isOpen("edit")} onOpenChange={() => form.closeModal()}>
             <AlertDialogContent className="!max-w-xl max-h-[90vh] overflow-y-auto no-scrollbar">
                 <form onSubmit={handleSubmit}>
                     <AlertDialogHeader>
                         <AlertDialogTitle>
-                            {form.isEdit
+                            {form.isOpen("edit")
                                 ? "Edit Data Sekolah"
                                 : "Tambah Data Sekolah"}
                         </AlertDialogTitle>
