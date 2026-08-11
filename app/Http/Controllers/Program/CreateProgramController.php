@@ -1,31 +1,34 @@
 <?php
 
-namespace App\Http\Controllers\School;
+namespace App\Http\Controllers\Program;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\School\CreateSchoolRequest;
-use App\Models\School;
+use App\Http\Requests\Program\CreateProgramRequest;
+use App\Models\Program;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 
-class CreateSchoolController extends Controller
+class CreateProgramController extends Controller
 {
     /**
      * Handle the incoming request.
      */
-    public function __invoke(CreateSchoolRequest $request)
+    public function __invoke(CreateProgramRequest $request)
     {
-        Gate::authorize("school:create");
+        Gate::authorize("program:create");
         $credentials = $request->validated();
-        
+
         try {
-            School::create($credentials);
-            
+            $credentials['created_by'] = Auth::user()->id;
+            Program::create($credentials);
+
             return redirect()
                 ->back()
                 ->with(
                     "success",
-                    "Berhasil menambah data sekolah.",
+                    "Berhasil menambah data program.",
                 );
         } catch (\Exception $e) {
             Log::error("Error : " . $e->getMessage());

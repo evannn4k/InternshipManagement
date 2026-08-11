@@ -57,4 +57,8 @@ class User extends Authenticatable
     {
         return $this->role->permissions->pluck('name');
     }
+
+    public function programs() {
+        return $this->hasMany(Program::class);
+    }
 }

@@ -1,31 +1,30 @@
 <?php
 
-namespace App\Http\Controllers\School;
+namespace App\Http\Controllers\Program;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\School\CreateSchoolRequest;
-use App\Models\School;
+use App\Models\Program;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 
-class CreateSchoolController extends Controller
+class DeleteProgramController extends Controller
 {
     /**
      * Handle the incoming request.
      */
-    public function __invoke(CreateSchoolRequest $request)
+    public function __invoke(Program $program)
     {
-        Gate::authorize("school:create");
-        $credentials = $request->validated();
-        
+        Gate::authorize("program:delete");
+
         try {
-            School::create($credentials);
-            
+            $program->delete();
+
             return redirect()
                 ->back()
                 ->with(
                     "success",
-                    "Berhasil menambah data sekolah.",
+                    "Berhasil menghapus data program.",
                 );
         } catch (\Exception $e) {
             Log::error("Error : " . $e->getMessage());

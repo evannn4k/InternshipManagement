@@ -6,7 +6,6 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\ViewAuthController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LogoutController;
-
 use App\Http\Controllers\Role\ViewRoleController;
 use App\Http\Controllers\Role\SyncRoleController;
 
@@ -14,6 +13,11 @@ use App\Http\Controllers\School\CreateSchoolController;
 use App\Http\Controllers\School\DeleteSchoolController;
 use App\Http\Controllers\School\UpdateSchoolController;
 use App\Http\Controllers\School\ViewSchoolController;
+    
+use App\Http\Controllers\Program\CreateProgramController;
+use App\Http\Controllers\Program\DeleteProgramController;
+use App\Http\Controllers\Program\UpdateProgramController;
+use App\Http\Controllers\Program\ViewProgramController;
 
 use App\Http\Controllers\User\CreateUserController;
 use App\Http\Controllers\User\DeleteUserController;
@@ -52,6 +56,15 @@ Route::middleware('auth')->group(function () {
         Route::get('/{school}', [ViewSchoolController::class, "show"])->name("show");
         Route::put('/{school}', UpdateSchoolController::class)->name("update");
         Route::delete('/{school}', DeleteSchoolController::class)->name("delete");
+    });
+
+    Route::prefix("/program")->name("program.")->group(function () {
+        Route::get('/', [ViewProgramController::class, "index"])->name("index");
+        Route::post('/', CreateProgramController::class)->name("create");
+
+        Route::get('/{program}', [ViewProgramController::class, "show"])->name("show");
+        Route::put('/{program}', UpdateProgramController::class)->name("update");
+        Route::delete('/{program}', DeleteProgramController::class)->name("delete");
     });
 
     Route::prefix("/user")->name("user.")->group(function () {

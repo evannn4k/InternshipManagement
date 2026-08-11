@@ -40,14 +40,16 @@ export default function SchoolForm({ form }) {
         });
 
     useEffect(() => {
-        if (form.isOpen) {
+        if (form.isOpen("edit") || form.isOpen("create")) {
             clearErrors();
             setData({
                 name: form.isOpen("edit") ? (form.data?.name ?? "") : "",
                 npsn: form.isOpen("edit") ? (form.data?.npsn ?? "") : "",
                 address: form.isOpen("edit") ? (form.data?.address ?? "") : "",
                 city: form.isOpen("edit") ? (form.data?.city ?? "") : "",
-                province: form.isOpen("edit") ? (form.data?.province ?? "") : "",
+                province: form.isOpen("edit")
+                    ? (form.data?.province ?? "")
+                    : "",
                 contact_person_name: form.isOpen("edit")
                     ? (form.data?.contact_person_name ?? "")
                     : "",
@@ -65,7 +67,7 @@ export default function SchoolForm({ form }) {
                     : "1",
             });
         }
-    }, [form.isOpen, form.data, form.isOpen("edit")]);
+    }, [form.isOpen("edit") || form.isOpen("create")]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -95,7 +97,10 @@ export default function SchoolForm({ form }) {
     };
 
     return (
-        <AlertDialog open={form.isOpen("create") || form.isOpen("edit")} onOpenChange={() => form.closeModal()}>
+        <AlertDialog
+            open={form.isOpen("create") || form.isOpen("edit")}
+            onOpenChange={() => form.closeModal()}
+        >
             <AlertDialogContent className="!max-w-xl max-h-[90vh] overflow-y-auto no-scrollbar">
                 <form onSubmit={handleSubmit}>
                     <AlertDialogHeader>

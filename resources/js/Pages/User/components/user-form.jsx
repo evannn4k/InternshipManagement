@@ -50,7 +50,7 @@ export default function UserForm({ form, roles }) {
     });
 
     useEffect(() => {
-        if (form.isOpen) {
+        if (form.isOpen("edit") || form.isOpen("create")) {
             clearErrors();
             setData({
                 name: form.isOpen("edit") ? (form.data?.name ?? "") : "",
@@ -64,7 +64,7 @@ export default function UserForm({ form, roles }) {
                     : "1",
             });
         }
-    }, [form.isOpen, form.data, form.isOpen("edit")]);
+    }, [form.isOpen("edit") || form.isOpen("create")]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -109,7 +109,7 @@ export default function UserForm({ form, roles }) {
                 <form onSubmit={handleSubmit}>
                     <AlertDialogHeader>
                         <AlertDialogTitle>
-                            {form.isOpen('edit')
+                            {form.isOpen("edit")
                                 ? "Edit profil pengguna"
                                 : "Tambah pengguna"}{" "}
                         </AlertDialogTitle>

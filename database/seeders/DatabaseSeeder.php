@@ -59,6 +59,9 @@ class DatabaseSeeder extends Seeder
             [
                 'name' => 'school:delete',
             ],
+            // [
+            //     'name' => 'user:reset-password',
+            // ],
             [
                 'name' => 'user:read',
             ],
@@ -66,13 +69,22 @@ class DatabaseSeeder extends Seeder
                 'name' => 'user:create',
             ],
             [
-                'name' => 'user:reset-password',
-            ],
-            [
                 'name' => 'user:update',
             ],
             [
                 'name' => 'user:delete',
+            ],
+            [
+                'name' => 'program:read',
+            ],
+            [
+                'name' => 'program:create',
+            ],
+            [
+                'name' => 'program:update',
+            ],
+            [
+                'name' => 'program:delete',
             ],
         ]);
 
@@ -82,5 +94,6 @@ class DatabaseSeeder extends Seeder
                 "permission_id" => 1
             ],
         ]);
+        
     }
 }

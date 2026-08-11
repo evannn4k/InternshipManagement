@@ -33,6 +33,7 @@ import {
     Bell,
     MoreVertical,
     LogOut,
+    SquareActivity,
 } from "lucide-react";
 import { useCan } from "@/hooks/use-can";
 
@@ -110,20 +111,22 @@ export function AppSidebar({ ...props }) {
                                     <SidebarMenuButton
                                         render={
                                             <Link href="/school">
-                                                <School className="size-4" />{" "}
+                                                <School className="size-4" />
                                                 School
                                             </Link>
                                         }
                                     />
                                 )}
-                                <SidebarMenuButton
-                                    render={
-                                        <Link href="/users">
-                                            <IdCard className="size-4" />{" "}
-                                            Internship
-                                        </Link>
-                                    }
-                                />
+                                {can("program:read") && (
+                                    <SidebarMenuButton
+                                        render={
+                                            <Link href="/program">
+                                                <SquareActivity className="size-4" />
+                                                Program
+                                            </Link>
+                                        }
+                                    />
+                                )}
                             </SidebarMenuItem>
                         </SidebarMenu>
                     </SidebarGroupContent>
