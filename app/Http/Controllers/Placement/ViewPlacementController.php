@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Program;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class ViewPlacementController extends Controller
@@ -19,7 +20,17 @@ class ViewPlacementController extends Controller
         $search = $request->input("search");
         $filter = $request->input("filter");
 
-        $data = Placement::with("intern.school", "mentor", "program")->when($search, function ($query, $search) {
+        $user =  Auth::user();
+
+        $query = Placement::with("intern.school", "mentor", "program");
+
+        if ($user->role_id === 2) {
+            $query->where("mentor_id", $user->id);
+        } elseif ($user->role_id !== 1) {
+            $query->where("intern_id", $user->id);
+        }
+
+        $data = $query->when($search, function ($query, $search) {
             return $query->where('name', 'like',  "%$search%");
         })->when($filter, function ($query, $filter) {
             return $query->where('status', $filter);

@@ -43,13 +43,7 @@ export default function RoleMenu({ roles, permissions }) {
             <div className="col-span-1">
                 <Card>
                     <CardHeader>
-                        <div className="flex justify-between gap-2 items-start">
-                            <h2 className="m-0">Daftar Peran</h2>
-                            <Button size="sm" variant="outline" className="m-0">
-                                <Plus />
-                                Tambah
-                            </Button>
-                        </div>
+                        <h2 className="m-0">Daftar Peran</h2>
                     </CardHeader>
                     <CardContent>
                         <Table className="m-0">
@@ -59,7 +53,9 @@ export default function RoleMenu({ roles, permissions }) {
                                         No
                                     </TableHead>
                                     <TableHead>Nama peran</TableHead>
-                                    <TableHead className="text-end">Perizinan</TableHead>
+                                    <TableHead className="text-end">
+                                        Perizinan
+                                    </TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>

@@ -15,6 +15,15 @@ class CompletePlacementController extends Controller
             Gate::authorize("placement:delete");
 
             try {
+                if($placement->status !== "active") {
+                    return redirect()
+                        ->back()
+                        ->with(
+                            "error",
+                            "Penempatan tidak valid.",
+                        );
+                }
+                
                 $placement->status = "completed";
                 $placement->save();
 

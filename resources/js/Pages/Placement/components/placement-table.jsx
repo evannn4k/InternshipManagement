@@ -26,7 +26,11 @@ import { useCan } from "@/hooks/use-can";
 import { CircleCheck, LogOut } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
-export default function PlacementTable({ placements, form, handleCompletePlacement }) {
+export default function PlacementTable({
+    placements,
+    form,
+    handleCompletePlacement,
+}) {
     const { can } = useCan();
 
     return (
@@ -90,13 +94,15 @@ export default function PlacementTable({ placements, form, handleCompletePlaceme
                                         />
                                         <DropdownMenuContent align="end">
                                             {can("placement:update") &&
-                                                placement.status !==
-                                                    "terminated" &&
-                                                placement.status !==
-                                                    "planned" && (
+                                                placement.status ===
+                                                    "active" && (
                                                     <>
-                                                    <DropdownMenuItem
-                                                        onClick={() => handleCompletePlacement(placement.id)}
+                                                        <DropdownMenuItem
+                                                            onClick={() =>
+                                                                handleCompletePlacement(
+                                                                    placement.id,
+                                                                )
+                                                            }
                                                         >
                                                             <CircleCheck />
                                                             Complete
@@ -118,7 +124,9 @@ export default function PlacementTable({ placements, form, handleCompletePlaceme
                                                 )}
                                             {can("placement:update") &&
                                                 placement.status !==
-                                                    "terminated" && (
+                                                    "terminated" &&
+                                                placement.status !==
+                                                    "completed" && (
                                                     <>
                                                         <DropdownMenuItem
                                                             onClick={() =>
