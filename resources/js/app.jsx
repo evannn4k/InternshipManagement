@@ -5,6 +5,7 @@ import { createRoot } from "react-dom/client";
 import { Toaster } from "sonner";
 
 createInertiaApp({
+    strictMode: true,
     resolve: (name) => {
         const pages = import.meta.glob("./Pages/**/*.jsx");
         return pages[`./Pages/${name}.jsx`]();

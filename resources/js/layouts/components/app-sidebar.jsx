@@ -27,13 +27,13 @@ import {
     Users,
     School,
     Shield,
-    IdCard,
     User,
     CreditCard,
     Bell,
     MoreVertical,
     LogOut,
     SquareActivity,
+    SquareArrowRightEnter,
 } from "lucide-react";
 import { useCan } from "@/hooks/use-can";
 
@@ -123,6 +123,16 @@ export function AppSidebar({ ...props }) {
                                             <Link href="/program">
                                                 <SquareActivity className="size-4" />
                                                 Program
+                                            </Link>
+                                        }
+                                    />
+                                )}
+                                {can("placement:read") && (
+                                    <SidebarMenuButton
+                                        render={
+                                            <Link href="/placement">
+                                                <SquareArrowRightEnter className="size-4" />
+                                                Penempatan
                                             </Link>
                                         }
                                     />

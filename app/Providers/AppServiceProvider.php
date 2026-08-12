@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Models\User;
+use App\Policies\PlacementPolicy;
 use App\Policies\ProgramPolicy;
 use App\Policies\SchoolPolicy;
 use App\Policies\UserPolicy;
@@ -43,5 +43,10 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('program:create', [ProgramPolicy::class, "create"]);
         Gate::define('program:update', [ProgramPolicy::class, "update"]);
         Gate::define('program:delete', [ProgramPolicy::class, "delete"]);
+        
+        Gate::define('placement:read', [PlacementPolicy::class, "read"]);
+        Gate::define('placement:create', [PlacementPolicy::class, "create"]);
+        Gate::define('placement:update', [PlacementPolicy::class, "update"]);
+        Gate::define('placement:delete', [PlacementPolicy::class, "delete"]);
     }
 }

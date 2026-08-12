@@ -15,6 +15,7 @@ use Illuminate\Notifications\Notifiable;
     Fillable([
         'name',
         'email',
+        'school_id',
         'role_id',
         'password',
         'phone',
@@ -58,7 +59,18 @@ class User extends Authenticatable
         return $this->role->permissions->pluck('name');
     }
 
-    public function programs() {
+    public function programs()
+    {
         return $this->hasMany(Program::class);
+    }
+
+    public function placementAsMentor()
+    {
+        return $this->hasMany(Placement::class, 'mentor_id');
+    }
+    
+    public function placementAsIntern()
+    {
+        return $this->hasMany(Placement::class, 'intern_id');
     }
 }

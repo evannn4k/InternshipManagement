@@ -17,18 +17,20 @@ import {
 import { Link } from "@inertiajs/react";
 import { Badge } from "@/components/ui/badge";
 import {
-    CheckCircle2,
-    XCircle,
-    MoreVertical,
-    Package,
-    FileText,
-    SquarePen,
-    Trash2,
-} from "lucide-react";
+    FiCheckCircle,
+    FiXCircle,
+    FiMoreVertical,
+    FiPackage,
+    FiFileText,
+    FiEdit,
+    FiTrash2,
+} from "react-icons/fi";
 import { useCan } from "@/hooks/use-can";
 
-export default function UserTable({ users, form }) {
+export default function PlacementTable({ placements, form }) {
     const { can } = useCan();
+
+    console.log(placements)
 
     return (
         <div className="overflow-hidden rounded-lg border">
@@ -36,48 +38,21 @@ export default function UserTable({ users, form }) {
                 <TableHeader className="bg-muted">
                     <TableRow>
                         <TableHead>No</TableHead>
-                        <TableHead>Nama</TableHead>
-                        <TableHead>Peran</TableHead>
-                        <TableHead>Nomor</TableHead>
-                        <TableHead>Email</TableHead>
-                        <TableHead>Terakhir Login</TableHead>
-                        <TableHead>Status</TableHead>
                         <TableHead className="text-right">Aksi</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {users?.length > 0 ? (
-                        users.map((user, i) => (
-                            <TableRow key={user.id}>
+                    {placements.length > 0 ? (
+                        placements.map((placement, i) => (
+                            <TableRow key={placement.id}>
                                 <TableCell className="font-medium">
                                     {i + 1}.
                                 </TableCell>
-                                <TableCell>{user.name ?? "-"}</TableCell>
-                                <TableCell>{user.role.name ?? "-"}</TableCell>
-                                <TableCell>{user.phone ?? "-"}</TableCell>
-                                <TableCell>{user.email ?? "-"}</TableCell>
-                                <TableCell>
-                                    {user.last_login_at ?? "-"}
-                                </TableCell>
-                                <TableCell>
-                                    {user.is_active ? (
-                                        <Badge
-                                            variant="success"
-                                            className="font-semibold"
-                                        >
-                                            <CheckCircle2 className="mr-1 size-4" />{" "}
-                                            Aktif
-                                        </Badge>
-                                    ) : (
-                                        <Badge
-                                            variant="destructive"
-                                            className="font-semibold"
-                                        >
-                                            <XCircle className="mr-1 size-4" />
-                                            Tidak Aktif
-                                        </Badge>
-                                    )}
-                                </TableCell>
+                                <TableCell>{placement.intern.name}</TableCell>
+                                <TableCell>{placement.school}</TableCell>
+                                <TableCell>{placement.mentor.name}</TableCell>
+                                <TableCell>{placement.program.name}</TableCell>
+                                <TableCell>{placement.status}</TableCell>
                                 <TableCell className="text-right">
                                     <DropdownMenu>
                                         <DropdownMenuTrigger
@@ -87,7 +62,7 @@ export default function UserTable({ users, form }) {
                                                     size="icon"
                                                     className="size-8"
                                                 >
-                                                    <MoreVertical className="size-4" />
+                                                    <FiMoreVertical />
                                                     <span className="sr-only">
                                                         Open menu
                                                     </span>
@@ -95,13 +70,13 @@ export default function UserTable({ users, form }) {
                                             }
                                         />
                                         <DropdownMenuContent align="end">
-                                            {can("user:update") && (
+                                            {can("placement:update") && (
                                                 <DropdownMenuItem
                                                     onClick={() =>
-                                                        form.openEdit(user)
+                                                        form.openEdit(placement)
                                                     }
                                                 >
-                                                    <SquarePen className="mr-2 size-4" />
+                                                    <FiEdit />
                                                     Edit
                                                 </DropdownMenuItem>
                                             )}
@@ -109,26 +84,27 @@ export default function UserTable({ users, form }) {
                                                 render={
                                                     <Link
                                                         href={
-                                                            "/user/" + user.id
+                                                            "/placement/" +
+                                                            placement.id
                                                         }
                                                     />
                                                 }
                                             >
-                                                <FileText className="mr-2 size-4" />
+                                                <FiFileText />
                                                 Detail
                                             </DropdownMenuItem>
-                                            {can("user:delete") && (
+                                            {can("placement:delete") && (
                                                 <>
                                                     <DropdownMenuSeparator />
                                                     <DropdownMenuItem
                                                         variant="destructive"
                                                         onClick={() =>
                                                             form.openDelete(
-                                                                user.id,
+                                                                placement.id,
                                                             )
                                                         }
                                                     >
-                                                        <Trash2 className="mr-2 size-4" />
+                                                        <FiTrash2 />
                                                         Delete
                                                     </DropdownMenuItem>
                                                 </>
@@ -142,7 +118,7 @@ export default function UserTable({ users, form }) {
                         <TableRow>
                             <TableCell colSpan={6} className="p-8">
                                 <div className="flex items-center flex-col gap-2">
-                                    <Package className="size-8 text-muted-foreground" />
+                                    <FiPackage className="size-8 text-muted-foreground" />
                                     <span>Tidak ada data</span>
                                 </div>
                             </TableCell>

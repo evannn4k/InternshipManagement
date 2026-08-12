@@ -28,7 +28,7 @@ import { Spinner } from "@/components/ui/spinner";
 import { FaRegFloppyDisk } from "react-icons/fa6";
 import { Separator } from "@/components/ui/separator";
 
-export default function UserForm({ form, roles }) {
+export default function UserForm({ form, roles, schools }) {
     const {
         data,
         setData,
@@ -40,6 +40,7 @@ export default function UserForm({ form, roles }) {
         reset,
     } = useForm({
         name: "",
+        school_id: "",
         email: "",
         phone: "",
         role_id: "",
@@ -54,6 +55,9 @@ export default function UserForm({ form, roles }) {
             clearErrors();
             setData({
                 name: form.isOpen("edit") ? (form.data?.name ?? "") : "",
+                school_id: form.isOpen("edit")
+                    ? (form.data?.school_id ?? "")
+                    : "",
                 phone: form.isOpen("edit") ? (form.data?.phone ?? "") : "",
                 email: form.isOpen("edit") ? (form.data?.email ?? "") : "",
                 role_id: form.isOpen("edit") ? (form.data?.role_id ?? "") : "",
@@ -100,6 +104,8 @@ export default function UserForm({ form, roles }) {
         });
     };
 
+    console.log(data);
+
     return (
         <AlertDialog
             open={form.isOpen("edit") || form.isOpen("create")}
@@ -119,7 +125,7 @@ export default function UserForm({ form, roles }) {
                         <FieldSet className="py-6">
                             <FieldGroup className="grid md:grid-cols-2 grid-cols-1 gap-4">
                                 <Field
-                                    className="flex-1"
+                                    className="col-span-1 md:col-span-2"
                                     data-invalid={Boolean(errors.name)}
                                 >
                                     <FieldLabel htmlFor="name">
@@ -131,7 +137,7 @@ export default function UserForm({ form, roles }) {
                                     <Input
                                         aria-invalid={Boolean(errors.name)}
                                         id="name"
-                                        placeholder="contoh: SMA Negeri 1"
+                                        placeholder="contoh: Michael alexandria"
                                         onChange={handleChange}
                                         value={data.name ?? ""}
                                     />
@@ -141,7 +147,7 @@ export default function UserForm({ form, roles }) {
                                 </Field>
 
                                 <Field
-                                    className="flex-1"
+                                    className="col-span-1"
                                     data-invalid={Boolean(errors.email)}
                                 >
                                     <FieldLabel htmlFor="email">
@@ -164,7 +170,7 @@ export default function UserForm({ form, roles }) {
                                 </Field>
 
                                 <Field
-                                    className="flex-1"
+                                    className="col-span-1"
                                     data-invalid={Boolean(errors.phone)}
                                 >
                                     <FieldLabel htmlFor="phone">
@@ -184,7 +190,7 @@ export default function UserForm({ form, roles }) {
                                 </Field>
 
                                 <Field
-                                    className="flex-1"
+                                    className="col-span-1"
                                     data-invalid={Boolean(errors.phone)}
                                 >
                                     <FieldLabel htmlFor="phone">
@@ -220,7 +226,44 @@ export default function UserForm({ form, roles }) {
                                 </Field>
 
                                 <Field
-                                    className="flex-1"
+                                    className="col-span-1"
+                                    data-invalid={Boolean(errors.school_id)}
+                                >
+                                    <FieldLabel htmlFor="school_id">
+                                        Sekolah
+                                        <span className="text-destructive">
+                                            *
+                                        </span>
+                                    </FieldLabel>
+                                    <NativeSelect
+                                        disabled={data.role_id != 3}
+                                        id="school_id"
+                                        onChange={handleChange}
+                                        value={data.school_id ?? ""}
+                                    >
+                                        <NativeSelectOption value="">
+                                            Pilih sekolah
+                                        </NativeSelectOption>
+                                        {schools.map((school) => (
+                                            <NativeSelectOption
+                                                key={school.id}
+                                                value={school.id}
+                                            >
+                                                {school.name}
+                                            </NativeSelectOption>
+                                        ))}
+                                    </NativeSelect>
+                                    {errors.school_id ? (
+                                        <FieldError>{errors.school_id}</FieldError>
+                                    ) : (
+                                        <FieldDescription>
+                                            Khusus role intern
+                                        </FieldDescription>
+                                    )}
+                                </Field>
+
+                                <Field
+                                    className="col-span-1"
                                     data-invalid={Boolean(errors.is_active)}
                                 >
                                     <FieldLabel htmlFor="is_active">
@@ -267,7 +310,7 @@ export default function UserForm({ form, roles }) {
                                 </Field>
 
                                 <Field
-                                    className="flex-1"
+                                    className="col-span-1"
                                     data-invalid={Boolean(errors.avatar)}
                                 >
                                     <FieldLabel htmlFor="avatar">
@@ -292,7 +335,7 @@ export default function UserForm({ form, roles }) {
                                     <>
                                         <Separator className="col-span-1 md:col-span-2" />
                                         <Field
-                                            className="flex-1"
+                                            className="col-span-1"
                                             data-invalid={Boolean(
                                                 errors.password,
                                             )}
@@ -321,7 +364,7 @@ export default function UserForm({ form, roles }) {
                                         </Field>
 
                                         <Field
-                                            className="flex-1"
+                                            className="col-span-1"
                                             data-invalid={Boolean(
                                                 errors.password_confirmation,
                                             )}

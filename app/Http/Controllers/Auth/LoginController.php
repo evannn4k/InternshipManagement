@@ -19,7 +19,7 @@ class LoginController extends Controller
         $credentials = $request->validated();
         try {
             if (
-                $user = User::where(["email" => $credentials["email"]])->first()
+                $user = User::query()->where(["email" => $credentials["email"]])->first()
             ) {
                 if (
                     !password_verify($credentials["password"], $user->password)
@@ -34,8 +34,8 @@ class LoginController extends Controller
                 $user->last_login_at  = now();
                 $user->save();
 
-                Auth::login($user);
                 $request->session()->regenerate();
+                Auth::login($user);
 
                 return redirect()->intended("/dashboard");
             } else {

@@ -86,6 +86,18 @@ class DatabaseSeeder extends Seeder
             [
                 'name' => 'program:delete',
             ],
+            [
+                'name' => 'placement:read',
+            ],
+            [
+                'name' => 'placement:create',
+            ],
+            [
+                'name' => 'placement:update',
+            ],
+            [
+                'name' => 'placement:delete',
+            ],
         ]);
 
         RoleHasPermission::insert([
@@ -94,6 +106,5 @@ class DatabaseSeeder extends Seeder
                 "permission_id" => 1
             ],
         ]);
-        
     }
 }

@@ -5,7 +5,7 @@ namespace App\Policies;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
-class UserPolicy
+class PlacementPolicy
 {
     protected $user;
 
@@ -16,21 +16,21 @@ class UserPolicy
 
     public function read()
     {
-        return $this->user->hasPermission("user:read");
+        return $this->user->hasPermission("placement:read");
     }
-    
+
     public function create()
     {
-        return $this->user->hasPermission("user:create");
+        return $this->user->hasPermission("placement:create");
     }
-    
+
     public function update()
     {
-        return $this->user->hasPermission("user:update");
+        return $this->user->hasPermission("placement:update");
     }
 
     public function delete()
     {
-        return $this->user->hasPermission("user:delete");
+        return $this->user->hasPermission("placement:delete");
     }
 }

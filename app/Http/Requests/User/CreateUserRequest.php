@@ -5,6 +5,7 @@ namespace App\Http\Requests\User;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Validator;
 
 class CreateUserRequest extends FormRequest
 {
@@ -25,6 +26,7 @@ class CreateUserRequest extends FormRequest
     {
         return [
             "name" => "required|string|max:255",
+            "school_id" => "nullable|integer|exists:schools,id",
             "phone" => "nullable|max:15",
             "email" => "required|email|max:255",
             "role_id" => "required|integer|exists:roles,id",

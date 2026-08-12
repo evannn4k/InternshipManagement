@@ -19,8 +19,6 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { useForm } from "@inertiajs/react";
-import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Textarea } from "@/components/ui/textarea";
 import { useEffect } from "react";
 import { Spinner } from "@/components/ui/spinner";
@@ -331,9 +329,6 @@ export default function ProgramForm({ form }) {
                                 >
                                     <FieldLabel htmlFor="description">
                                         Deskripsi
-                                        <span className="text-destructive">
-                                            *
-                                        </span>
                                     </FieldLabel>
                                     <Textarea
                                         aria-invalid={Boolean(

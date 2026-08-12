@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\Role;
+use App\Models\School;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -26,8 +27,9 @@ class ViewUserController extends Controller
         })->paginate(10)->withQueryString();
 
         $roles = Role::all();
+        $schools = School::query()->where("is_active", true)->get();
 
-        return Inertia::render("User/UserIndex", compact("data", "roles"));
+        return Inertia::render("User/UserIndex", compact("data", "roles", "schools"));
     }
 
     public function show(User $user)

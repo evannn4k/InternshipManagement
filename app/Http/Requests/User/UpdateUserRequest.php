@@ -14,7 +14,7 @@ class UpdateUserRequest extends FormRequest
     public function authorize(): bool
     {
         return Auth::check();
-    }   
+    }
 
     /**
      * Get the validation rules that apply to the request.
@@ -25,6 +25,7 @@ class UpdateUserRequest extends FormRequest
     {
         return [
             "name" => "required|string|max:255",
+            "school_id" => "nullable|integer|exists:schools,id",
             "phone" => "nullable|max:15",
             "email" => "required|email|max:255",
             "role_id" => "required|integer|exists:roles,id",

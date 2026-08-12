@@ -54,11 +54,6 @@ export default function RoleIndex({ roles, permissions }) {
                                 />
                             </InputGroup>
                         </form>
-                        <div className="flex gap-2 items-center">
-                            <Button>
-                                <Plus /> Tambah
-                            </Button>
-                        </div>
                     </div>
                     <RoleMenu roles={roles} permissions={permissions} />
                 </div>

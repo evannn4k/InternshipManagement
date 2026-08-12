@@ -21,6 +21,11 @@ class UpdateUserController extends Controller
         $credentials = $request->validated();
         
         try {
+            // dd($credentials);   
+            if ($credentials["role_id"] != 3) {
+                $credentials["school_id"] = null;
+            }
+            
             if (isset($credentials['avatar'])) {
                 $avatar = ImageService::save("user/", $credentials['avatar'], $user?->avatar);
                 $credentials['avatar'] = $avatar;

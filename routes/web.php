@@ -14,6 +14,11 @@ use App\Http\Controllers\School\DeleteSchoolController;
 use App\Http\Controllers\School\UpdateSchoolController;
 use App\Http\Controllers\School\ViewSchoolController;
     
+use App\Http\Controllers\Placement\CreatePlacementController;
+use App\Http\Controllers\Placement\DeletePlacementController;
+use App\Http\Controllers\Placement\UpdatePlacementController;
+use App\Http\Controllers\Placement\ViewPlacementController;
+    
 use App\Http\Controllers\Program\CreateProgramController;
 use App\Http\Controllers\Program\DeleteProgramController;
 use App\Http\Controllers\Program\UpdateProgramController;
@@ -65,6 +70,15 @@ Route::middleware('auth')->group(function () {
         Route::get('/{program}', [ViewProgramController::class, "show"])->name("show");
         Route::put('/{program}', UpdateProgramController::class)->name("update");
         Route::delete('/{program}', DeleteProgramController::class)->name("delete");
+    });
+ 
+    Route::prefix("/placement")->name("placement.")->group(function () {
+        Route::get('/', [ViewPlacementController::class, "index"])->name("index");
+        Route::post('/', CreatePlacementController::class)->name("create");
+
+        Route::get('/{placement}', [ViewPlacementController::class, "show"])->name("show");
+        Route::put('/{placement}', UpdatePlacementController::class)->name("update");
+        Route::delete('/{placement}', DeletePlacementController::class)->name("delete");
     });
 
     Route::prefix("/user")->name("user.")->group(function () {

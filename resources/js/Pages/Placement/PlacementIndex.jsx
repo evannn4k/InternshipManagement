@@ -23,16 +23,15 @@ import {
     PaginationContent,
     PaginationItem,
 } from "@/components/ui/pagination";
-import { ChevronLeft, ChevronRight, Search, Plus } from "lucide-react";
-import UserTable from "./components/user-table";
-import UserForm from "./components/user-form";
+import { ChevronLeft, ChevronRight, Plus, Search } from "lucide-react";
 import { useCan } from "@/hooks/use-can";
+import PlacementTable from "./components/placement-table";
+import PlacementForm from "./components/placement-form";
 
-export default function UserIndex({ data, roles, schools }) {
-    const { can } = useCan();
-    
+export default function PlacementIndex({ data, users, programs }) {
     const [search, setSearch] = useState("");
     const { flash } = usePage().props;
+    const { can } = useCan();
 
     useEffect(() => {
         if (flash.success) {
@@ -46,38 +45,40 @@ export default function UserIndex({ data, roles, schools }) {
     const modal = useModal();
 
     const handleDelete = () => {
-        router.delete("/user/" + modal.data);
+        router.delete("/placement/" + modal.data);
         modal.closeModal();
     };
 
     const handleSearch = (e) => {
         e.preventDefault();
-        router.get("/user/", { search: search }, { preserveState: true });
+        router.get("/placement/", { search: search }, { preserveState: true });
     };
 
     const handleFilter = (filter) => {
-        router.get("/user/", { filter: filter }, { preserveState: true });
+        router.get("/placement/", { filter: filter }, { preserveState: true });
     };
+
+    const filter = ["active", "inactive", "draft", "archived"];
 
     return (
         <>
             <Head>
-                <title>Pengguna</title>
-                <meta name="description" content="Mengelola data pengguna" />
+                <title>Penempatan</title>
+                <meta name="description" content="Mengelola data penempatan" />
             </Head>
-            <Layout header="Pengguna">
+            <Layout header="Penempatan">
                 <DeleteAlert
                     form={modal}
-                    title="Hapus data pengguna"
-                    description="Ini akan menghapus data pengguna secara permanen"
+                    title="Hapus data penempatan"
+                    description="Ini akan menghapus data penempatan secara permanen"
                     onDelete={handleDelete}
                 />
-                <UserForm form={modal} roles={roles} schools={schools} />
+                <PlacementForm form={modal} users={users} programs={programs} />
                 <div className="typeset typeset-docs flex flex-col gap-4">
                     <div className="">
-                        <h1>Pengguna</h1>
-                        <p className="m-0">Mengelola data pengguna</p>
-                    </div>
+                        <h1>Penempatan</h1>
+                        <p className="m-0">Mengelola data penempatan</p>
+                    </div>  
                     <div className="flex justify-between gap-2">
                         <form onSubmit={handleSearch}>
                             <InputGroup className="max-w-xs">
@@ -110,30 +111,29 @@ export default function UserIndex({ data, roles, schools }) {
                                             Filter
                                         </DropdownMenuLabel>
                                         <DropdownMenuItem
-                                            onClick={() =>
-                                                handleFilter("aktif")
-                                            }
+                                            onClick={() => handleFilter(null)}
                                         >
-                                            Aktif
+                                            Semua
                                         </DropdownMenuItem>
-                                        <DropdownMenuItem
-                                            onClick={() =>
-                                                handleFilter("tidak-aktif")
-                                            }
-                                        >
-                                            Tidak Aktif
-                                        </DropdownMenuItem>
+                                        {filter.map((f) => (
+                                            <DropdownMenuItem
+                                                key={f}
+                                                onClick={() => handleFilter(f)}
+                                            >
+                                                {f}
+                                            </DropdownMenuItem>
+                                        ))}
                                     </DropdownMenuGroup>
                                 </DropdownMenuContent>
                             </DropdownMenu>
-                            {can("user:create") && (
+                            {can("placement:create") && (
                                 <Button onClick={() => modal.openCreate()}>
                                     <Plus /> Tambah
                                 </Button>
                             )}
                         </div>
                     </div>
-                    <UserTable users={data.data} form={modal} />
+                    <PlacementTable placements={data.data} form={modal} />
                     <div className="flex flex-col md:flex-row gap-4 justify-between">
                         <div className="">
                             <p>
