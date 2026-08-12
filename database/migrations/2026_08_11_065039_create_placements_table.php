@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignId('mentor_id')->constrained('users')->cascadeOnDelete();
             $table->date('start_date');
             $table->date('end_date');
+            $table->date('termination_date')->nullable();
             $table->enum('status', ['planned', 'active', 'completed', 'terminated']);
             $table->string('position_title')->nullable();
             $table->text('objective')->nullable();

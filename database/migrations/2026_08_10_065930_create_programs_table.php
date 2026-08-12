@@ -17,6 +17,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->date('start_date');
             $table->date('end_date');
+            $table->date('terminate_date')->nullable();
             $table->time('work_start_time');
             $table->time('work_end_time');
             $table->integer('late_tolerance_minutes');

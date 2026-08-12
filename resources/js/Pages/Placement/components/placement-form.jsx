@@ -34,22 +34,25 @@ export default function PlacementForm({ form, users, programs }) {
             mentor_id: "",
             position_title: "",
             objective: "",
-            termination_reason: "",
             start_date: "",
             end_date: "",
             program_id: "",
         });
 
+    // useEffect(() => {
+    //     if (form.isOpen("create")) {
+    //         clearErrors();
+    //         reset();
+    //     }
+    // }, [form.isOpen("create")]);
+
     useEffect(() => {
         if (form.isOpen("edit") || form.isOpen("create")) {
             clearErrors();
             setData({
-                program_id: form.isOpen("edit")
-                    ? (form.data?.placement_id ?? "")
-                    : "",
-                intern_id: form.isOpen("edit")
-                    ? (form.data?.intern_id ?? "")
-                    : "",
+                program_id: "",
+                intern_id: "",
+                program_id: "",
                 mentor_id: form.isOpen("edit")
                     ? (form.data?.mentor_id ?? "")
                     : "",
@@ -59,17 +62,11 @@ export default function PlacementForm({ form, users, programs }) {
                 objective: form.isOpen("edit")
                     ? (form.data?.objective ?? "")
                     : "",
-                termination_reason: form.isOpen("edit")
-                    ? (form.data?.termination_reason ?? "")
-                    : "",
                 start_date: form.isOpen("edit")
                     ? (form.data?.start_date ?? "")
                     : "",
                 end_date: form.isOpen("edit")
                     ? (form.data?.end_date ?? "")
-                    : "",
-                program_id: form.isOpen("edit")
-                    ? (form.data?.program_id ?? "")
                     : "",
             });
         }
@@ -77,6 +74,13 @@ export default function PlacementForm({ form, users, programs }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        // post("/placement", {
+        //     onSuccess: () => {
+        //         form.closeModal();
+        //         reset();
+        //     },
+        // });
 
         if (form.isOpen("edit")) {
             put("/placement/" + form.data.id, {
@@ -102,8 +106,6 @@ export default function PlacementForm({ form, users, programs }) {
         });
     };
 
-    console.log(data);
-
     return (
         <AlertDialog
             open={form.isOpen("create") || form.isOpen("edit")}
@@ -119,90 +121,101 @@ export default function PlacementForm({ form, users, programs }) {
                         </AlertDialogTitle>
                         <FieldDescription>
                             Isi detail di bawah ini untuk menambahkan atau
-                            memperbarui profil penempatan.
+                            memperbarui penempatan.
                         </FieldDescription>
                     </AlertDialogHeader>
 
                     <div>
                         <FieldSet className="py-6">
                             <FieldGroup className="grid md:grid-cols-2 grid-cols-1 gap-4">
-                                <Field
-                                    className="col-span-1 md:col-span-2"
-                                    data-invalid={Boolean(errors.program_id)}
-                                >
-                                    <FieldLabel htmlFor="program_id">
-                                        Program Magang
-                                        <span className="text-destructive">
-                                            *
-                                        </span>
-                                    </FieldLabel>
-                                    <NativeSelect
-                                        aria-invalid={Boolean(
-                                            errors.program_id,
-                                        )}
-                                        id="program_id"
-                                        onChange={handleChange}
-                                        value={data.program_id}
-                                    >
-                                        <NativeSelectOption value="">
-                                            Pilih program magang
-                                        </NativeSelectOption>
-                                        {programs.map((program) => (
-                                            <NativeSelectOption
-                                                key={program.id}
-                                                value={program.id}
+                                {form.isOpen("create") && (
+                                    <>
+                                        <Field
+                                            className="col-span-1 md:col-span-2"
+                                            data-invalid={Boolean(
+                                                errors.program_id,
+                                            )}
+                                        >
+                                            <FieldLabel htmlFor="program_id">
+                                                Program Magang
+                                                <span className="text-destructive">
+                                                    *
+                                                </span>
+                                            </FieldLabel>
+                                            <NativeSelect
+                                                aria-invalid={Boolean(
+                                                    errors.program_id,
+                                                )}
+                                                id="program_id"
+                                                onChange={handleChange}
+                                                value={data.program_id}
                                             >
-                                                {program.name}
-                                            </NativeSelectOption>
-                                        ))}
-                                    </NativeSelect>
-                                    {errors.program_id && (
-                                        <FieldError>
-                                            {errors.program_id}
-                                        </FieldError>
-                                    )}
-                                </Field>
-                                <Field
-                                    className="col-span-1"
-                                    data-invalid={Boolean(errors.intern_id)}
-                                >
-                                    <FieldLabel htmlFor="intern_id">
-                                        Peserta Magang
-                                        <span className="text-destructive">
-                                            *
-                                        </span>
-                                    </FieldLabel>
-                                    <NativeSelect
-                                        aria-invalid={Boolean(errors.intern_id)}
-                                        id="intern_id"
-                                        onChange={handleChange}
-                                        value={data.intern_id}
-                                    >
-                                        <NativeSelectOption value="">
-                                            Pilih peserta magang
-                                        </NativeSelectOption>
-                                        {users
-                                            .filter(
-                                                (user) =>
-                                                    user.role.name == "intern",
-                                            )
-                                            .map((user) => (
-                                                <NativeSelectOption
-                                                    key={user.id}
-                                                    value={user.id}
-                                                >
-                                                    {user.name}
+                                                <NativeSelectOption value="">
+                                                    Pilih program magang
                                                 </NativeSelectOption>
-                                            ))}
-                                    </NativeSelect>
-                                    {errors.intern_id && (
-                                        <FieldError>
-                                            {errors.intern_id}
-                                        </FieldError>
-                                    )}
-                                </Field>
+                                                {programs.map((program) => (
+                                                    <NativeSelectOption
+                                                        key={program.id}
+                                                        value={program.id}
+                                                    >
+                                                        {program.name}
+                                                    </NativeSelectOption>
+                                                ))}
+                                            </NativeSelect>
+                                            {errors.program_id && (
+                                                <FieldError>
+                                                    {errors.program_id}
+                                                </FieldError>
+                                            )}
+                                        </Field>
+                                        <Field
+                                            className="col-span-1"
+                                            data-invalid={Boolean(
+                                                errors.intern_id,
+                                            )}
+                                        >
+                                            <FieldLabel htmlFor="intern_id">
+                                                Peserta Magang
+                                                <span className="text-destructive">
+                                                    *
+                                                </span>
+                                            </FieldLabel>
+                                            <NativeSelect
+                                                aria-invalid={Boolean(
+                                                    errors.intern_id,
+                                                )}
+                                                id="intern_id"
+                                                onChange={handleChange}
+                                                value={data.intern_id}
+                                            >
+                                                <NativeSelectOption value="">
+                                                    Pilih peserta magang
+                                                </NativeSelectOption>
+                                                {users
+                                                    .filter(
+                                                        (user) =>
+                                                            user.role.name ==
+                                                            "intern",
+                                                    )
+                                                    .map((user) => (
+                                                        <NativeSelectOption
+                                                            key={user.id}
+                                                            value={user.id}
+                                                        >
+                                                            {user.name}
+                                                        </NativeSelectOption>
+                                                    ))}
+                                            </NativeSelect>
+                                            {errors.intern_id && (
+                                                <FieldError>
+                                                    {errors.intern_id}
+                                                </FieldError>
+                                            )}
+                                        </Field>
+                                    </>
+                                )}
                                 <Field
-                                    className="col-span-1"
+                                    className={form.isOpen("create") ? "col-span-1" : "col-span-1 md:col-span-2"}
                                     data-invalid={Boolean(errors.mentor_id)}
                                 >
                                     <FieldLabel htmlFor="mentor_id">
@@ -349,16 +362,14 @@ export default function PlacementForm({ form, users, programs }) {
                                     )}
                                 </Field>
                                 <Field
-                                    className="col-span-1"
+                                    className="col-span-1 md:col-span-2"
                                     data-invalid={Boolean(errors.objective)}
                                 >
                                     <FieldLabel htmlFor="objective">
                                         Tujuan
                                     </FieldLabel>
                                     <Textarea
-                                        aria-invalid={Boolean(
-                                            errors.objective,
-                                        )}
+                                        aria-invalid={Boolean(errors.objective)}
                                         id="objective"
                                         placeholder="contoh: Belajar laravel"
                                         onChange={handleChange}
@@ -370,7 +381,7 @@ export default function PlacementForm({ form, users, programs }) {
                                         </FieldError>
                                     )}
                                 </Field>
-                                <Field
+                                {/* <Field
                                     className="col-span-1"
                                     data-invalid={Boolean(
                                         errors.termination_reason,
@@ -393,7 +404,7 @@ export default function PlacementForm({ form, users, programs }) {
                                             {errors.termination_reason}
                                         </FieldError>
                                     )}
-                                </Field>
+                                </Field> */}
                             </FieldGroup>
                         </FieldSet>
                     </div>

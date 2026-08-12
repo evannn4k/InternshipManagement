@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\ViewAuthController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LogoutController;
+use App\Http\Controllers\Placement\CompletePlacementController;
 use App\Http\Controllers\Role\ViewRoleController;
 use App\Http\Controllers\Role\SyncRoleController;
 
@@ -16,6 +17,7 @@ use App\Http\Controllers\School\ViewSchoolController;
     
 use App\Http\Controllers\Placement\CreatePlacementController;
 use App\Http\Controllers\Placement\DeletePlacementController;
+use App\Http\Controllers\Placement\TerminatePlacementController;
 use App\Http\Controllers\Placement\UpdatePlacementController;
 use App\Http\Controllers\Placement\ViewPlacementController;
     
@@ -78,6 +80,8 @@ Route::middleware('auth')->group(function () {
 
         Route::get('/{placement}', [ViewPlacementController::class, "show"])->name("show");
         Route::put('/{placement}', UpdatePlacementController::class)->name("update");
+        Route::put('/{placement}/terminate', TerminatePlacementController::class)->name("terminate");
+        Route::put('/{placement}/complete', CompletePlacementController::class)->name("complete");
         Route::delete('/{placement}', DeletePlacementController::class)->name("delete");
     });
 

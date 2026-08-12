@@ -15,10 +15,7 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Link } from "@inertiajs/react";
-import { Badge } from "@/components/ui/badge";
 import {
-    FiCheckCircle,
-    FiXCircle,
     FiMoreVertical,
     FiPackage,
     FiFileText,
@@ -26,11 +23,10 @@ import {
     FiTrash2,
 } from "react-icons/fi";
 import { useCan } from "@/hooks/use-can";
+import { CircleCheck, LogOut } from "lucide-react";
 
 export default function PlacementTable({ placements, form }) {
     const { can } = useCan();
-
-    console.log(placements)
 
     return (
         <div className="overflow-hidden rounded-lg border">
@@ -54,7 +50,9 @@ export default function PlacementTable({ placements, form }) {
                                     {i + 1}.
                                 </TableCell>
                                 <TableCell>{placement.intern.name}</TableCell>
-                                <TableCell>{placement.intern.school.name}</TableCell>
+                                <TableCell>
+                                    {placement.intern.school.name}
+                                </TableCell>
                                 <TableCell>{placement.mentor.name}</TableCell>
                                 <TableCell>{placement.program.name}</TableCell>
                                 <TableCell>{placement.status}</TableCell>
@@ -72,18 +70,43 @@ export default function PlacementTable({ placements, form }) {
                                                         Open menu
                                                     </span>
                                                 </Button>
-                                            }   
+                                            }
                                         />
                                         <DropdownMenuContent align="end">
                                             {can("placement:update") && (
-                                                <DropdownMenuItem
-                                                    onClick={() =>
-                                                        form.openEdit(placement)
-                                                    }
-                                                >
-                                                    <FiEdit />
-                                                    Edit
-                                                </DropdownMenuItem>
+                                                <>
+                                                    <DropdownMenuItem>
+                                                        <CircleCheck />
+                                                        Complete
+                                                    </DropdownMenuItem>
+                                                    <DropdownMenuItem
+                                                        onClick={() =>
+                                                            form.openModal(
+                                                                "terminate",
+                                                                {
+                                                                    id: placement.id,
+                                                                },
+                                                            )
+                                                        }
+                                                    >
+                                                        <LogOut /> Terminate
+                                                    </DropdownMenuItem>
+                                                    <DropdownMenuSeparator />
+                                                </>
+                                            )}
+                                            {can("placement:update") && (
+                                                <>
+                                                    <DropdownMenuItem
+                                                        onClick={() =>
+                                                            form.openEdit(
+                                                                placement,
+                                                            )
+                                                        }
+                                                    >
+                                                        <FiEdit />
+                                                        Edit
+                                                    </DropdownMenuItem>
+                                                </>
                                             )}
                                             <DropdownMenuItem
                                                 render={

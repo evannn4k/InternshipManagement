@@ -27,6 +27,7 @@ import { ChevronLeft, ChevronRight, Plus, Search } from "lucide-react";
 import { useCan } from "@/hooks/use-can";
 import PlacementTable from "./components/placement-table";
 import PlacementForm from "./components/placement-form";
+import PlacementFormTerminate from "./components/placement-form-terminate";
 
 export default function PlacementIndex({ data, users, programs }) {
     const [search, setSearch] = useState("");
@@ -73,6 +74,7 @@ export default function PlacementIndex({ data, users, programs }) {
                     description="Ini akan menghapus data penempatan secara permanen"
                     onDelete={handleDelete}
                 />
+                <PlacementFormTerminate form={modal}/>
                 <PlacementForm form={modal} users={users} programs={programs} />
                 <div className="typeset typeset-docs flex flex-col gap-4">
                     <div className="">

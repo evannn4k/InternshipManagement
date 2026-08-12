@@ -31,7 +31,6 @@ class CreatePlacementRequest extends FormRequest
             "mentor_id" => "required|integer|exists:users,id",
             "position_title" => "nullable|string|max:255",
             "objective" => "nullable|string",
-            "termination_reason" => "nullable|string",
             "start_date" => "required|date",
             "end_date" => "required|date|after:start_date",
             "status" => "required|string|max:255",
