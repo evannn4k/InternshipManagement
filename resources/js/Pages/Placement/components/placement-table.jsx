@@ -38,6 +38,11 @@ export default function PlacementTable({ placements, form }) {
                 <TableHeader className="bg-muted">
                     <TableRow>
                         <TableHead>No</TableHead>
+                        <TableHead>Nama</TableHead>
+                        <TableHead>Sekolah</TableHead>
+                        <TableHead>Mentor</TableHead>
+                        <TableHead>Program</TableHead>
+                        <TableHead>Status</TableHead>
                         <TableHead className="text-right">Aksi</TableHead>
                     </TableRow>
                 </TableHeader>
@@ -49,7 +54,7 @@ export default function PlacementTable({ placements, form }) {
                                     {i + 1}.
                                 </TableCell>
                                 <TableCell>{placement.intern.name}</TableCell>
-                                <TableCell>{placement.school}</TableCell>
+                                <TableCell>{placement.intern.school.name}</TableCell>
                                 <TableCell>{placement.mentor.name}</TableCell>
                                 <TableCell>{placement.program.name}</TableCell>
                                 <TableCell>{placement.status}</TableCell>
@@ -67,7 +72,7 @@ export default function PlacementTable({ placements, form }) {
                                                         Open menu
                                                     </span>
                                                 </Button>
-                                            }
+                                            }   
                                         />
                                         <DropdownMenuContent align="end">
                                             {can("placement:update") && (

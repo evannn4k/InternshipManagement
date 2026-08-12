@@ -68,9 +68,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(Placement::class, 'mentor_id');
     }
-    
+
     public function placementAsIntern()
     {
         return $this->hasMany(Placement::class, 'intern_id');
+    }
+
+    public function school()
+    {
+        return $this->belongsTo(School::class);
     }
 }

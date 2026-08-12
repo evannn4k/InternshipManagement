@@ -231,9 +231,6 @@ export default function UserForm({ form, roles, schools }) {
                                 >
                                     <FieldLabel htmlFor="school_id">
                                         Sekolah
-                                        <span className="text-destructive">
-                                            *
-                                        </span>
                                     </FieldLabel>
                                     <NativeSelect
                                         disabled={data.role_id != 3}

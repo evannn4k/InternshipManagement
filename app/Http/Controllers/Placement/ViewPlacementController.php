@@ -19,7 +19,7 @@ class ViewPlacementController extends Controller
         $search = $request->input("search");
         $filter = $request->input("filter");
 
-        $data = Placement::with("intern", "mentor", "program")->when($search, function ($query, $search) {
+        $data = Placement::with("intern.school", "mentor", "program")->when($search, function ($query, $search) {
             return $query->where('name', 'like',  "%$search%");
         })->when($filter, function ($query, $filter) {
             $status = $filter == "aktif" ? 1 : ($filter == "tidak-aktif" ? 0 : 2);
