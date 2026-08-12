@@ -31,6 +31,7 @@ export default function PlacementForm({ form, users, programs }) {
         useForm({
             program_id: "",
             intern_id: "",
+            status: "",
             mentor_id: "",
             position_title: "",
             objective: "",
@@ -53,6 +54,9 @@ export default function PlacementForm({ form, users, programs }) {
                 program_id: "",
                 intern_id: "",
                 program_id: "",
+                status: form.isOpen("edit")
+                    ? (form.data?.status ?? "")
+                    : "",
                 mentor_id: form.isOpen("edit")
                     ? (form.data?.mentor_id ?? "")
                     : "",
@@ -325,12 +329,6 @@ export default function PlacementForm({ form, users, programs }) {
                                         </NativeSelectOption>
                                         <NativeSelectOption value="active">
                                             Active
-                                        </NativeSelectOption>
-                                        <NativeSelectOption value="completed">
-                                            Completed
-                                        </NativeSelectOption>
-                                        <NativeSelectOption value="terminated">
-                                            Terminated
                                         </NativeSelectOption>
                                     </NativeSelect>
                                     {errors.status && (

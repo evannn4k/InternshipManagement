@@ -80,8 +80,8 @@ Route::middleware('auth')->group(function () {
 
         Route::get('/{placement}', [ViewPlacementController::class, "show"])->name("show");
         Route::put('/{placement}', UpdatePlacementController::class)->name("update");
-        Route::put('/{placement}/terminate', TerminatePlacementController::class)->name("terminate");
-        Route::put('/{placement}/complete', CompletePlacementController::class)->name("complete");
+        Route::patch('/{placement}/terminate', TerminatePlacementController::class)->name("terminate");
+        Route::patch('/{placement}/complete', CompletePlacementController::class)->name("complete");
         Route::delete('/{placement}', DeletePlacementController::class)->name("delete");
     });
 

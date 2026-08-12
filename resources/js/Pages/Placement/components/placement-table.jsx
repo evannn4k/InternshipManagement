@@ -24,8 +24,9 @@ import {
 } from "react-icons/fi";
 import { useCan } from "@/hooks/use-can";
 import { CircleCheck, LogOut } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 
-export default function PlacementTable({ placements, form }) {
+export default function PlacementTable({ placements, form, handleCompletePlacement }) {
     const { can } = useCan();
 
     return (
@@ -55,7 +56,22 @@ export default function PlacementTable({ placements, form }) {
                                 </TableCell>
                                 <TableCell>{placement.mentor.name}</TableCell>
                                 <TableCell>{placement.program.name}</TableCell>
-                                <TableCell>{placement.status}</TableCell>
+                                <TableCell>
+                                    <Badge
+                                        variant={
+                                            placement.status == "planed"
+                                                ? "outline"
+                                                : placement.status == "active"
+                                                  ? "success"
+                                                  : placement.status ==
+                                                      "terminated"
+                                                    ? "destructive"
+                                                    : "default"
+                                        }
+                                    >
+                                        {placement.status}
+                                    </Badge>
+                                </TableCell>
                                 <TableCell className="text-right">
                                     <DropdownMenu>
                                         <DropdownMenuTrigger
@@ -73,54 +89,64 @@ export default function PlacementTable({ placements, form }) {
                                             }
                                         />
                                         <DropdownMenuContent align="end">
-                                            {can("placement:update") && (
-                                                <>
-                                                    <DropdownMenuItem>
-                                                        <CircleCheck />
-                                                        Complete
-                                                    </DropdownMenuItem>
+                                            {can("placement:update") &&
+                                                placement.status !==
+                                                    "terminated" &&
+                                                placement.status !==
+                                                    "planned" && (
+                                                    <>
                                                     <DropdownMenuItem
-                                                        onClick={() =>
-                                                            form.openModal(
-                                                                "terminate",
-                                                                {
-                                                                    id: placement.id,
-                                                                },
-                                                            )
-                                                        }
-                                                    >
-                                                        <LogOut /> Terminate
-                                                    </DropdownMenuItem>
-                                                    <DropdownMenuSeparator />
-                                                </>
+                                                        onClick={() => handleCompletePlacement(placement.id)}
+                                                        >
+                                                            <CircleCheck />
+                                                            Complete
+                                                        </DropdownMenuItem>
+                                                        <DropdownMenuItem
+                                                            onClick={() =>
+                                                                form.openModal(
+                                                                    "terminate",
+                                                                    {
+                                                                        id: placement.id,
+                                                                    },
+                                                                )
+                                                            }
+                                                        >
+                                                            <LogOut /> Terminate
+                                                        </DropdownMenuItem>
+                                                        <DropdownMenuSeparator />
+                                                    </>
+                                                )}
+                                            {can("placement:update") &&
+                                                placement.status !==
+                                                    "terminated" && (
+                                                    <>
+                                                        <DropdownMenuItem
+                                                            onClick={() =>
+                                                                form.openEdit(
+                                                                    placement,
+                                                                )
+                                                            }
+                                                        >
+                                                            <FiEdit />
+                                                            Edit
+                                                        </DropdownMenuItem>
+                                                    </>
+                                                )}
+                                            {can("placement:read") && (
+                                                <DropdownMenuItem
+                                                    render={
+                                                        <Link
+                                                            href={
+                                                                "/placement/" +
+                                                                placement.id
+                                                            }
+                                                        />
+                                                    }
+                                                >
+                                                    <FiFileText />
+                                                    Detail
+                                                </DropdownMenuItem>
                                             )}
-                                            {can("placement:update") && (
-                                                <>
-                                                    <DropdownMenuItem
-                                                        onClick={() =>
-                                                            form.openEdit(
-                                                                placement,
-                                                            )
-                                                        }
-                                                    >
-                                                        <FiEdit />
-                                                        Edit
-                                                    </DropdownMenuItem>
-                                                </>
-                                            )}
-                                            <DropdownMenuItem
-                                                render={
-                                                    <Link
-                                                        href={
-                                                            "/placement/" +
-                                                            placement.id
-                                                        }
-                                                    />
-                                                }
-                                            >
-                                                <FiFileText />
-                                                Detail
-                                            </DropdownMenuItem>
                                             {can("placement:delete") && (
                                                 <>
                                                     <DropdownMenuSeparator />

@@ -26,7 +26,7 @@ class CreatePlacementController extends Controller
                 ->back()
                 ->with(
                     "success",
-                    "Berhasil menambah data sekolah.",
+                    "Berhasil menambah data penempatan.",
                 );
         } catch (\Exception $e) {
             Log::error("Error : " . $e->getMessage());

@@ -59,7 +59,11 @@ export default function PlacementIndex({ data, users, programs }) {
         router.get("/placement/", { filter: filter }, { preserveState: true });
     };
 
-    const filter = ["active", "inactive", "draft", "archived"];
+    const handleCompletePlacement = (id) => {
+        router.patch(`/placement/${id}/complete`, {}, { preserveState: true });
+    }
+
+    const filter = ["planned", "active", "completed", "terminated"];
 
     return (
         <>
@@ -74,13 +78,13 @@ export default function PlacementIndex({ data, users, programs }) {
                     description="Ini akan menghapus data penempatan secara permanen"
                     onDelete={handleDelete}
                 />
-                <PlacementFormTerminate form={modal}/>
+                <PlacementFormTerminate form={modal} />
                 <PlacementForm form={modal} users={users} programs={programs} />
                 <div className="typeset typeset-docs flex flex-col gap-4">
                     <div className="">
                         <h1>Penempatan</h1>
                         <p className="m-0">Mengelola data penempatan</p>
-                    </div>  
+                    </div>
                     <div className="flex justify-between gap-2">
                         <form onSubmit={handleSearch}>
                             <InputGroup className="max-w-xs">
@@ -135,7 +139,11 @@ export default function PlacementIndex({ data, users, programs }) {
                             )}
                         </div>
                     </div>
-                    <PlacementTable placements={data.data} form={modal} />
+                    <PlacementTable
+                        placements={data.data}
+                        form={modal}
+                        handleCompletePlacement={handleCompletePlacement}
+                    />
                     <div className="flex flex-col md:flex-row gap-4 justify-between">
                         <div className="">
                             <p>

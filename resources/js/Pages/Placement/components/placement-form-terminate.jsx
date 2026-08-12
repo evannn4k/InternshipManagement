@@ -23,7 +23,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useEffect } from "react";
 
 export default function PlacementFormTerminate({ form }) {
-    const { data, setData, put, processing, errors, reset, clearErrors } = useForm({
+    const { data, setData, patch, processing, errors, reset, clearErrors } = useForm({
         termination_date: "",
         termination_reason: "",
     });
@@ -44,12 +44,11 @@ export default function PlacementFormTerminate({ form }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        put("/placement/" + form.data.id + "/terminate", {
+        patch("/placement/" + form.data.id + "/terminate", {
             onSuccess: () => form.closeModal(),
         });
     };
 
-    console.log(data);
     return (
         <AlertDialog
             open={form.isOpen("terminate")}
