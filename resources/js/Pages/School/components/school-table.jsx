@@ -21,11 +21,9 @@ import {
     FiXCircle,
     FiMoreVertical,
     FiPackage,
-    FiFileText,
-    FiEdit,
-    FiTrash2,
 } from "react-icons/fi";
 import { useCan } from "@/hooks/use-can";
+import { EllipsisVertical, FileText, SquarePen, Trash2 } from "lucide-react";
 
 export default function SchoolTable({ schools, form }) {
     const { can } = useCan();
@@ -80,7 +78,7 @@ export default function SchoolTable({ schools, form }) {
                                                     size="icon"
                                                     className="size-8"
                                                 >
-                                                    <FiMoreVertical />
+                                                    <EllipsisVertical />
                                                     <span className="sr-only">
                                                         Open menu
                                                     </span>
@@ -94,8 +92,7 @@ export default function SchoolTable({ schools, form }) {
                                                         form.openEdit(school)
                                                     }
                                                 >
-                                                    <FiEdit />
-                                                    Edit
+                                                    <SquarePen />                                                  Edit
                                                 </DropdownMenuItem>
                                             )}
                                             <DropdownMenuItem
@@ -108,7 +105,7 @@ export default function SchoolTable({ schools, form }) {
                                                     />
                                                 }
                                             >
-                                                <FiFileText />
+                                                <FileText />  
                                                 Detail
                                             </DropdownMenuItem>
                                             {can("school:delete") && (
@@ -122,7 +119,7 @@ export default function SchoolTable({ schools, form }) {
                                                             )
                                                         }
                                                     >
-                                                        <FiTrash2 />
+                                                        <Trash2 />
                                                         Delete
                                                     </DropdownMenuItem>
                                                 </>

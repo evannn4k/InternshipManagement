@@ -11,6 +11,8 @@ import ListFilter from "@/components/app/ListFilter";
 import TaskTable from "./components/task-table";
 import ListPagination from "@/components/app/ListPagination";
 import TaskForm from "./components/task-form";
+import { ToastDescription } from "@/components/ui/toast";
+import { toast } from "sonner";
 
 export default function TaskIndex({ data, placements }) {
     const { can } = useCan();
@@ -37,7 +39,16 @@ export default function TaskIndex({ data, placements }) {
     };
 
     const handleChangeStatus = (id, status) => {
-        router.patch("/task/" + id + "/change-status", { status: status });
+        router.patch(
+        "/task/" + id + "/change-status",
+            { status: status },
+            {
+                onError: (e) => {
+                    console.log(e)
+                    toast.error("Gagal mengubah status tugas.");
+                },
+            },
+        );
     };
 
     return (

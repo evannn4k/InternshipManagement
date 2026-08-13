@@ -33,4 +33,14 @@ class TaskPolicy
     {
         return $this->user->hasPermission("task:delete");
     }
+
+    public function changeStatus()
+    {
+        return $this->user->hasPermission("task:change-status");
+    }
+
+    public function submit()
+    {
+        return $this->user->hasPermission("task:submit");
+    }
 }

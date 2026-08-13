@@ -16,16 +16,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Link } from "@inertiajs/react";
 import { Badge } from "@/components/ui/badge";
-import {
-    FiCheckCircle,
-    FiXCircle,
-    FiMoreVertical,
-    FiPackage,
-    FiFileText,
-    FiEdit,
-    FiTrash2,
-} from "react-icons/fi";
+import { FiMoreVertical, FiPackage } from "react-icons/fi";
 import { useCan } from "@/hooks/use-can";
+import { FileText, SquarePen, Trash2 } from "lucide-react";
 
 export default function ProgramTable({ programs, form }) {
     const { can } = useCan();
@@ -93,8 +86,7 @@ export default function ProgramTable({ programs, form }) {
                                                         form.openEdit(program)
                                                     }
                                                 >
-                                                    <FiEdit />
-                                                    Edit
+                                                    <SquarePen /> Edit
                                                 </DropdownMenuItem>
                                             )}
                                             <DropdownMenuItem
@@ -107,7 +99,7 @@ export default function ProgramTable({ programs, form }) {
                                                     />
                                                 }
                                             >
-                                                <FiFileText />
+                                                <FileText />
                                                 Detail
                                             </DropdownMenuItem>
                                             {can("program:delete") && (
@@ -121,7 +113,7 @@ export default function ProgramTable({ programs, form }) {
                                                             )
                                                         }
                                                     >
-                                                        <FiTrash2 />
+                                                        <Trash2 />
                                                         Delete
                                                     </DropdownMenuItem>
                                                 </>

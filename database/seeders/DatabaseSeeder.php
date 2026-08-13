@@ -110,6 +110,12 @@ class DatabaseSeeder extends Seeder
             [
                 'name' => 'task:delete',
             ],
+            [
+                'name' => 'task:change-status',
+            ],
+            [
+                'name' => 'task:submit',
+            ],
         ]);
 
         RoleHasPermission::insert([

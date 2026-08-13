@@ -101,7 +101,7 @@ export default function UserTable({ users, form }) {
                                                         form.openEdit(user)
                                                     }
                                                 >
-                                                    <SquarePen className="mr-2 size-4" />
+                                                    <SquarePen />
                                                     Edit
                                                 </DropdownMenuItem>
                                             )}
@@ -114,7 +114,7 @@ export default function UserTable({ users, form }) {
                                                     />
                                                 }
                                             >
-                                                <FileText className="mr-2 size-4" />
+                                                <FileText />
                                                 Detail
                                             </DropdownMenuItem>
                                             {can("user:delete") && (
@@ -128,7 +128,7 @@ export default function UserTable({ users, form }) {
                                                             )
                                                         }
                                                     >
-                                                        <Trash2 className="mr-2 size-4" />
+                                                        <Trash2 />
                                                         Delete
                                                     </DropdownMenuItem>
                                                 </>

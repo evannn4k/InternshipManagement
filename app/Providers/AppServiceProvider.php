@@ -54,5 +54,7 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('task:create', [TaskPolicy::class, "create"]);
         Gate::define('task:update', [TaskPolicy::class, "update"]);
         Gate::define('task:delete', [TaskPolicy::class, "delete"]);
+        Gate::define('task:change-status', [TaskPolicy::class, "changeStatus"]);
+        Gate::define('task:submit', [TaskPolicy::class, "submit"]);
     }
 }

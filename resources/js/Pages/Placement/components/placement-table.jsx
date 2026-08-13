@@ -15,15 +15,15 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Link } from "@inertiajs/react";
-import {
-    FiMoreVertical,
-    FiPackage,
-    FiFileText,
-    FiEdit,
-    FiTrash2,
-} from "react-icons/fi";
 import { useCan } from "@/hooks/use-can";
-import { CircleCheck, LogOut } from "lucide-react";
+import {
+    CircleCheck,
+    EllipsisVertical,
+    FileText,
+    LogOut,
+    SquarePen,
+    Trash2,
+} from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
 export default function PlacementTable({
@@ -85,7 +85,7 @@ export default function PlacementTable({
                                                     size="icon"
                                                     className="size-8"
                                                 >
-                                                    <FiMoreVertical />
+                                                    <EllipsisVertical />
                                                     <span className="sr-only">
                                                         Open menu
                                                     </span>
@@ -135,7 +135,7 @@ export default function PlacementTable({
                                                                 )
                                                             }
                                                         >
-                                                            <FiEdit />
+                                                            <SquarePen />
                                                             Edit
                                                         </DropdownMenuItem>
                                                     </>
@@ -151,8 +151,7 @@ export default function PlacementTable({
                                                         />
                                                     }
                                                 >
-                                                    <FiFileText />
-                                                    Detail
+                                                    <FileText /> Detail
                                                 </DropdownMenuItem>
                                             )}
                                             {can("placement:delete") && (
@@ -166,7 +165,7 @@ export default function PlacementTable({
                                                             )
                                                         }
                                                     >
-                                                        <FiTrash2 />
+                                                        <Trash2 />
                                                         Delete
                                                     </DropdownMenuItem>
                                                 </>

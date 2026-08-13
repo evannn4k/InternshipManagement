@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Placement;
 use App\Models\Task;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 
@@ -18,7 +19,7 @@ class ViewTaskController extends Controller
         $search = $request->input("search");
         $filter = $request->input("filter");
 
-        $data = Task::with(['placement.intern:id,name'])->when($search, function ($query, $search) {
+        $data = Task::hasRole(Auth::user())->with(['placement.intern:id,name'])->when($search, function ($query, $search) {
             return $query->where('title', 'like',  "%$search%");
         })->when($filter, function ($query, $filter) {
             return $query->where('status', $filter);
