@@ -34,6 +34,7 @@ import {
     LogOut,
     SquareActivity,
     SquareArrowRightEnter,
+    ClipboardList,
 } from "lucide-react";
 import { useCan } from "@/hooks/use-can";
 
@@ -133,6 +134,16 @@ export function AppSidebar({ ...props }) {
                                             <Link href="/placement">
                                                 <SquareArrowRightEnter className="size-4" />
                                                 Penempatan
+                                            </Link>
+                                        }
+                                    />
+                                )}
+                                {can("task:read") && (
+                                    <SidebarMenuButton
+                                        render={
+                                            <Link href="/task">
+                                                <ClipboardList className="size-4" />
+                                                Tugas
                                             </Link>
                                         }
                                     />

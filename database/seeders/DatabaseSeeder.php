@@ -98,6 +98,18 @@ class DatabaseSeeder extends Seeder
             [
                 'name' => 'placement:delete',
             ],
+            [
+                'name' => 'task:read',
+            ],
+            [
+                'name' => 'task:create',
+            ],
+            [
+                'name' => 'task:update',
+            ],
+            [
+                'name' => 'task:delete',
+            ],
         ]);
 
         RoleHasPermission::insert([

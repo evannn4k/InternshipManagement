@@ -6,7 +6,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\ViewAuthController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LogoutController;
-use App\Http\Controllers\Placement\CompletePlacementController;
+
 use App\Http\Controllers\Role\ViewRoleController;
 use App\Http\Controllers\Role\SyncRoleController;
 
@@ -17,9 +17,15 @@ use App\Http\Controllers\School\ViewSchoolController;
     
 use App\Http\Controllers\Placement\CreatePlacementController;
 use App\Http\Controllers\Placement\DeletePlacementController;
-use App\Http\Controllers\Placement\TerminatePlacementController;
 use App\Http\Controllers\Placement\UpdatePlacementController;
 use App\Http\Controllers\Placement\ViewPlacementController;
+use App\Http\Controllers\Placement\TerminatePlacementController;
+use App\Http\Controllers\Placement\CompletePlacementController;
+    
+use App\Http\Controllers\Task\CreateTaskController;
+use App\Http\Controllers\Task\DeleteTaskController;
+use App\Http\Controllers\Task\UpdateTaskController;
+use App\Http\Controllers\Task\ViewTaskController;
     
 use App\Http\Controllers\Program\CreateProgramController;
 use App\Http\Controllers\Program\DeleteProgramController;
@@ -50,6 +56,15 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/dashboard', DashboardController::class);
 
+    Route::prefix("/user")->name("user.")->group(function () {
+        Route::get('/', [ViewUserController::class, "index"])->name("index");
+        Route::post('/', CreateUserController::class)->name("create");
+
+        Route::get('/{user}', [ViewUserController::class, "show"])->name("show");
+        Route::patch('/reset-password/{user}', ResetPasswordUserController::class)->name("resetPassword");
+        Route::put('/{user}', UpdateUserController::class)->name("update");
+        Route::delete('/{user}', DeleteUserController::class)->name("delete");
+    });
 
     Route::prefix("/role")->name("role.")->group(function () {
         Route::get('/', [ViewRoleController::class, "index"])->name("index");
@@ -85,13 +100,12 @@ Route::middleware('auth')->group(function () {
         Route::delete('/{placement}', DeletePlacementController::class)->name("delete");
     });
 
-    Route::prefix("/user")->name("user.")->group(function () {
-        Route::get('/', [ViewUserController::class, "index"])->name("index");
-        Route::post('/', CreateUserController::class)->name("create");
+    Route::prefix("/task")->name("task.")->group(function () {
+        Route::get('/', [ViewTaskController::class, "index"])->name("index");
+        Route::post('/', CreateTaskController::class)->name("create");
 
-        Route::get('/{user}', [ViewUserController::class, "show"])->name("show");
-        Route::patch('/reset-password/{user}', ResetPasswordUserController::class)->name("resetPassword");
-        Route::put('/{user}', UpdateUserController::class)->name("update");
-        Route::delete('/{user}', DeleteUserController::class)->name("delete");
+        Route::get('/{task}', [ViewTaskController::class, "show"])->name("show");
+        Route::put('/{task}', UpdateTaskController::class)->name("update");
+        Route::delete('/{task}', DeleteTaskController::class)->name("delete");
     });
 });
