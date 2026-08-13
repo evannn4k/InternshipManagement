@@ -12,10 +12,15 @@ import TaskTable from "./components/task-table";
 import ListPagination from "@/components/app/ListPagination";
 import TaskForm from "./components/task-form";
 
-export default function TaskIndex({ data }) {
+export default function TaskIndex({ data, placements }) {
     const { can } = useCan();
     const [search, setSearch] = useState("");
     const modal = useModal();
+
+    placements = placements.map((placement) => ({
+        value: placement.id,
+        label: placement.intern.name + " - " + placement.program.name,
+    }));
 
     const handleDelete = () => {
         router.delete("/task/" + modal.data);
@@ -31,6 +36,10 @@ export default function TaskIndex({ data }) {
         router.get("/task/", { filter: filter }, { preserveState: true });
     };
 
+    const handleChangeStatus = (id, status) => {
+        router.patch("/task/" + id + "/change-status", { status: status });
+    };
+
     return (
         <>
             <Head>
@@ -38,7 +47,7 @@ export default function TaskIndex({ data }) {
                 <meta name="description" content="Mengelola data tugas" />
             </Head>
             <Layout header="Tugas">
-                <TaskForm modal={modal} />
+                <TaskForm modal={modal} placements={placements} />
                 <PageHeader
                     title="Tugas"
                     description="Mengelola data tugas"
@@ -69,7 +78,11 @@ export default function TaskIndex({ data }) {
                         </div>
                     }
                 />
-                <TaskTable tasks={data.data} modal={modal} />
+                <TaskTable
+                    tasks={data.data}
+                    modal={modal}
+                    handleChangeStatus={handleChangeStatus}
+                />
                 <ListPagination data={data} />
             </Layout>
         </>

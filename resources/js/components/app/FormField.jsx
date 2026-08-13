@@ -1,5 +1,8 @@
-import { Field, FieldLabel } from "../ui/field";
+import { cn } from "@/lib/utils";
+import { Field, FieldError, FieldLabel } from "../ui/field";
 import { Input } from "../ui/input";
+import { NativeSelect, NativeSelectOption } from "../ui/native-select";
+import { Textarea } from "../ui/textarea";
 
 export default function FormField({
     label,
@@ -11,14 +14,17 @@ export default function FormField({
     required = false,
     placeholder = "",
     options = [],
+    col = 1,
+    step = 1,
+    rows = 10,
     className,
 }) {
-    const RenderInput = () => {
+    const renderInput = () => {
         switch (type) {
             case "text":
             case "password":
             case "email":
-            case "number":
+            case "date":
                 return (
                     <Input
                         aria-invalid={Boolean(error)}
@@ -29,27 +35,59 @@ export default function FormField({
                         type={type}
                     />
                 );
+            case "number":
+                return (
+                    <Input
+                        aria-invalid={Boolean(error)}
+                        id={name}
+                        placeholder={placeholder}
+                        onChange={onChange}
+                        value={value}
+                        type={type}
+                        step={step}
+                    />
+                );
             case "select":
                 return (
-                    <select
+                    <NativeSelect
+                        aria-invalid={Boolean(error)}
                         id={name}
                         onChange={onChange}
                         value={value}
-                    ></select>
+                    >
+                        {options.map((option, i) => (
+                            <NativeSelectOption key={i} value={option.value}>
+                                {option.label}
+                            </NativeSelectOption>
+                        ))}
+                    </NativeSelect>
                 );
+            case "textarea" :
+                return (
+                    <Textarea
+                        rows={rows}
+                        aria-invalid={Boolean(error)}
+                        id={name}
+                        placeholder={placeholder}
+                        onChange={onChange}
+                        value={value}
+                    />
+                )
             default:
                 return null;
         }
     };
 
     return (
-        <Field className={className} data-invalid={Boolean(error)}>
+        <Field
+            className={cn(`col-span-1 md:col-span-${col}`, className)}
+            data-invalid={Boolean(error)}
+        >
             <FieldLabel htmlFor="name">
                 {label}
-                <RenderInput />
                 {required && <span className="text-destructive">*</span>}
             </FieldLabel>
-
+            {renderInput()}
             {error && <FieldError>{error}</FieldError>}
         </Field>
     );

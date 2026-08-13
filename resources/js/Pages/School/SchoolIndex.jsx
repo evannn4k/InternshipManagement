@@ -30,17 +30,7 @@ import { useCan } from "@/hooks/use-can";
 
 export default function SchoolIndex({ data }) {
     const [search, setSearch] = useState("");
-    const { flash } = usePage().props;
     const { can } = useCan();
-
-    useEffect(() => {
-        if (flash.success) {
-            toast.success(flash.success);
-        }
-        if (flash.error) {
-            toast.error(flash.error);
-        }
-    }, [flash]);
 
     const modal = useModal();
 

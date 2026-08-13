@@ -10,7 +10,9 @@ import { Button } from "@/components/ui/button";
 import {
     DropdownMenu,
     DropdownMenuContent,
+    DropdownMenuGroup,
     DropdownMenuItem,
+    DropdownMenuLabel,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
@@ -26,8 +28,9 @@ import {
     FiTrash2,
 } from "react-icons/fi";
 import { useCan } from "@/hooks/use-can";
+import { CircleCheck } from "lucide-react";
 
-export default function TaskTable({ tasks, modal }) {
+export default function TaskTable({ tasks, modal, handleChangeStatus }) {
     const { can } = useCan();
 
     return (
@@ -37,6 +40,11 @@ export default function TaskTable({ tasks, modal }) {
                     <TableRow>
                         <TableHead>No</TableHead>
                         <TableHead>Judul</TableHead>
+                        <TableHead>Nama</TableHead>
+                        <TableHead>Status</TableHead>
+                        <TableHead>Prioritas</TableHead>
+                        <TableHead>Telat</TableHead>
+                        <TableHead>Tanggal pengumpulan</TableHead>
                         <TableHead className="text-right">Aksi</TableHead>
                     </TableRow>
                 </TableHeader>
@@ -44,7 +52,53 @@ export default function TaskTable({ tasks, modal }) {
                     {tasks.length > 0 ? (
                         tasks.map((task, i) => (
                             <TableRow key={task.id}>
+                                {console.log(task)}
                                 <TableCell>{i + 1}.</TableCell>
+                                <TableCell>{task.title}</TableCell>
+                                <TableCell>
+                                    {task.placement.intern.name}
+                                </TableCell>
+                                <TableCell>
+                                    <Badge variant="outline">
+                                        {task.status}
+                                    </Badge>
+                                </TableCell>
+                                <TableCell>
+                                    <Badge
+                                        variant={
+                                            task.priority === "high"
+                                                ? "destructive"
+                                                : task.priority === "medium"
+                                                  ? "primary"
+                                                  : task.priority === "low"
+                                                    ? "success"
+                                                    : "default"
+                                        }
+                                    >
+                                        {task.priority}
+                                    </Badge>
+                                </TableCell>
+                                <TableCell>
+                                    <Badge
+                                        variant={
+                                            task.submission_at
+                                                ? task.submission_at <
+                                                  task.due_date
+                                                    ? "destructive"
+                                                    : "success"
+                                                : "outline"
+                                        }
+                                    >
+                                        {task.submission_at
+                                            ? task.submission_at < task.due_date
+                                                ? "Terlambat"
+                                                : "Tepat Waktu"
+                                            : "Belum"}{" "}
+                                    </Badge>
+                                </TableCell>
+                                <TableCell>
+                                    {task.submission_at ?? "-"}
+                                </TableCell>
                                 <TableCell className="text-right">
                                     <DropdownMenu>
                                         <DropdownMenuTrigger
@@ -63,14 +117,37 @@ export default function TaskTable({ tasks, modal }) {
                                         />
                                         <DropdownMenuContent align="end">
                                             {can("task:update") && (
-                                                <DropdownMenuItem
-                                                    onClick={() =>
-                                                        modal.openEdit(task)
-                                                    }
-                                                >
-                                                    <FiEdit />
-                                                    Edit
-                                                </DropdownMenuItem>
+                                                <>
+                                                    {task.status ===
+                                                        "draft" && (
+                                                        <DropdownMenuGroup>
+                                                            <DropdownMenuLabel>
+                                                                Ganti status
+                                                            </DropdownMenuLabel>
+                                                            <DropdownMenuItem
+                                                                onClick={() =>
+                                                                    handleChangeStatus(
+                                                                        task.id,
+                                                                        "assigned"
+                                                                    )
+                                                                }
+                                                            >
+                                                                <CircleCheck />
+                                                                Assign
+                                                            </DropdownMenuItem>
+                                                            <DropdownMenuSeparator />
+                                                        </DropdownMenuGroup>
+                                                    )}
+
+                                                    <DropdownMenuItem
+                                                        onClick={() =>
+                                                            modal.openEdit(task)
+                                                        }
+                                                    >
+                                                        <FiEdit />
+                                                        Edit
+                                                    </DropdownMenuItem>
+                                                </>
                                             )}
                                             <DropdownMenuItem
                                                 render={

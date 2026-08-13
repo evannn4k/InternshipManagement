@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Attributes\Guarded;
 use Illuminate\Database\Eloquent\Model;
 
@@ -22,5 +23,4 @@ class Task extends Model
     {
         return $this->belongsTo(User::class, 'created_by');
     }
-    
 }

@@ -15,9 +15,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useModal } from "@/hooks/use-modal";
 import { DeleteAlert } from "@/components/delete-alert";
-import { Link, router, Head, usePage } from "@inertiajs/react";
-import { useEffect, useState } from "react";
-import { toast } from "sonner";
+import { Link, router, Head } from "@inertiajs/react";
+import { useState } from "react";
 import {
     Pagination,
     PaginationContent,
@@ -30,18 +29,8 @@ import { useCan } from "@/hooks/use-can";
 
 export default function UserIndex({ data, roles, schools }) {
     const { can } = useCan();
-    
-    const [search, setSearch] = useState("");
-    const { flash } = usePage().props;
 
-    useEffect(() => {
-        if (flash.success) {
-            toast.success(flash.success);
-        }
-        if (flash.error) {
-            toast.error(flash.error);
-        }
-    }, [flash]);
+    const [search, setSearch] = useState("");
 
     const modal = useModal();
 

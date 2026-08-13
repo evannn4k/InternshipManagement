@@ -4,10 +4,22 @@ import {
     SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { AppSidebar } from "./components/app-sidebar";
-import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { usePage } from "@inertiajs/react";
+import { toast } from "sonner";
+import { useEffect } from "react";
 
 export default function Layout({ children, header }) {
+    const { flash } = usePage().props;
+    useEffect(() => {
+        if (flash.success) {
+            toast.success(flash.success);
+        }
+        if (flash.error) {
+            toast.error(flash.error);
+        }
+    }, [flash]);
+    
     return (
         <SidebarProvider
             style={{

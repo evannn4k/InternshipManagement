@@ -106,6 +106,7 @@ Route::middleware('auth')->group(function () {
 
         Route::get('/{task}', [ViewTaskController::class, "show"])->name("show");
         Route::put('/{task}', UpdateTaskController::class)->name("update");
+        // Route::patch('/{task}/change-status', [UpdateTaskController::class, "changeStatus"])->name("change-status");
         Route::delete('/{task}', DeleteTaskController::class)->name("delete");
     });
 });
