@@ -13,6 +13,7 @@ import ListPagination from "@/components/app/ListPagination";
 import TaskForm from "./components/task-form";
 import { toast } from "sonner";
 import SubmitForm from "./components/submit-form";
+import { DeleteAlert } from "@/components/delete-alert";
 
 export default function TaskIndex({ data, placements }) {
     const { can } = useCan();
@@ -34,8 +35,12 @@ export default function TaskIndex({ data, placements }) {
         router.get("/task/", { search: search }, { preserveState: true });
     };
 
-    const handleFilter = (filter) => {
-        router.get("/task/", { filter: filter }, { preserveState: true });
+    const handleFilter = (filter, key = null) => {
+        router.get(
+            "/task/",
+            { filter: filter, key: key },
+            { preserveState: true },
+        );
     };
 
     const handleChangeStatus = (id, status) => {
@@ -64,6 +69,14 @@ export default function TaskIndex({ data, placements }) {
                 {can("task:submit") && (
                     <SubmitForm modal={modal} placements={placements} />
                 )}
+                {can("task:delete") && (
+                    <DeleteAlert
+                        form={modal}
+                        title="Hapus data tugas"
+                        description="Ini akan menghapus data tugas secara permanen"
+                        onDelete={handleDelete}
+                    />
+                )}
                 <PageHeader
                     title="Tugas"
                     description="Mengelola data tugas"
@@ -77,12 +90,79 @@ export default function TaskIndex({ data, placements }) {
                     rightActions={
                         <div className="flex gap-2 items-center">
                             <ListFilter
+                                name="Prioritas"
                                 handleFilter={handleFilter}
                                 options={[
-                                    { label: "Aktif", value: "aktif" },
                                     {
-                                        label: "Tidak Aktif",
-                                        value: "tidak-aktif",
+                                        label: "Semua",
+                                        value: "",
+                                        key: "status",
+                                    },
+                                    {
+                                        label: "Low",
+                                        value: "low",
+                                        key: "priority",
+                                    },
+                                    {
+                                        label: "Medium",
+                                        value: "medium",
+                                        key: "priority",
+                                    },
+                                    {
+                                        label: "High",
+                                        value: "high",
+                                        key: "priority",
+                                    },
+                                    {
+                                        label: "Urgent",
+                                        value: "urgent",
+                                        key: "priority",
+                                    },
+                                ]}
+                            />
+                            <ListFilter
+                                name="Status"
+                                handleFilter={handleFilter}
+                                options={[
+                                    {
+                                        label: "Semua",
+                                        value: "",
+                                        key: "status",
+                                    },
+                                    {
+                                        label: "Draft",
+                                        value: "draft",
+                                        key: "status",
+                                    },
+                                    {
+                                        label: "Assigned",
+                                        value: "assigned",
+                                        key: "status",
+                                    },
+                                    {
+                                        label: "In Progress",
+                                        value: "in_progress",
+                                        key: "status",
+                                    },
+                                    {
+                                        label: "Submitted",
+                                        value: "submitted",
+                                        key: "status",
+                                    },
+                                    {
+                                        label: "Revision Requested",
+                                        value: "revision_requested",
+                                        key: "status",
+                                    },
+                                    {
+                                        label: "Completed",
+                                        value: "completed",
+                                        key: "status",
+                                    },
+                                    {
+                                        label: "Cancelled",
+                                        value: "cancelled",
+                                        key: "status",
                                     },
                                 ]}
                             />

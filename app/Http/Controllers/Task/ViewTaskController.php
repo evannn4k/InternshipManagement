@@ -18,15 +18,16 @@ class ViewTaskController extends Controller
 
         $search = $request->input("search");
         $filter = $request->input("filter");
+        $key = $request->input("key");
 
         $data = Task::hasRole(Auth::user())->with(['placement.intern:id,name'])->when($search, function ($query, $search) {
             return $query->where('title', 'like',  "%$search%");
-        })->when($filter, function ($query, $filter) {
-            return $query->where('status', $filter);
+        })->when($filter, function ($query) use ($key, $filter) {
+            return $query->where($key, $filter);
         })->orderByDesc("created_at")->paginate(10)->withQueryString();
 
         $placements = Placement::with(['intern:id,name', 'program:id,name'])->select('id', 'intern_id', 'mentor_id', 'program_id', 'status')->where("status", "active")->get();
-
+        
         return Inertia::render("Task/TaskIndex", compact("data", "placements"));
     }
 
