@@ -98,6 +98,7 @@ export default function TaskForm({ modal, placements }) {
             col: 2,
             onChange: handleChange,
             required: true,
+            hidden: modal.isOpen("edit"),
         },
         {
             label: "Judul tugas",
@@ -107,6 +108,7 @@ export default function TaskForm({ modal, placements }) {
             onChange: handleChange,
             placeholder: "contoh : Tugas Praktek",
             required: true,
+            col: modal.isOpen("edit") ? 2 : 1,
         },
         {
             label: "Masukan prioritas tugas",
@@ -153,6 +155,7 @@ export default function TaskForm({ modal, placements }) {
             ],
             onChange: handleChange,
             required: true,
+            hidden: modal.isOpen("edit"),
         },
         {
             label: "Estimasi jam",

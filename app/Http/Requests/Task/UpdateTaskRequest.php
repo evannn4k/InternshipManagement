@@ -4,6 +4,7 @@ namespace App\Http\Requests\Task;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class UpdateTaskRequest extends FormRequest
 {
@@ -12,7 +13,7 @@ class UpdateTaskRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return Auth::check();
     }
 
     /**
@@ -23,7 +24,13 @@ class UpdateTaskRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            "title" => "required|string|max:255",
+            "priority" => "required|string|in:low,medium,high,urgent",
+            "start_date" => "nullable|date",
+            "due_date" => "nullable|date|after_or_equal:start_date",
+            "estimated_hours" => "nullable|numeric|min:0",
+            "description" => "required|string",
+            "acceptance_criteria" => "required|string",
         ];
     }
 }

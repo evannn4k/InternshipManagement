@@ -206,7 +206,7 @@ export default function TaskTable({ tasks, modal, handleChangeStatus }) {
                                                 <DropdownMenuSeparator />
                                             </DropdownMenuGroup>
 
-                                            {can("task:update") && (
+                                            {can("task:update") && task.status !== "completed"  && (
                                                 <DropdownMenuItem
                                                     onClick={() =>
                                                         modal.openEdit(task)

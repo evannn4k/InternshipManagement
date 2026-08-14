@@ -56,6 +56,77 @@ export default function TaskIndex({ data, placements }) {
         );
     };
 
+    const filterStatus = [
+        {
+            label: "Semua",
+            value: "",
+            key: "status",
+        },
+        {
+            label: "Draft",
+            value: "draft",
+            key: "status",
+        },
+        {
+            label: "Assigned",
+            value: "assigned",
+            key: "status",
+        },
+        {
+            label: "In Progress",
+            value: "in_progress",
+            key: "status",
+        },
+        {
+            label: "Submitted",
+            value: "submitted",
+            key: "status",
+        },
+        {
+            label: "Revision Requested",
+            value: "revision_requested",
+            key: "status",
+        },
+        {
+            label: "Completed",
+            value: "completed",
+            key: "status",
+        },
+        {
+            label: "Cancelled",
+            value: "cancelled",
+            key: "status",
+        },
+    ];
+
+    const filterPriority = [
+        {
+            label: "Semua",
+            value: "",
+            key: "priority",
+        },
+        {
+            label: "Low",
+            value: "low",
+            key: "priority",
+        },
+        {
+            label: "Medium",
+            value: "medium",
+            key: "priority",
+        },
+        {
+            label: "High",
+            value: "high",
+            key: "priority",
+        },
+        {
+            label: "Urgent",
+            value: "urgent",
+            key: "priority",
+        },
+    ];
+    
     return (
         <>
             <Head>
@@ -92,79 +163,12 @@ export default function TaskIndex({ data, placements }) {
                             <ListFilter
                                 name="Prioritas"
                                 handleFilter={handleFilter}
-                                options={[
-                                    {
-                                        label: "Semua",
-                                        value: "",
-                                        key: "status",
-                                    },
-                                    {
-                                        label: "Low",
-                                        value: "low",
-                                        key: "priority",
-                                    },
-                                    {
-                                        label: "Medium",
-                                        value: "medium",
-                                        key: "priority",
-                                    },
-                                    {
-                                        label: "High",
-                                        value: "high",
-                                        key: "priority",
-                                    },
-                                    {
-                                        label: "Urgent",
-                                        value: "urgent",
-                                        key: "priority",
-                                    },
-                                ]}
+                                options={filterPriority}
                             />
                             <ListFilter
                                 name="Status"
                                 handleFilter={handleFilter}
-                                options={[
-                                    {
-                                        label: "Semua",
-                                        value: "",
-                                        key: "status",
-                                    },
-                                    {
-                                        label: "Draft",
-                                        value: "draft",
-                                        key: "status",
-                                    },
-                                    {
-                                        label: "Assigned",
-                                        value: "assigned",
-                                        key: "status",
-                                    },
-                                    {
-                                        label: "In Progress",
-                                        value: "in_progress",
-                                        key: "status",
-                                    },
-                                    {
-                                        label: "Submitted",
-                                        value: "submitted",
-                                        key: "status",
-                                    },
-                                    {
-                                        label: "Revision Requested",
-                                        value: "revision_requested",
-                                        key: "status",
-                                    },
-                                    {
-                                        label: "Completed",
-                                        value: "completed",
-                                        key: "status",
-                                    },
-                                    {
-                                        label: "Cancelled",
-                                        value: "cancelled",
-                                        key: "status",
-                                    },
-                                ]}
+                                options={filterStatus}
                             />
                             {can("task:create") && (
                                 <Button onClick={() => modal.openCreate()}>

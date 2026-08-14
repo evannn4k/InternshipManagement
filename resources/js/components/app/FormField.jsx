@@ -16,8 +16,12 @@ export default function FormField({
     options = [],
     col = 1,
     step = 1,
+    hidden = false,
     className,
 }) {
+
+    if(hidden) return null;
+    
     const renderInput = () => {
         switch (type) {
             case "text":
