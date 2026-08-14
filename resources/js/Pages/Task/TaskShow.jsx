@@ -14,8 +14,14 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, FileCheck, FileX } from "lucide-react";
+import { useCan } from "@/hooks/use-can";
+import { useModal } from "@/hooks/use-modal";
+import ReviewForm from "./components/review-form";
 
 export default function TaskShow({ task }) {
+    const { can } = useCan();
+    const modal = useModal();
+
     return (
         <>
             <Head>
@@ -23,6 +29,7 @@ export default function TaskShow({ task }) {
                 <meta name="description" content="Mengelola data tugas" />
             </Head>
             <Layout header="Tugas">
+                {can("task:review") && <ReviewForm modal={modal} />}
                 <PageHeader
                     title={task.title ?? "-"}
                     description={task.description ?? "-"}
@@ -35,14 +42,21 @@ export default function TaskShow({ task }) {
                         </Button>
                     }
                     rightActions={
-                        <div className="flex gap-2 items-center">
-                            <Button variant="destructive">
-                                <FileX /> Revisi
-                            </Button>
-                            <Button>
-                                <FileCheck /> Selesaikan
-                            </Button>
-                        </div>
+                        can("task:review") && (
+                            <div className="flex gap-2 items-center">
+                                <Button
+                                    variant="destructive"
+                                    onClick={() =>
+                                        modal.openModal("revision", task)
+                                    }
+                                >
+                                    <FileX /> Revisi
+                                </Button>
+                                <Button>
+                                    <FileCheck /> Selesaikan
+                                </Button>
+                            </div>
+                        )
                     }
                 />
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-start">
@@ -104,25 +118,25 @@ export default function TaskShow({ task }) {
                                         </CardDescription>
                                         <Badge
                                             variant={
-                                                task.status === "submitted"
-                                                    ? task.submitted_at >
-                                                      task.due_date
-                                                        ? "destructive"
-                                                        : "success"
+                                                task.status === "in_progress"
+                                                    ? "primary"
                                                     : task.status ===
-                                                        "cancelled"
-                                                      ? "secondary"
-                                                      : "outline"
+                                                            "assigned" ||
+                                                        task.status ===
+                                                            "submitted" ||
+                                                        task.status ===
+                                                            "completed"
+                                                      ? "success"
+                                                      : task.status ===
+                                                          "cancelled"
+                                                        ? "destructive"
+                                                        : task.status ===
+                                                            "revision_requested"
+                                                          ? "default"
+                                                          : "outline"
                                             }
                                         >
-                                            {task.status === "submitted"
-                                                ? task.submitted_at >
-                                                  task.due_date
-                                                    ? "Terlambat"
-                                                    : "Tepat Waktu"
-                                                : task.status === "cancelled"
-                                                  ? "Dibatalkan"
-                                                  : "Belum Disubmit"}
+                                            {task.status}
                                         </Badge>
                                     </div>
                                     <div className="flex flex-col gap-1">

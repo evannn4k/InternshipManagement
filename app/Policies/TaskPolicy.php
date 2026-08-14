@@ -43,4 +43,9 @@ class TaskPolicy
     {
         return $this->user->hasPermission("task:submit");
     }
+
+    public function review()
+    {
+        return $this->user->hasPermission("task:review");
+    }
 }

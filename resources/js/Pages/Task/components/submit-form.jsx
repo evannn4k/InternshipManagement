@@ -25,15 +25,7 @@ export default function SubmitForm({ modal }) {
     
     useEffect(() => {
         clearErrors();
-        setData({
-            repository_url: modal.isOpen("edit")
-                ? (modal.data?.repository_url ?? "")
-                : "",
-            demo_url: modal.isOpen("edit") ? (modal.data?.demo_url ?? "") : "",
-            submission_notes: modal.isOpen("edit")
-                ? (modal.data?.submission_notes ?? "")
-                : "",
-        });
+        reset()
     }, [modal.isOpen("submit")]);
 
     const handleSubmit = (e) => {
