@@ -29,14 +29,14 @@ export default function ReviewForm({ modal }) {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        if(modal.isOpen("revision")) {
+        if (modal.isOpen("revision")) {
             put("/task/" + modal.data?.id + "/revision", {
                 onSuccess: () => {
                     modal.closeModal();
                     reset();
                 },
             });
-        } else if(modal.isOpen("completed")) {
+        } else if (modal.isOpen("completed")) {
             put("/task/" + modal.data?.id + "/completed", {
                 onSuccess: () => {
                     modal.closeModal();
@@ -62,7 +62,7 @@ export default function ReviewForm({ modal }) {
             onChange: handleChange,
             type: "textarea",
             placeholder: "contoh : Tidak memenuhi kriteria",
-            required:true,
+            required: modal.isOpen("revision"),
         },
     ];
 
@@ -74,9 +74,16 @@ export default function ReviewForm({ modal }) {
             <AlertDialogContent className="max-h-[90vh] overflow-y-auto no-scrollbar">
                 <form onSubmit={handleSubmit}>
                     <AlertDialogHeader>
-                        <AlertDialogTitle>Revisi Tugas</AlertDialogTitle>
+                        <AlertDialogTitle>
+                            {modal.isOpen("revision") ? "Revisi" : "Selesaikan"}{" "}
+                            Tugas
+                        </AlertDialogTitle>
                         <FieldDescription>
-                            Isi detail di bawah ini untuk meminta revisi tugas.
+                            Isi detail di bawah ini untuk{" "}
+                            {modal.isOpen("revision")
+                                ? "meminta revisi"
+                                : "menandai selesai"}{" "}
+                            tugas.
                         </FieldDescription>
                     </AlertDialogHeader>
 

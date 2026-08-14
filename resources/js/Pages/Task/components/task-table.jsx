@@ -20,6 +20,7 @@ import { Link, router } from "@inertiajs/react";
 import { Badge } from "@/components/ui/badge";
 import { useCan } from "@/hooks/use-can";
 import {
+    CircleCheck,
     CirclePlay,
     CircleX,
     EllipsisVertical,
@@ -64,7 +65,9 @@ export default function TaskTable({ tasks, modal, handleChangeStatus }) {
         },
         {
             enabled: (task) =>
-                can("task:submit") && task.status === "in_progress",
+                can("task:submit") &&
+                (task.status === "in_progress" ||
+                    task.status === "revision_requested"),
             label: "Kumpulkan",
             icon: <Send />,
             onClick: (task) => modal.openModal("submit", task),
@@ -113,6 +116,11 @@ export default function TaskTable({ tasks, modal, handleChangeStatus }) {
                                                       : "outline"
                                         }
                                     >
+                                        {task.status === "completed" ? (
+                                            <CircleCheck />
+                                        ) : task.status === "cancelled" ? (
+                                            <CircleX />
+                                        ) : null}
                                         {task.status}
                                     </Badge>
                                 </TableCell>
@@ -134,7 +142,7 @@ export default function TaskTable({ tasks, modal, handleChangeStatus }) {
                                 <TableCell>
                                     <Badge
                                         variant={
-                                            task.status === "submitted"
+                                            task.status === "submitted" || task.status === "completed"
                                                 ? task.submitted_at >
                                                   task.due_date
                                                     ? "destructive"
@@ -144,7 +152,7 @@ export default function TaskTable({ tasks, modal, handleChangeStatus }) {
                                                   : "outline"
                                         }
                                     >
-                                        {task.status === "submitted"
+                                        {task.status === "submitted" || task.status === "completed"
                                             ? task.submitted_at > task.due_date
                                                 ? "Terlambat"
                                                 : "Tepat Waktu"

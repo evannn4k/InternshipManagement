@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, FileCheck, FileX } from "lucide-react";
+import { ArrowLeft, CircleCheck, FileCheck, FileX } from "lucide-react";
 import { useCan } from "@/hooks/use-can";
 import { useModal } from "@/hooks/use-modal";
 import ReviewForm from "./components/review-form";
@@ -29,9 +29,35 @@ export default function TaskShow({ task }) {
                 <meta name="description" content="Mengelola data tugas" />
             </Head>
             <Layout header="Tugas">
-                {can("task:review") && <ReviewForm modal={modal} />}
+                {can("task:review") && task.status === "revision_requested" && (
+                    <ReviewForm modal={modal} />
+                )}
                 <PageHeader
                     title={task.title ?? "-"}
+                    titleAddOn={
+                        <Badge
+                            variant={
+                                task.status === "in_progress"
+                                    ? "primary"
+                                    : task.status === "assigned" ||
+                                        task.status === "submitted" ||
+                                        task.status === "completed"
+                                      ? "success"
+                                      : task.status === "cancelled"
+                                        ? "destructive"
+                                        : task.status === "revision_requested"
+                                          ? "default"
+                                          : "outline"
+                            }
+                        >
+                            {task.status === "completed" ? (
+                                <CircleCheck />
+                            ) : task.status === "cancelled" ? (
+                                <CircleX />
+                            ) : null}
+                            {task.status}
+                        </Badge>
+                    }
                     description={task.description ?? "-"}
                     leftActions={
                         <Button
@@ -42,7 +68,8 @@ export default function TaskShow({ task }) {
                         </Button>
                     }
                     rightActions={
-                        can("task:review") && (
+                        can("task:review") &&
+                        task.status === "submitted" && (
                             <div className="flex gap-2 items-center">
                                 <Button
                                     variant="destructive"
@@ -52,7 +79,11 @@ export default function TaskShow({ task }) {
                                 >
                                     <FileX /> Revisi
                                 </Button>
-                                <Button>
+                                <Button
+                                    onClick={() =>
+                                        modal.openModal("completed", task)
+                                    }
+                                >
                                     <FileCheck /> Selesaikan
                                 </Button>
                             </div>
@@ -114,29 +145,29 @@ export default function TaskShow({ task }) {
                                     </div>
                                     <div className="flex flex-col gap-1">
                                         <CardDescription>
-                                            Status
+                                            Pengumpulan
                                         </CardDescription>
                                         <Badge
                                             variant={
-                                                task.status === "in_progress"
-                                                    ? "primary"
-                                                    : task.status ===
-                                                            "assigned" ||
-                                                        task.status ===
-                                                            "submitted" ||
-                                                        task.status ===
-                                                            "completed"
-                                                      ? "success"
-                                                      : task.status ===
-                                                          "cancelled"
+                                                task.status === "submitted" || task.status === "completed"
+                                                    ? task.submitted_at >
+                                                      task.due_date
                                                         ? "destructive"
-                                                        : task.status ===
-                                                            "revision_requested"
-                                                          ? "default"
-                                                          : "outline"
+                                                        : "success"
+                                                    : task.status ===
+                                                        "cancelled"
+                                                      ? "secondary"
+                                                      : "outline"
                                             }
                                         >
-                                            {task.status}
+                                            {task.status === "submitted" || task.status === "completed"
+                                                ? task.submitted_at >
+                                                  task.due_date
+                                                    ? "Terlambat"
+                                                    : "Tepat Waktu"
+                                                : task.status === "cancelled"
+                                                  ? "Dibatalkan"
+                                                  : "Belum Disubmit"}
                                         </Badge>
                                     </div>
                                     <div className="flex flex-col gap-1">

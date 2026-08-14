@@ -17,7 +17,7 @@ class SubmitTaskController extends Controller
         $credentials = $request->validated();
 
         try {
-            if($task->status !== "in_progress") {
+            if($task->status !== "in_progress" && $task->status !== "revision_requested") {
                 return redirect()
                     ->back()
                     ->with(

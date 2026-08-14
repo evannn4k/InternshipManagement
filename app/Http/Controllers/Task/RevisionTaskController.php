@@ -30,6 +30,8 @@ class RevisionTaskController extends Controller
             }
 
             $credentials['status'] = "revision_requested";
+            $credentials['reviewed_at'] = now();
+            
             $task->update($credentials);
 
             return redirect()
