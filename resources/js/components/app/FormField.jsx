@@ -16,7 +16,6 @@ export default function FormField({
     options = [],
     col = 1,
     step = 1,
-    rows = 10,
     className,
 }) {
     const renderInput = () => {
@@ -65,7 +64,6 @@ export default function FormField({
             case "textarea" :
                 return (
                     <Textarea
-                        rows={rows}
                         aria-invalid={Boolean(error)}
                         id={name}
                         placeholder={placeholder}

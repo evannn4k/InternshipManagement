@@ -7,24 +7,12 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import {
-    Field,
-    FieldDescription,
-    FieldError,
-    FieldGroup,
-    FieldLabel,
-    FieldSet,
-} from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
+import { FieldDescription, FieldSet } from "@/components/ui/field";
 import { useForm } from "@inertiajs/react";
-import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Textarea } from "@/components/ui/textarea";
-import { useEffect } from "react";
-import { Spinner } from "@/components/ui/spinner";
-import { FaRegFloppyDisk } from "react-icons/fa6";
 import FormSection from "@/components/app/FormSection";
 import FormField from "../../../components/app/FormField";
+import { useEffect } from "react";
+import { Save } from "lucide-react";
 
 export default function TaskForm({ modal, placements }) {
     const { data, setData, post, put, processing, errors, clearErrors, reset } =
@@ -229,7 +217,7 @@ export default function TaskForm({ modal, placements }) {
                     <AlertDialogFooter className="mt-4">
                         <AlertDialogCancel>Batal</AlertDialogCancel>
                         <AlertDialogAction type="submit" disabled={processing}>
-                            {processing ? <Spinner /> : <FaRegFloppyDisk />}
+                            {processing ? <Spinner /> : <Save />}
                             Simpan
                         </AlertDialogAction>
                     </AlertDialogFooter>

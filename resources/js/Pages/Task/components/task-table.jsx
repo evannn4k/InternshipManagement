@@ -25,6 +25,7 @@ import {
     EllipsisVertical,
     FileText,
     Info,
+    Send,
     SquarePen,
     Trash2,
 } from "lucide-react";
@@ -51,7 +52,6 @@ export default function TaskTable({ tasks, modal, handleChangeStatus }) {
                     {tasks.length > 0 ? (
                         tasks.map((task, i) => (
                             <TableRow key={task.id}>
-                                {console.log(task)}
                                 <TableCell>{i + 1}.</TableCell>
                                 <TableCell>{task.title}</TableCell>
                                 <TableCell>
@@ -92,7 +92,7 @@ export default function TaskTable({ tasks, modal, handleChangeStatus }) {
                                             ? task.submission_at < task.due_date
                                                 ? "Terlambat"
                                                 : "Tepat Waktu"
-                                            : "Belum"}{" "}
+                                            : "Belum"}
                                     </Badge>
                                 </TableCell>
                                 <TableCell>
@@ -116,51 +116,64 @@ export default function TaskTable({ tasks, modal, handleChangeStatus }) {
                                         />
                                         <DropdownMenuContent align="end">
                                             <DropdownMenuGroup>
-                                                {task.status !== "cancelled" &&
-                                                    task.status !==
-                                                        "completed" && (
-                                                        <>
-                                                            <DropdownMenuLabel>
-                                                                Action
-                                                            </DropdownMenuLabel>
-                                                            {(task.status ===
-                                                                "draft" ||
-                                                                task.status ===
-                                                                    "assigned") && (
+                                                <DropdownMenuLabel>
+                                                    Action
+                                                </DropdownMenuLabel>
+                                                {can("task:submit") &&
+                                                    task.status ===
+                                                        "on_progress" && (
+                                                        <DropdownMenuItem
+                                                            onClick={() =>
+                                                                modal.openModal(
+                                                                    "submit",
+                                                                    task,
+                                                                )
+                                                            }
+                                                        >
+                                                            <Send />
+                                                            Kumpulkan
+                                                        </DropdownMenuItem>
+                                                    )}
+                                                {can("task:update") && (
+                                                    <>
+                                                        {(task.status ===
+                                                            "draft" ||
+                                                            task.status ===
+                                                                "assigned") && (
+                                                            <DropdownMenuItem
+                                                                onClick={() =>
+                                                                    handleChangeStatus(
+                                                                        task.id,
+                                                                        "in_progress",
+                                                                    )
+                                                                }
+                                                            >
+                                                                <CirclePlay />
+                                                                Start
+                                                            </DropdownMenuItem>
+                                                        )}
+
+                                                        {(task.status ===
+                                                            "in_progress" ||
+                                                            task.status ===
+                                                                "assigned") && (
+                                                            <>
                                                                 <DropdownMenuItem
                                                                     onClick={() =>
                                                                         handleChangeStatus(
                                                                             task.id,
-                                                                            "in_progress",
+                                                                            "cancelled",
                                                                         )
                                                                     }
                                                                 >
-                                                                    <CirclePlay />
-                                                                    Start
+                                                                    <CircleX />
+                                                                    Cancel
                                                                 </DropdownMenuItem>
-                                                            )}
-
-                                                            {(task.status ===
-                                                                "in_progress" ||
-                                                                task.status ===
-                                                                    "assigned") && (
-                                                                <>
-                                                                    <DropdownMenuItem
-                                                                        onClick={() =>
-                                                                            handleChangeStatus(
-                                                                                task.id,
-                                                                                "cancelled",
-                                                                            )
-                                                                        }
-                                                                    >
-                                                                        <CircleX />
-                                                                        Cancel
-                                                                    </DropdownMenuItem>
-                                                                </>
-                                                            )}
-                                                            <DropdownMenuSeparator />
-                                                        </>
-                                                    )}
+                                                            </>
+                                                        )}
+                                                    </>
+                                                )}
+                                                <DropdownMenuSeparator />
                                             </DropdownMenuGroup>
                                             {can("task:update") && (
                                                 <DropdownMenuItem

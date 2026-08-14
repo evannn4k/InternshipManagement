@@ -11,8 +11,8 @@ import ListFilter from "@/components/app/ListFilter";
 import TaskTable from "./components/task-table";
 import ListPagination from "@/components/app/ListPagination";
 import TaskForm from "./components/task-form";
-import { ToastDescription } from "@/components/ui/toast";
 import { toast } from "sonner";
+import SubmitForm from "./components/submit-form";
 
 export default function TaskIndex({ data, placements }) {
     const { can } = useCan();
@@ -59,6 +59,7 @@ export default function TaskIndex({ data, placements }) {
             </Head>
             <Layout header="Tugas">
                 <TaskForm modal={modal} placements={placements} />
+                <SubmitForm modal={modal} placements={placements} />
                 <PageHeader
                     title="Tugas"
                     description="Mengelola data tugas"

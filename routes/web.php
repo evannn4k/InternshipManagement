@@ -27,6 +27,7 @@ use App\Http\Controllers\Task\DeleteTaskController;
 use App\Http\Controllers\Task\UpdateTaskController;
 use App\Http\Controllers\Task\ViewTaskController;
 use App\Http\Controllers\Task\ChangeTaskStatusController;
+use App\Http\Controllers\Task\SubmitTaskController;
 
 use App\Http\Controllers\Program\CreateProgramController;
 use App\Http\Controllers\Program\DeleteProgramController;
@@ -108,6 +109,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/{task}', [ViewTaskController::class, "show"])->name("show");
         Route::put('/{task}', UpdateTaskController::class)->name("update");
         Route::patch('/{task}/change-status', ChangeTaskStatusController::class)->name("change-status");
+        Route::put('/{task}/submit', SubmitTaskController::class)->name("submit");
         Route::delete('/{task}', DeleteTaskController::class)->name("delete");
     });
 });
