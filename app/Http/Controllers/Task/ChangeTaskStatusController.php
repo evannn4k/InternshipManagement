@@ -19,7 +19,7 @@ class ChangeTaskStatusController extends Controller
         $credentials = $request->validated();
 
         try {
-            if ($credentials['status'] === 'in_progress' && $task->status !== 'draft' && $task->status !== 'assigned') {
+            if ($credentials['status'] === 'assigned' && $task->status !== 'draft') {
                 return redirect()
                     ->back()
                     ->with(
@@ -28,7 +28,16 @@ class ChangeTaskStatusController extends Controller
                     );
             }
 
-            if ($credentials['status'] === 'cancelled' && $task->status !== 'on_progress' && $task->status !== 'assigned') {
+            if ($credentials['status'] === 'in_progress' && $task->status !== 'assigned') {
+                return redirect()
+                    ->back()
+                    ->with(
+                        "error",
+                        "Status tugas tidak valid.",
+                    );
+            }
+
+            if ($credentials['status'] === 'cancelled' && $task->status !== 'in_progress' && $task->status !== 'assigned') {
                 return redirect()
                     ->back()
                     ->with(

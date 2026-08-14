@@ -23,15 +23,17 @@ class ViewTaskController extends Controller
             return $query->where('title', 'like',  "%$search%");
         })->when($filter, function ($query, $filter) {
             return $query->where('status', $filter);
-        })->paginate(10)->withQueryString();
+        })->orderByDesc("created_at")->paginate(10)->withQueryString();
 
         $placements = Placement::with(['intern:id,name', 'program:id,name'])->select('id', 'intern_id', 'mentor_id', 'program_id', 'status')->where("status", "active")->get();
 
         return Inertia::render("Task/TaskIndex", compact("data", "placements"));
     }
 
-    public function show(Task $task)
+    public function show($task)
     {
+        $task = Task::with(['placement.intern:id,name', 'placement.mentor:id,name', 'reviewedBy:id,name', 'createdBy:id,name'])->findOrFail($task);
+        
         Gate::authorize('task:read');
 
         return Inertia::render("Task/TaskShow", compact("task"));

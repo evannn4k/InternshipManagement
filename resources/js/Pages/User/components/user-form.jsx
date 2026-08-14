@@ -104,8 +104,6 @@ export default function UserForm({ form, roles, schools }) {
         });
     };
 
-    console.log(data);
-
     return (
         <AlertDialog
             open={form.isOpen("edit") || form.isOpen("create")}

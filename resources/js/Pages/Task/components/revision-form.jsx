@@ -15,23 +15,17 @@ import { Save } from "lucide-react";
 import { useEffect } from "react";
 import { Spinner } from "@/components/ui/spinner";
 
-export default function SubmitForm({ modal }) {
+export default function RevisionForm({ modal }) {
     const { data, setData, put, processing, errors, clearErrors, reset } =
         useForm({
-            repository_url: "",
-            demo_url: "",
-            submission_notes: "",
+            review_notes: "",
         });
     
     useEffect(() => {
         clearErrors();
         setData({
-            repository_url: modal.isOpen("edit")
-                ? (modal.data?.repository_url ?? "")
-                : "",
-            demo_url: modal.isOpen("edit") ? (modal.data?.demo_url ?? "") : "",
-            submission_notes: modal.isOpen("edit")
-                ? (modal.data?.submission_notes ?? "")
+            review_notes: modal.isOpen("edit")
+                ? (modal.data?.review_notes ?? "")
                 : "",
         });
     }, [modal.isOpen("submit")]);
@@ -39,7 +33,7 @@ export default function SubmitForm({ modal }) {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        put("/task/" + modal.data?.id + "/submit", {
+        put("/task/" + modal.data?.id + "/revision", {
             onSuccess: () => { 
                 modal.closeModal();
                 reset();
@@ -56,29 +50,12 @@ export default function SubmitForm({ modal }) {
 
     const fields = [
         {
-            label: "URL repository",
-            name: "repository_url",
-            error: errors.repository_url,
-            value: data.repository_url,
-            onChange: handleChange,
-            placeholder: "contoh : https://github.com/tugas-praktek",
-        },
-        {
-            label: "URL demo",
-            name: "demo_url",
-            error: errors.demo_url,
-            value: data.demo_url,
-            onChange: handleChange,
-            placeholder: "contoh : https://demo.com",
-        },
-        {
             label: "Catatan",
-            name: "submission_notes",
-            type: "textarea",
-            error: errors.submission_notes,
-            value: data.submission_notes,
+            name: "review_notes",
+            error: errors.review_notes,
+            value: data.review_notes,
             onChange: handleChange,
-            placeholder: "contoh : Saya menggunakan Laravel dan React",
+            placeholder: "contoh : Tidak memenuhi kriteria",
         },
     ];
 

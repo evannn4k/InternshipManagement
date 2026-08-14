@@ -30,7 +30,7 @@ class CreateTaskRequest extends FormRequest
             "start_date" => "nullable|date",
             "due_date" => "nullable|date|after_or_equal:start_date",
             "status" => "required|string|in:draft,assigned",
-            "estimation_hours" => "nullable|numeric|min:0",
+            "estimated_hours" => "nullable|numeric|min:0",
             "description" => "required|string",
             "acceptance_criteria" => "required|string",
         ];

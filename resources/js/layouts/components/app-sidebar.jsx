@@ -21,7 +21,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Link, router } from "@inertiajs/react";
+import { Link, router, usePage } from "@inertiajs/react";
 import {
     PieChart,
     Users,
@@ -39,6 +39,7 @@ import {
 import { useCan } from "@/hooks/use-can";
 
 export function AppSidebar({ ...props }) {
+    const { auth } = usePage().props;
     const { isMobile } = useSidebar();
     const { can } = useCan();
 
@@ -171,10 +172,10 @@ export function AppSidebar({ ...props }) {
                                         </Avatar>
                                         <div className="grid flex-1 text-left text-sm leading-tight">
                                             <span className="truncate font-medium">
-                                                name{" "}
+                                                {auth.name}
                                             </span>
                                             <span className="truncate text-xs text-muted-foreground">
-                                                email{" "}
+                                                {auth.email}
                                             </span>
                                         </div>
                                         <MoreVertical className="ml-auto size-4" />
@@ -198,10 +199,10 @@ export function AppSidebar({ ...props }) {
                                             </Avatar>
                                             <div className="grid flex-1 text-left text-sm leading-tight">
                                                 <span className="truncate font-medium">
-                                                    name
+                                                    {auth.name}
                                                 </span>
                                                 <span className="truncate text-xs text-muted-foreground">
-                                                    email{" "}
+                                                    {auth.email}
                                                 </span>
                                             </div>
                                         </div>

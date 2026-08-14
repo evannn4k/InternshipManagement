@@ -13,6 +13,7 @@ import FormSection from "@/components/app/FormSection";
 import FormField from "../../../components/app/FormField";
 import { useEffect } from "react";
 import { Save } from "lucide-react";
+import { Spinner } from "@/components/ui/spinner";
 
 export default function TaskForm({ modal, placements }) {
     const { data, setData, post, put, processing, errors, clearErrors, reset } =
@@ -23,7 +24,7 @@ export default function TaskForm({ modal, placements }) {
             start_date: "",
             due_date: "",
             status: "",
-            estimation_hours: "",
+            estimated_hours: "",
             description: "",
             acceptance_criteria: "",
         });
@@ -46,8 +47,8 @@ export default function TaskForm({ modal, placements }) {
                     ? (modal.data?.due_date ?? "")
                     : "",
                 status: modal.isOpen("edit") ? (modal.data?.status ?? "") : "",
-                estimation_hours: modal.isOpen("edit")
-                    ? (modal.data?.estimation_hours ?? "")
+                estimated_hours: modal.isOpen("edit")
+                    ? (modal.data?.estimated_hours ?? "")
                     : "",
                 description: modal.isOpen("edit")
                     ? (modal.data?.description ?? "")
@@ -155,9 +156,9 @@ export default function TaskForm({ modal, placements }) {
         },
         {
             label: "Estimasi jam",
-            name: "estimation_hours",
-            error: errors.estimation_hours,
-            value: data.estimation_hours,
+            name: "estimated_hours",
+            error: errors.estimated_hours,
+            value: data.estimated_hours,
             type: "number",
             step: 0.1,
             onChange: handleChange,

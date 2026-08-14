@@ -116,6 +116,9 @@ class DatabaseSeeder extends Seeder
             [
                 'name' => 'task:submit',
             ],
+            [
+                'name' => 'task:review',
+            ],
         ]);
 
         RoleHasPermission::insert([

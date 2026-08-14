@@ -40,11 +40,11 @@ export default function TaskIndex({ data, placements }) {
 
     const handleChangeStatus = (id, status) => {
         router.patch(
-        "/task/" + id + "/change-status",
+            "/task/" + id + "/change-status",
             { status: status },
             {
                 onError: (e) => {
-                    console.log(e)
+                    console.log(e);
                     toast.error("Gagal mengubah status tugas.");
                 },
             },
@@ -58,8 +58,12 @@ export default function TaskIndex({ data, placements }) {
                 <meta name="description" content="Mengelola data tugas" />
             </Head>
             <Layout header="Tugas">
-                <TaskForm modal={modal} placements={placements} />
-                <SubmitForm modal={modal} placements={placements} />
+                {(can("task:create") || can("task:update")) && (
+                    <TaskForm modal={modal} placements={placements} />
+                )}
+                {can("task:submit") && (
+                    <SubmitForm modal={modal} placements={placements} />
+                )}
                 <PageHeader
                     title="Tugas"
                     description="Mengelola data tugas"

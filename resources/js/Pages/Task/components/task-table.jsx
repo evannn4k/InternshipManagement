@@ -16,22 +16,60 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Link } from "@inertiajs/react";
+import { Link, router } from "@inertiajs/react";
 import { Badge } from "@/components/ui/badge";
 import { useCan } from "@/hooks/use-can";
 import {
     CirclePlay,
     CircleX,
     EllipsisVertical,
+    Eye,
     FileText,
-    Info,
     Send,
     SquarePen,
     Trash2,
+    UserRoundArrowLeft,
 } from "lucide-react";
 
 export default function TaskTable({ tasks, modal, handleChangeStatus }) {
     const { can } = useCan();
+
+    const actions = [
+        {
+            enabled: (task) =>
+                can("task:review") && task.status === "submitted",
+            label: "Tinjau",
+            icon: <Eye />,
+            onClick: (task) => router.get(`/task/${task.id}`),
+        },
+        {
+            enabled: (task) => can("task:update") && task.status === "draft",
+            label: "Tetapkan",
+            icon: <UserRoundArrowLeft />,
+            onClick: (task) => handleChangeStatus(task.id, "assigned"),
+        },
+        {
+            enabled: (task) => can("task:update") && task.status === "assigned",
+            label: "Mulai",
+            icon: <CirclePlay />,
+            onClick: (task) => handleChangeStatus(task.id, "in_progress"),
+        },
+        {
+            enabled: (task) =>
+                can("task:update") &&
+                (task.status === "assigned" || task.status === "in_progress"),
+            label: "Batalkan",
+            icon: <CircleX />,
+            onClick: (task) => handleChangeStatus(task.id, "cancelled"),
+        },
+        {
+            enabled: (task) =>
+                can("task:submit") && task.status === "in_progress",
+            label: "Kumpulkan",
+            icon: <Send />,
+            onClick: (task) => modal.openModal("submit", task),
+        },
+    ];
 
     return (
         <div className="overflow-hidden rounded-lg border">
@@ -43,8 +81,8 @@ export default function TaskTable({ tasks, modal, handleChangeStatus }) {
                         <TableHead>Nama</TableHead>
                         <TableHead>Status</TableHead>
                         <TableHead>Prioritas</TableHead>
-                        <TableHead>Telat</TableHead>
-                        <TableHead>Tanggal pengumpulan</TableHead>
+                        <TableHead>Pengumpulan</TableHead>
+                        <TableHead>Waktu pengumpulan</TableHead>
                         <TableHead className="text-right">Aksi</TableHead>
                     </TableRow>
                 </TableHeader>
@@ -58,7 +96,23 @@ export default function TaskTable({ tasks, modal, handleChangeStatus }) {
                                     {task.placement.intern.name}
                                 </TableCell>
                                 <TableCell>
-                                    <Badge variant="outline">
+                                    <Badge
+                                        variant={
+                                            task.status === "in_progress"
+                                                ? "primary"
+                                                : task.status === "assigned" ||
+                                                    task.status ===
+                                                        "submitted" ||
+                                                    task.status === "completed"
+                                                  ? "success"
+                                                  : task.status === "cancelled"
+                                                    ? "destructive"
+                                                    : task.status ===
+                                                        "revision_requested"
+                                                      ? "default"
+                                                      : "outline"
+                                        }
+                                    >
                                         {task.status}
                                     </Badge>
                                 </TableCell>
@@ -80,23 +134,27 @@ export default function TaskTable({ tasks, modal, handleChangeStatus }) {
                                 <TableCell>
                                     <Badge
                                         variant={
-                                            task.submission_at
-                                                ? task.submission_at <
+                                            task.status === "submitted"
+                                                ? task.submitted_at >
                                                   task.due_date
                                                     ? "destructive"
                                                     : "success"
-                                                : "outline"
+                                                : task.status === "cancelled"
+                                                  ? "secondary"
+                                                  : "outline"
                                         }
                                     >
-                                        {task.submission_at
-                                            ? task.submission_at < task.due_date
+                                        {task.status === "submitted"
+                                            ? task.submitted_at > task.due_date
                                                 ? "Terlambat"
                                                 : "Tepat Waktu"
-                                            : "Belum"}
+                                            : task.status === "cancelled"
+                                              ? "Dibatalkan"
+                                              : "Belum Disubmit"}
                                     </Badge>
                                 </TableCell>
                                 <TableCell>
-                                    {task.submission_at ?? "-"}
+                                    {task.submitted_at ?? "-"}
                                 </TableCell>
                                 <TableCell className="text-right">
                                     <DropdownMenu>
@@ -119,62 +177,26 @@ export default function TaskTable({ tasks, modal, handleChangeStatus }) {
                                                 <DropdownMenuLabel>
                                                     Action
                                                 </DropdownMenuLabel>
-                                                {can("task:submit") &&
-                                                    task.status ===
-                                                        "on_progress" && (
+                                                {actions.map((action) => {
+                                                    return action.enabled(
+                                                        task,
+                                                    ) ? (
                                                         <DropdownMenuItem
+                                                            key={action.label}
                                                             onClick={() =>
-                                                                modal.openModal(
-                                                                    "submit",
+                                                                action.onClick(
                                                                     task,
                                                                 )
                                                             }
                                                         >
-                                                            <Send />
-                                                            Kumpulkan
+                                                            {action.icon}
+                                                            {action.label}
                                                         </DropdownMenuItem>
-                                                    )}
-                                                {can("task:update") && (
-                                                    <>
-                                                        {(task.status ===
-                                                            "draft" ||
-                                                            task.status ===
-                                                                "assigned") && (
-                                                            <DropdownMenuItem
-                                                                onClick={() =>
-                                                                    handleChangeStatus(
-                                                                        task.id,
-                                                                        "in_progress",
-                                                                    )
-                                                                }
-                                                            >
-                                                                <CirclePlay />
-                                                                Start
-                                                            </DropdownMenuItem>
-                                                        )}
-
-                                                        {(task.status ===
-                                                            "in_progress" ||
-                                                            task.status ===
-                                                                "assigned") && (
-                                                            <>
-                                                                <DropdownMenuItem
-                                                                    onClick={() =>
-                                                                        handleChangeStatus(
-                                                                            task.id,
-                                                                            "cancelled",
-                                                                        )
-                                                                    }
-                                                                >
-                                                                    <CircleX />
-                                                                    Cancel
-                                                                </DropdownMenuItem>
-                                                            </>
-                                                        )}
-                                                    </>
-                                                )}
+                                                    ) : null;
+                                                })}
                                                 <DropdownMenuSeparator />
                                             </DropdownMenuGroup>
+
                                             {can("task:update") && (
                                                 <DropdownMenuItem
                                                     onClick={() =>
