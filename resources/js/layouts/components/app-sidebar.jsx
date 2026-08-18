@@ -35,6 +35,7 @@ import {
     SquareActivity,
     SquareArrowRightEnter,
     ClipboardList,
+    ScrollText,
 } from "lucide-react";
 import { useCan } from "@/hooks/use-can";
 
@@ -145,6 +146,16 @@ export function AppSidebar({ ...props }) {
                                             <Link href="/task">
                                                 <ClipboardList className="size-4" />
                                                 Tugas
+                                            </Link>
+                                        }
+                                    />
+                                )}
+                                {can("attendance:read") && (
+                                    <SidebarMenuButton
+                                        render={
+                                            <Link href="/attendance">
+                                                <ScrollText className="size-4" />
+                                                Absensi
                                             </Link>
                                         }
                                     />

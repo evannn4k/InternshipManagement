@@ -119,6 +119,18 @@ class DatabaseSeeder extends Seeder
             [
                 'name' => 'task:review',
             ],
+            [
+                'name' => 'attendance:read',
+            ],
+            [
+                'name' => 'attendance:create',
+            ],
+            [
+                'name' => 'attendance:check-out',
+            ],
+            [
+                'name' => 'attendance:check-in',
+            ],
         ]);
 
         RoleHasPermission::insert([

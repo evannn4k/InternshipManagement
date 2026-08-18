@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Policies\AttendancePolicy;
 use App\Policies\PlacementPolicy;
 use App\Policies\ProgramPolicy;
 use App\Policies\SchoolPolicy;
@@ -57,5 +58,10 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('task:change-status', [TaskPolicy::class, "changeStatus"]);
         Gate::define('task:submit', [TaskPolicy::class, "submit"]);
         Gate::define('task:review', [TaskPolicy::class, "review"]);
+
+        Gate::define('attendance:read', [AttendancePolicy::class, "read"]);
+        Gate::define('attendance:create', [AttendancePolicy::class, "create"]);
+        Gate::define('attendance:check-in', [AttendancePolicy::class, "checkIn"]);
+        Gate::define('attendance:check-out', [AttendancePolicy::class, "checkOut"]);
     }
 }

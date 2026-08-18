@@ -28,8 +28,8 @@ class ViewProgramController extends Controller
 
     public function show(Program $program)
     {
-        Gate::authorize('Program:read');
+        Gate::authorize('program:read');
 
-        return Inertia::render("Program/ProgramShow", compact("progra"));
+        return Inertia::render("Program/ProgramShow", compact("program"));
     }
 }

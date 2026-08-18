@@ -14,14 +14,14 @@ use App\Http\Controllers\School\CreateSchoolController;
 use App\Http\Controllers\School\DeleteSchoolController;
 use App\Http\Controllers\School\UpdateSchoolController;
 use App\Http\Controllers\School\ViewSchoolController;
-    
+
 use App\Http\Controllers\Placement\CreatePlacementController;
 use App\Http\Controllers\Placement\DeletePlacementController;
 use App\Http\Controllers\Placement\UpdatePlacementController;
 use App\Http\Controllers\Placement\ViewPlacementController;
 use App\Http\Controllers\Placement\TerminatePlacementController;
 use App\Http\Controllers\Placement\CompletePlacementController;
-    
+
 use App\Http\Controllers\Task\CreateTaskController;
 use App\Http\Controllers\Task\DeleteTaskController;
 use App\Http\Controllers\Task\UpdateTaskController;
@@ -41,6 +41,13 @@ use App\Http\Controllers\User\DeleteUserController;
 use App\Http\Controllers\User\UpdateUserController;
 use App\Http\Controllers\User\ViewUserController;
 use App\Http\Controllers\User\ResetPasswordUserController;
+
+use App\Http\Controllers\Attendance\CreateAttendanceController;
+use App\Http\Controllers\Attendance\CheckInAttendanceController;
+use App\Http\Controllers\Attendance\CheckOutAttendanceController;
+// use App\Http\Controllers\Attendance\DeleteAttendanceController;
+// use App\Http\Controllers\Attendance\UpdateAttendanceController;
+use App\Http\Controllers\Attendance\ViewAttendanceController;
 
 use App\Http\Controllers\TestingController;
 use Illuminate\Support\Facades\Route;
@@ -92,7 +99,7 @@ Route::middleware('auth')->group(function () {
         Route::put('/{program}', UpdateProgramController::class)->name("update");
         Route::delete('/{program}', DeleteProgramController::class)->name("delete");
     });
- 
+
     Route::prefix("/placement")->name("placement.")->group(function () {
         Route::get('/', [ViewPlacementController::class, "index"])->name("index");
         Route::post('/', CreatePlacementController::class)->name("create");
@@ -115,5 +122,16 @@ Route::middleware('auth')->group(function () {
         Route::put('/{task}/revision', RevisionTaskController::class)->name("revision");
         Route::put('/{task}/completed', CompletedTaskController::class)->name("completed");
         Route::delete('/{task}', DeleteTaskController::class)->name("delete");
+    });
+
+    Route::prefix("/attendance")->name("attendance.")->group(function () {
+        Route::get('/', [ViewAttendanceController::class, "index"])->name("index");
+        Route::post('/', CreateAttendanceController::class)->name("create");
+        Route::post('/check-in', CheckInAttendanceController::class)->name("check-in");
+
+        Route::get('/{attendance}', [ViewAttendanceController::class, "show"])->name("show");
+        Route::put('/{attendance}/check-out', CheckOutAttendanceController::class)->name("check-out");
+        // Route::put('/{attendance}', UpdateAttendanceController::class)->name("update");
+        // Route::delete('/{attendance}', DeleteAttendanceController::class)->name("delete");
     });
 });

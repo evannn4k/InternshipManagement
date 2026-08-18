@@ -22,4 +22,9 @@ class Placement extends Model
     {
         return $this->belongsTo(User::class, 'mentor_id');
     }
+
+    public function attendance()
+    {
+        return $this->hasMany(Attendance::class, 'placement_id');
+    }
 }
