@@ -26,6 +26,7 @@ import {
     EllipsisVertical,
     Eye,
     FileText,
+    LogOut,
     PackageOpen,
     Send,
     SquarePen,
@@ -42,12 +43,12 @@ export default function AttendanceTable({ attendances, modal }) {
                 <TableHeader className="bg-muted">
                     <TableRow>
                         <TableHead>No</TableHead>
-                        <TableHead>Judul</TableHead>
                         <TableHead>Nama</TableHead>
+                        <TableHead>Tanggal</TableHead>
+                        <TableHead>Masuk</TableHead>
+                        <TableHead>Keluar</TableHead>
                         <TableHead>Status</TableHead>
-                        <TableHead>Prioritas</TableHead>
-                        <TableHead>Pengumpulan</TableHead>
-                        <TableHead>Waktu pengumpulan</TableHead>
+                        <TableHead>Terlambat</TableHead>
                         <TableHead className="text-right">Aksi</TableHead>
                     </TableRow>
                 </TableHeader>
@@ -56,9 +57,25 @@ export default function AttendanceTable({ attendances, modal }) {
                         attendances.map((attendance, i) => (
                             <TableRow key={attendance.id}>
                                 <TableCell>{i + 1}.</TableCell>
-                                <TableCell>{attendance.title}</TableCell>
                                 <TableCell>
-                                    {attendance.placement.intern.name}
+                                    {attendance.placement.intern.name ?? "-"}
+                                </TableCell>
+                                <TableCell>
+                                    {attendance.attendance_date ?? "-"}
+                                </TableCell>
+                                <TableCell>
+                                    {attendance.check_in_at ?? "-"}
+                                </TableCell>
+                                <TableCell>
+                                    {attendance.check_out_at ?? "-"}
+                                </TableCell>
+                                <TableCell>
+                                    {attendance.status ?? "-"}
+                                </TableCell>
+                                <TableCell>
+                                    {attendance.late_minutes
+                                        ? `${attendance.late_minutes} menit`
+                                        : "-"}
                                 </TableCell>
                                 <TableCell className="text-right">
                                     <DropdownMenu>
@@ -77,11 +94,28 @@ export default function AttendanceTable({ attendances, modal }) {
                                             }
                                         />
                                         <DropdownMenuContent align="end">
-                                            {can("attendance:update") &&
-                                                attendance.status !== "completed" && (
+                                            {can("attendance:check-out") &&
+                                                attendance.status !==
+                                                    "completed" && (
                                                     <DropdownMenuItem
                                                         onClick={() =>
-                                                            modal.openEdit(attendance)
+                                                            modal.openModal(
+                                                                "check-out",
+                                                                {id: attendance.id}
+                                                            )
+                                                        }
+                                                    >
+                                                        <LogOut /> Check Out
+                                                    </DropdownMenuItem>
+                                                )}
+                                            {can("attendance:update") &&
+                                                attendance.status !==
+                                                    "completed" && (
+                                                    <DropdownMenuItem
+                                                        onClick={() =>
+                                                            modal.openEdit(
+                                                                attendance,
+                                                            )
                                                         }
                                                     >
                                                         <SquarePen /> Edit
@@ -91,7 +125,8 @@ export default function AttendanceTable({ attendances, modal }) {
                                                 render={
                                                     <Link
                                                         href={
-                                                            "/attendance/" + attendance.id
+                                                            "/attendance/" +
+                                                            attendance.id
                                                         }
                                                     />
                                                 }

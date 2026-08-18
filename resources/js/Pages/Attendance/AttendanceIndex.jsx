@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import Layout from "@/layouts/layout";
 import { Head, router, useForm } from "@inertiajs/react";
 import { useState } from "react";
-import { Plus, Save, ScrollText } from "lucide-react";
+import { LogOut, Plus, Save, ScrollText } from "lucide-react";
 import { useCan } from "@/hooks/use-can";
 import { useModal } from "@/hooks/use-modal";
 import ListSearch from "@/components/app/ListSearch";
@@ -43,6 +43,15 @@ export default function AttendanceIndex({ data }) {
 
     const handleCheckIn = () => {
         internNotesForm.post("/attendance/check-in", {
+            onSuccess: () => {
+                modal.closeModal();
+                internNotesForm.reset();
+            },
+        });
+    };
+   
+    const handleCheckOut = () => {
+        internNotesForm.put("/attendance/" + modal.data.id + "/check-out", {
             onSuccess: () => {
                 modal.closeModal();
                 internNotesForm.reset();
@@ -118,6 +127,24 @@ export default function AttendanceIndex({ data }) {
                                     />
                                 </FormSection>
                             </form>
+                        }
+                    />
+                )}
+                {can("attendance:check-out") && (
+                    <AlertModal
+                        modal={modal}
+                        nameModal="check-out"
+                        icon={<LogOut />}
+                        title="Check Out"
+                        name="check-out"
+                        description="Tandai selesai"
+                        action={handleCheckOut}
+                        disabled={internNotesForm.processing}
+                        actionLabel={
+                            <>
+                                {internNotesForm.processing && <Spinner />}
+                                Check Out
+                            </>
                         }
                     />
                 )}
