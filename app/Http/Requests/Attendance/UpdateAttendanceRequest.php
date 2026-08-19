@@ -4,6 +4,8 @@ namespace App\Http\Requests\Attendance;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Validator;
 
 class UpdateAttendanceRequest extends FormRequest
 {
@@ -12,7 +14,7 @@ class UpdateAttendanceRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return Auth::check();
     }
 
     /**
@@ -23,7 +25,26 @@ class UpdateAttendanceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            "attendance_date" => "required|date",
+            "status" => "required|in:present,late,absent,sick,permitted",
+            "check_in_at" => "nullable|date",
+            "check_out_at" => "nullable|date",
+            "mentor_notes" => "nullable|string",
+            "correction_reason" => "nullable|string",
+        ];
+    }
+
+    public function after() {
+        return [
+            function(Validator $validator) {
+                if ($validator->errors()->any()) {
+                    return;
+                }
+
+                if ($this->status === 'late' && !$this->check_in_at) {
+                    $validator->errors()->add('check_in_at', 'Check in harus diisi untuk status late.');
+                }
+            }
         ];
     }
 }

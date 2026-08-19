@@ -60,32 +60,31 @@ export default function AttendanceIndex({ data, placements }) {
         });
     };
 
-    const filterPriority = [
+    const filterStatus = [
         {
             label: "Semua",
             value: "",
-            key: "priority",
         },
         {
-            label: "Low",
-            value: "low",
-            key: "priority",
+            label: "Present",
+            value: "present",
         },
         {
-            label: "Medium",
-            value: "medium",
-            key: "priority",
+            label: "Absent",
+            value: "absent",
         },
         {
-            label: "High",
-            value: "high",
-            key: "priority",
+            label: "Late",
+            value: "late",
         },
         {
-            label: "Urgent",
-            value: "urgent",
-            key: "priority",
+            label: "Sick",
+            value: "sick",
         },
+        {
+            label: "Permitted",
+            value: "permitted",
+        }, 
     ];
 
     const handleChangeInternNotes = (e) => {
@@ -179,7 +178,8 @@ export default function AttendanceIndex({ data, placements }) {
                             <ListFilter
                                 name="Status"
                                 handleFilter={handleFilter}
-                                options={filterPriority}
+                                options={filterStatus}
+                                keyFilter="status"
                             />
                             {can("attendance:check-in") && (
                                 <Button

@@ -19,6 +19,12 @@ class ViewTaskController extends Controller
         $search = $request->input("search");
         $filter = $request->input("filter");
         $key = $request->input("key");
+        $availableKey = ['status', 'priority'];
+
+        if (!in_array($key, $availableKey)) {
+            $key = "";
+            $filter = "";
+        };
 
         $data = Task::hasRole(Auth::user())->with(['placement.intern:id,name'])->when($search, function ($query, $search) {
             return $query->where('title', 'like',  "%$search%");

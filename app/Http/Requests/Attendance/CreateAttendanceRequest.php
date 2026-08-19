@@ -30,8 +30,8 @@ class CreateAttendanceRequest extends FormRequest
             "status" => "required|in:present,late,absent,sick,permitted",
             "check_in_at" => "nullable|date",
             "check_out_at" => "nullable|date",
-            "mentor_note" => "nullable|string",
-            "corrector_reason" => "nullable|string",
+            "mentor_notes" => "nullable|string",
+            "correction_reason" => "nullable|string",
         ];
     }
 

@@ -8,7 +8,7 @@ import {
     DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 
-export default function ListFilter({ handleFilter, options, name }) {
+export default function ListFilter({ handleFilter, options, keyFilter, name }) {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger render={<Button variant="outline" />}>
@@ -20,7 +20,7 @@ export default function ListFilter({ handleFilter, options, name }) {
                     {options.map((option) => (
                         <DropdownMenuItem
                             key={option.value}
-                            onClick={() => handleFilter(option.value, option?.key)}
+                            onClick={() => handleFilter(option.value, keyFilter)}
                         >
                             {option.label}
                         </DropdownMenuItem>

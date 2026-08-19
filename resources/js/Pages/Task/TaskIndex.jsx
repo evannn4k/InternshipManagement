@@ -60,42 +60,34 @@ export default function TaskIndex({ data, placements }) {
         {
             label: "Semua",
             value: "",
-            key: "status",
         },
         {
             label: "Draft",
             value: "draft",
-            key: "status",
         },
         {
             label: "Assigned",
             value: "assigned",
-            key: "status",
         },
         {
             label: "In Progress",
             value: "in_progress",
-            key: "status",
         },
         {
             label: "Submitted",
             value: "submitted",
-            key: "status",
         },
         {
             label: "Revision Requested",
             value: "revision_requested",
-            key: "status",
         },
         {
             label: "Completed",
             value: "completed",
-            key: "status",
         },
         {
             label: "Cancelled",
             value: "cancelled",
-            key: "status",
         },
     ];
 
@@ -103,27 +95,22 @@ export default function TaskIndex({ data, placements }) {
         {
             label: "Semua",
             value: "",
-            key: "priority",
         },
         {
             label: "Low",
             value: "low",
-            key: "priority",
         },
         {
             label: "Medium",
             value: "medium",
-            key: "priority",
         },
         {
             label: "High",
             value: "high",
-            key: "priority",
         },
         {
             label: "Urgent",
             value: "urgent",
-            key: "priority",
         },
     ];
     
@@ -164,11 +151,13 @@ export default function TaskIndex({ data, placements }) {
                                 name="Prioritas"
                                 handleFilter={handleFilter}
                                 options={filterPriority}
-                            />
+                                keyFilter="priority"
+                                />
                             <ListFilter
                                 name="Status"
                                 handleFilter={handleFilter}
                                 options={filterStatus}
+                                keyFilter="status"
                             />
                             {can("task:create") && (
                                 <Button onClick={() => modal.openCreate()}>

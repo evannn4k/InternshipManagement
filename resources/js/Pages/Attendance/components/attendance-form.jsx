@@ -50,7 +50,7 @@ export default function AttendanceForm({ modal, placements }) {
                     ? (modal.data?.mentor_notes ?? "")
                     : "",
                 correction_reason: modal.isOpen("edit")
-                    ? (modal.data?.correction_reason ?? "")
+                ? (modal.data?.correction_reason ?? "")
                     : "",
             });
         }
