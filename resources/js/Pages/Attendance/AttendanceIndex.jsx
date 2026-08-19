@@ -16,12 +16,13 @@ import AlertModal from "@/components/app/AlertModal";
 import FormSection from "@/components/app/FormSection";
 import FormField from "@/components/app/FormField";
 import { Spinner } from "@/components/ui/spinner";
+import AttendanceForm from "./components/attendance-form";
 
-export default function AttendanceIndex({ data }) {
+export default function AttendanceIndex({ data, placements }) {
     const { can } = useCan();
     const [search, setSearch] = useState("");
     const modal = useModal();
-    const internNotesForm = useForm({ intern_notes: "" })
+    const internNotesForm = useForm({ intern_notes: "" });
 
     const handleDelete = () => {
         router.delete("/attendance/" + modal.data);
@@ -49,7 +50,7 @@ export default function AttendanceIndex({ data }) {
             },
         });
     };
-   
+
     const handleCheckOut = () => {
         internNotesForm.put("/attendance/" + modal.data.id + "/check-out", {
             onSuccess: () => {
@@ -88,7 +89,7 @@ export default function AttendanceIndex({ data }) {
     ];
 
     const handleChangeInternNotes = (e) => {
-        internNotesForm.setData({ intern_notes: e.target.value })
+        internNotesForm.setData({ intern_notes: e.target.value });
     };
 
     return (
@@ -120,8 +121,12 @@ export default function AttendanceIndex({ data }) {
                                     <FormField
                                         label="Catatan"
                                         name="intern_notes"
-                                        error={internNotesForm.errors.intern_notes}
-                                        value={internNotesForm.data.intern_notes}
+                                        error={
+                                            internNotesForm.errors.intern_notes
+                                        }
+                                        value={
+                                            internNotesForm.data.intern_notes
+                                        }
                                         type="textarea"
                                         onChange={handleChangeInternNotes}
                                     />
@@ -156,6 +161,9 @@ export default function AttendanceIndex({ data }) {
                         onDelete={handleDelete}
                     />
                 )}
+                {(can("attendance:create") || can("attendance:update")) && (
+                    <AttendanceForm modal={modal} placements={placements} />
+                )}
                 <PageHeader
                     title="Absensi"
                     description="Mengelola data absensi"
@@ -178,6 +186,13 @@ export default function AttendanceIndex({ data }) {
                                     onClick={() => modal.openModal("check-in")}
                                 >
                                     <Plus /> Check In
+                                </Button>
+                            )}
+                            {can("attendance:create") && (
+                                <Button
+                                    onClick={() => modal.openCreate()}
+                                >
+                                    <Plus /> Tambah
                                 </Button>
                             )}
                         </div>

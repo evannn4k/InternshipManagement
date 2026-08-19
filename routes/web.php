@@ -45,8 +45,8 @@ use App\Http\Controllers\User\ResetPasswordUserController;
 use App\Http\Controllers\Attendance\CreateAttendanceController;
 use App\Http\Controllers\Attendance\CheckInAttendanceController;
 use App\Http\Controllers\Attendance\CheckOutAttendanceController;
-// use App\Http\Controllers\Attendance\DeleteAttendanceController;
-// use App\Http\Controllers\Attendance\UpdateAttendanceController;
+use App\Http\Controllers\Attendance\DeleteAttendanceController;
+use App\Http\Controllers\Attendance\UpdateAttendanceController;
 use App\Http\Controllers\Attendance\ViewAttendanceController;
 
 use App\Http\Controllers\TestingController;
@@ -131,7 +131,7 @@ Route::middleware('auth')->group(function () {
 
         Route::get('/{attendance}', [ViewAttendanceController::class, "show"])->name("show");
         Route::put('/{attendance}/check-out', CheckOutAttendanceController::class)->name("check-out");
-        // Route::put('/{attendance}', UpdateAttendanceController::class)->name("update");
-        // Route::delete('/{attendance}', DeleteAttendanceController::class)->name("delete");
+        Route::put('/{attendance}', UpdateAttendanceController::class)->name("update");
+        Route::delete('/{attendance}', DeleteAttendanceController::class)->name("delete");
     });
 });

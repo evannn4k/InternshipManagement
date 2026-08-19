@@ -19,12 +19,12 @@ export default function FormField({
     hidden = false,
     className,
 }) {
-
     if(hidden) return null;
     
     const renderInput = () => {
         switch (type) {
             case "text":
+            case "time":
             case "password":
             case "email":
             case "date":

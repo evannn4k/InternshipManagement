@@ -23,6 +23,16 @@ class AttendancePolicy
         return $this->user->hasPermission("attendance:create");
     }
 
+    public function update()
+    {
+        return $this->user->hasPermission("attendance:update");
+    }
+
+    public function delete()
+    {
+        return $this->user->hasPermission("attendance:delete");
+    }
+
     public function checkIn()
     {
         return $this->user->hasPermission("attendance:check-in");

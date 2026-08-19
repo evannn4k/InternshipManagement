@@ -39,7 +39,7 @@ class CheckOutAttendanceController extends Controller
                     );
             }
 
-            if($attendance->check_out_at) {
+            if ($attendance->check_out_at) {
                 return redirect()
                     ->back()
                     ->with(

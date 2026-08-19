@@ -5,8 +5,6 @@ namespace App\Http\Controllers\Attendance;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Attendance\CheckInAttendanceRequest;
 use App\Models\Attendance;
-use Dom\Attr;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;

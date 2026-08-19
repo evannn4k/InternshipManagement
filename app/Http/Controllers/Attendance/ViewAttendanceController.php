@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 use App\Models\Attendance;
+use App\Models\Placement;
 use Illuminate\Support\Facades\Auth;
 
 class ViewAttendanceController extends Controller
@@ -25,7 +26,9 @@ class ViewAttendanceController extends Controller
             return $query->where($key, $filter);
         })->orderByDesc("created_at")->paginate(10)->withQueryString();
 
-        return Inertia::render("Attendance/AttendanceIndex", compact("data"));
+        $placements = Placement::with(['intern:id,name', 'program:id,name'])->select('id', 'intern_id', 'mentor_id', 'program_id', 'status')->where("status", "active")->get();
+
+        return Inertia::render("Attendance/AttendanceIndex", compact("data", "placements"));
     }
 
     public function show(Attendance $attendance)

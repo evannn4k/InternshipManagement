@@ -95,8 +95,7 @@ export default function AttendanceTable({ attendances, modal }) {
                                         />
                                         <DropdownMenuContent align="end">
                                             {can("attendance:check-out") &&
-                                                attendance.status !==
-                                                    "completed" && (
+                                                !attendance.check_out_at && (
                                                     <DropdownMenuItem
                                                         onClick={() =>
                                                             modal.openModal(
@@ -108,9 +107,7 @@ export default function AttendanceTable({ attendances, modal }) {
                                                         <LogOut /> Check Out
                                                     </DropdownMenuItem>
                                                 )}
-                                            {can("attendance:update") &&
-                                                attendance.status !==
-                                                    "completed" && (
+                                            {can("attendance:update") && (
                                                     <DropdownMenuItem
                                                         onClick={() =>
                                                             modal.openEdit(

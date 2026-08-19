@@ -61,6 +61,8 @@ class AppServiceProvider extends ServiceProvider
 
         Gate::define('attendance:read', [AttendancePolicy::class, "read"]);
         Gate::define('attendance:create', [AttendancePolicy::class, "create"]);
+        Gate::define('attendance:update', [AttendancePolicy::class, "update"]);
+        Gate::define('attendance:delete', [AttendancePolicy::class, "delete"]);
         Gate::define('attendance:check-in', [AttendancePolicy::class, "checkIn"]);
         Gate::define('attendance:check-out', [AttendancePolicy::class, "checkOut"]);
     }

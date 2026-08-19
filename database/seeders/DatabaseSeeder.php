@@ -126,6 +126,12 @@ class DatabaseSeeder extends Seeder
                 'name' => 'attendance:create',
             ],
             [
+                'name' => 'attendance:update',
+            ],
+            [
+                'name' => 'attendance:delete',
+            ],
+            [
                 'name' => 'attendance:check-out',
             ],
             [

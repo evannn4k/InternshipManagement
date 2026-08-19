@@ -29,9 +29,11 @@ export default function TaskShow({ task }) {
                 <meta name="description" content="Mengelola data tugas" />
             </Head>
             <Layout header="Tugas">
-                {can("task:review") && task.status === "revision_requested" && (
-                    <ReviewForm modal={modal} />
-                )}
+                {can("task:review") &&
+                    (task.status === "revision_requested" ||
+                        task.status === "submitted") && (
+                        <ReviewForm modal={modal} />
+                    )}
                 <PageHeader
                     title={task.title ?? "-"}
                     titleAddOn={
@@ -149,7 +151,8 @@ export default function TaskShow({ task }) {
                                         </CardDescription>
                                         <Badge
                                             variant={
-                                                task.status === "submitted" || task.status === "completed"
+                                                task.status === "submitted" ||
+                                                task.status === "completed"
                                                     ? task.submitted_at >
                                                       task.due_date
                                                         ? "destructive"
@@ -160,7 +163,8 @@ export default function TaskShow({ task }) {
                                                       : "outline"
                                             }
                                         >
-                                            {task.status === "submitted" || task.status === "completed"
+                                            {task.status === "submitted" ||
+                                            task.status === "completed"
                                                 ? task.submitted_at >
                                                   task.due_date
                                                     ? "Terlambat"
