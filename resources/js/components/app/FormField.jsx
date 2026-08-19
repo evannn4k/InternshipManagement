@@ -19,12 +19,13 @@ export default function FormField({
     hidden = false,
     className,
 }) {
-    if(hidden) return null;
-    
+    if (hidden) return null;
+
     const renderInput = () => {
         switch (type) {
             case "text":
             case "time":
+            case "datetime-local":
             case "password":
             case "email":
             case "date":
@@ -65,7 +66,7 @@ export default function FormField({
                         ))}
                     </NativeSelect>
                 );
-            case "textarea" :
+            case "textarea":
                 return (
                     <Textarea
                         aria-invalid={Boolean(error)}
@@ -74,7 +75,7 @@ export default function FormField({
                         onChange={onChange}
                         value={value}
                     />
-                )
+                );
             default:
                 return null;
         }

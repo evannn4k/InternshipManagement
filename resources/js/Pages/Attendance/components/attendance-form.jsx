@@ -19,6 +19,12 @@ export default function AttendanceForm({ modal, placements }) {
     const { data, setData, post, put, processing, errors, clearErrors, reset } =
         useForm({
             placement_id: "",
+            status: "",
+            attendance_date: "",
+            check_in_at: "",
+            check_out_at: "",
+            mentor_notes: "",
+            correction_reason: "",
         });
 
     useEffect(() => {
@@ -27,6 +33,24 @@ export default function AttendanceForm({ modal, placements }) {
             setData({
                 placement_id: modal.isOpen("edit")
                     ? (modal.data?.placement_id ?? "")
+                    : "",
+                attendance_date: modal.isOpen("edit")
+                    ? (modal.data?.attendance_date ?? "")
+                    : "",
+                status: modal.isOpen("edit")
+                    ? (modal.data?.status ?? "")
+                    : "",
+                check_in_at: modal.isOpen("edit")
+                    ? (modal.data?.check_in_at ?? "")
+                    : "",
+                check_out_at: modal.isOpen("edit")
+                    ? (modal.data?.check_out_at ?? "")
+                    : "",
+                mentor_notes: modal.isOpen("edit")
+                    ? (modal.data?.mentor_notes ?? "")
+                    : "",
+                correction_reason: modal.isOpen("edit")
+                    ? (modal.data?.correction_reason ?? "")
                     : "",
             });
         }
@@ -60,7 +84,7 @@ export default function AttendanceForm({ modal, placements }) {
     };
 
     placements = placements.map((placement) => ({
-        value: placement.placement_id,
+        value: placement.id,
         label: placement.intern.name + " - " + placement.program.name,
     }));
 
@@ -93,22 +117,22 @@ export default function AttendanceForm({ modal, placements }) {
             ],
             onChange: handleChange,
             required: true,
-            hidden: modal.isOpen("edit"),
         },
         {
-            label: "Tanggal mulai",
-            name: "start_date",
-            error: errors.start_date,
-            value: data.start_date,
+            label: "Tanggal",
+            name: "attendance_date",
+            error: errors.attendance_date,
+            value: data.attendance_date,
             type: "date",
             onChange: handleChange,
+            required: true,
         },
         {
             label: "Masuk pada (jika memungkinkan)",
             name: "check_in_at",
             error: errors.check_in_at,
             value: data.check_in_at,
-            type: "time",
+            type: "datetime-local",
             onChange: handleChange,
         },
         {
@@ -116,7 +140,7 @@ export default function AttendanceForm({ modal, placements }) {
             name: "check_out_at",
             error: errors.check_out_at,
             value: data.check_out_at,
-            type: "time",
+            type: "datetime-local",
             onChange: handleChange,
         },
         {

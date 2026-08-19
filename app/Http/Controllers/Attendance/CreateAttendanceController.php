@@ -6,8 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Attendance\CreateAttendanceRequest;
 use App\Models\Attendance;
 use App\Models\Placement;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 
@@ -43,8 +42,7 @@ class CreateAttendanceController extends Controller
                     );
             }
 
-            if ($credentials['check_in_at']->format('H:i:s') > $placement->program->work_start_time->format('H:i:s')) {
-                $credentials['status'] = "late";
+            if ($credentials['status'] === "late" && Carbon::parse($credentials['check_in_at'])->format('H:i') > $placement->program->work_start_time->format('H:i')) {
                 $credentials['late_minutes'] = abs(now()->diffInMinutes($placement->program->work_start_time));
             }
 
