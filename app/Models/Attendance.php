@@ -25,4 +25,9 @@ class Attendance extends Model
     {
         return $this->belongsTo(Placement::class, 'placement_id');
     }
+    
+    public function correctedBy()
+    {
+        return $this->belongsTo(User::class, 'corrected_by');
+    }
 }

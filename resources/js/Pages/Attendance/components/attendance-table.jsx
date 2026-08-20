@@ -10,28 +10,19 @@ import { Button } from "@/components/ui/button";
 import {
     DropdownMenu,
     DropdownMenuContent,
-    DropdownMenuGroup,
     DropdownMenuItem,
-    DropdownMenuLabel,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Link, router } from "@inertiajs/react";
-import { Badge } from "@/components/ui/badge";
+import { Link } from "@inertiajs/react";
 import { useCan } from "@/hooks/use-can";
 import {
-    CircleCheck,
-    CirclePlay,
-    CircleX,
     EllipsisVertical,
-    Eye,
     FileText,
     LogOut,
     PackageOpen,
-    Send,
     SquarePen,
     Trash2,
-    UserRoundArrowLeft,
 } from "lucide-react";
 
 export default function AttendanceTable({ attendances, modal }) {

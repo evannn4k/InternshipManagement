@@ -19,15 +19,17 @@ class ViewAttendanceController extends Controller
         $search = $request->input("search");
         $filter = $request->input("filter");
         $key = $request->input("key");
-        $availableKey= ['status'];
+        $availableKey = ['status'];
 
-        if(!in_array($key, $availableKey)) {
+        if (!in_array($key, $availableKey)) {
             $key = "";
             $filter = "";
         };
 
         $data = Attendance::hasRole(Auth::user())->with(['placement.intern:id,name'])->when($search, function ($query, $search) {
-            return $query->where('title', 'like',  "%$search%");
+            return $query->whereHas("placement.intern", function ($q) use ($search) {
+                return $q->where('name', 'like',  "%$search%");
+            });
         })->when($filter, function ($query) use ($key, $filter) {
             return $query->where($key, $filter);
         })->orderByDesc("created_at")->paginate(10)->withQueryString();
@@ -40,6 +42,14 @@ class ViewAttendanceController extends Controller
     public function show(Attendance $attendance)
     {
         Gate::authorize('attendance:read');
+
+        $attendance->load([
+            'correctedBy:id,name',
+            'placement:id,intern_id,mentor_id,program_id',
+            'placement.intern:id,name',
+            'placement.mentor:id,name',
+            'placement.program:id,name',
+        ]);
 
         return Inertia::render("Attendance/AttendanceShow", compact("attendance"));
     }
