@@ -94,10 +94,10 @@ export default function AttendanceIndex({ data, placements }) {
     return (
         <>
             <Head>
-                <title>Absensi</title>
+                <title>Log Absensi</title>``
                 <meta name="description" content="Mengelola data absensi" />
             </Head>
-            <Layout header="Absensi">
+            <Layout header="Log Absensi">
                 {can("attendance:check-in") && (
                     <AlertModal
                         modal={modal}
@@ -164,7 +164,7 @@ export default function AttendanceIndex({ data, placements }) {
                     <AttendanceForm modal={modal} placements={placements} />
                 )}
                 <PageHeader
-                    title="Absensi"
+                    title="Log Absensi"
                     description="Mengelola data absensi"
                     leftActions={
                         <ListSearch

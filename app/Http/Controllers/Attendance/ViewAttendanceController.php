@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 use App\Models\Attendance;
 use App\Models\Placement;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class ViewAttendanceController extends Controller
@@ -52,5 +53,16 @@ class ViewAttendanceController extends Controller
         ]);
 
         return Inertia::render("Attendance/AttendanceShow", compact("attendance"));
+    }
+
+    public function summary()
+    {
+        Gate::authorize('attendance:read');
+
+        $data = User::with(['activePlacement', 'activePlacement.program', 'activePlacement.attendance'])->whereHas("role", function ($r) {
+            return $r->where("name", "intern");
+        })->paginate();
+
+        return Inertia::render("Attendance/AttendanceSummary", compact("data"));
     }
 }

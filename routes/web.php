@@ -126,6 +126,7 @@ Route::middleware('auth')->group(function () {
 
     Route::prefix("/attendance")->name("attendance.")->group(function () {
         Route::get('/', [ViewAttendanceController::class, "index"])->name("index");
+        Route::get('/summary', [ViewAttendanceController::class, "summary"])->name("summary");
         Route::post('/', CreateAttendanceController::class)->name("create");
         Route::post('/check-in', CheckInAttendanceController::class)->name("check-in");
 

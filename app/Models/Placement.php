@@ -27,4 +27,9 @@ class Placement extends Model
     {
         return $this->hasMany(Attendance::class, 'placement_id');
     }
+
+    public function getEffectiveWorkingDays() 
+    {
+        return "test";
+    }
 }

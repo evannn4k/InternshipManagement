@@ -24,7 +24,6 @@ import {
 import { Link, router, usePage } from "@inertiajs/react";
 import {
     PieChart,
-    Users,
     School,
     Shield,
     User,
@@ -36,6 +35,7 @@ import {
     SquareArrowRightEnter,
     ClipboardList,
     ScrollText,
+    Summary,
 } from "lucide-react";
 import { useCan } from "@/hooks/use-can";
 
@@ -85,7 +85,7 @@ export function AppSidebar({ ...props }) {
                                     <SidebarMenuButton
                                         render={
                                             <Link href="/user">
-                                                <Users className="size-4" />{" "}
+                                                <User className="size-4" />{" "}
                                                 User
                                             </Link>
                                         }
@@ -150,12 +150,31 @@ export function AppSidebar({ ...props }) {
                                         }
                                     />
                                 )}
+                            </SidebarMenuItem>
+                        </SidebarMenu>
+                    </SidebarGroupContent>
+                </SidebarGroup>
+                <SidebarGroup>
+                    <SidebarGroupLabel>Absensi</SidebarGroupLabel>
+                    <SidebarGroupContent>
+                        <SidebarMenu>
+                            <SidebarMenuItem>
                                 {can("attendance:read") && (
                                     <SidebarMenuButton
                                         render={
                                             <Link href="/attendance">
                                                 <ScrollText className="size-4" />
-                                                Absensi
+                                                Log Absensi
+                                            </Link>
+                                        }
+                                    />
+                                )}
+                                {can("attendance:read") && (
+                                    <SidebarMenuButton
+                                        render={
+                                            <Link href="/attendance/summary">
+                                                <Summary className="size-4" />
+                                                Ringkasan Absensi
                                             </Link>
                                         }
                                     />

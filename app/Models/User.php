@@ -77,6 +77,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Placement::class, 'intern_id');
     }
+    
+    public function activePlacement() {
+        return $this->hasOne(Placement::class, 'intern_id')->where("status", "active");
+    }
 
     public function school()
     {
