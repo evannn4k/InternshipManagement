@@ -45,7 +45,7 @@ export default function AttendanceShow({ attendance }) {
         },
         {
             name: "Dikoreksi oleh",
-            value: attendance.corrected_by.name,
+            value: attendance.corrected_by?.name,
         },
         {
             name: "Alasan koreksi",

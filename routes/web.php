@@ -50,6 +50,8 @@ use App\Http\Controllers\Attendance\UpdateAttendanceController;
 use App\Http\Controllers\Attendance\ViewAttendanceController;
 
 use App\Http\Controllers\TestingController;
+use App\Http\Controllers\WeeklyReport\CreateWeeklyReportController;
+use App\Http\Controllers\WeeklyReport\ViewWeeklyReportController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', TestingController::class);
@@ -134,5 +136,14 @@ Route::middleware('auth')->group(function () {
         Route::put('/{attendance}/check-out', CheckOutAttendanceController::class)->name("check-out");
         Route::put('/{attendance}', UpdateAttendanceController::class)->name("update");
         Route::delete('/{attendance}', DeleteAttendanceController::class)->name("delete");
+    });
+    
+    Route::prefix("/weekly-report")->name("weekly-report.")->group(function () {
+        Route::get('/', [ViewWeeklyReportController::class, "index"])->name("index");
+        Route::post('/', CreateWeeklyReportController::class)->name("create");
+
+        // Route::get('/{weeklyReport}', [ViewWeeklyReportController::class, "show"])->name("show");
+        // Route::put('/{weeklyReport}', UpdateWeeklyReportController::class)->name("update");
+        // Route::delete('/{weeklyReport}', DeleteWeeklyReportController::class)->name("delete");
     });
 });

@@ -137,6 +137,12 @@ class DatabaseSeeder extends Seeder
             [
                 'name' => 'attendance:check-in',
             ],
+            [
+                'name' => 'weekly-report:read',
+            ],
+            [
+                'name' => 'weekly-report:create',
+            ],
         ]);
 
         RoleHasPermission::insert([

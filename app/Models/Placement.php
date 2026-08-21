@@ -28,8 +28,13 @@ class Placement extends Model
         return $this->hasMany(Attendance::class, 'placement_id');
     }
 
-    public function getEffectiveWorkingDays() 
+    public function getEffectiveWorkingDays()
     {
-        return "test";
+        return 'test';
+    }
+
+    public function weeklyReport()
+    {
+        return $this->hasMany(WeeklyReport::class);
     }
 }

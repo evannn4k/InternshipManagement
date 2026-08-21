@@ -36,6 +36,7 @@ import {
     ClipboardList,
     ScrollText,
     Summary,
+    BookText,
 } from "lucide-react";
 import { useCan } from "@/hooks/use-can";
 
@@ -146,6 +147,16 @@ export function AppSidebar({ ...props }) {
                                             <Link href="/task">
                                                 <ClipboardList className="size-4" />
                                                 Tugas
+                                            </Link>
+                                        }
+                                    />
+                                )}
+                                {can("weekly-report:read") && (
+                                    <SidebarMenuButton
+                                        render={
+                                            <Link href="/weekly-report">
+                                                <BookText className="size-4" />
+                                                Laporan Mingguan
                                             </Link>
                                         }
                                     />

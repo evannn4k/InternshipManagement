@@ -30,7 +30,6 @@ class User extends Authenticatable
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable, SoftDeletes;
 
-
     /**
      * Get the attributes that should be cast.
      *
@@ -49,7 +48,8 @@ class User extends Authenticatable
         return $this->belongsTo(Role::class);
     }
 
-    public function hasRole($roleName) {
+    public function hasRole($roleName)
+    {
         return $this->role->name === $roleName;
     }
 
@@ -77,13 +77,19 @@ class User extends Authenticatable
     {
         return $this->hasMany(Placement::class, 'intern_id');
     }
-    
-    public function activePlacement() {
-        return $this->hasOne(Placement::class, 'intern_id')->where("status", "active");
+
+    public function activePlacement()
+    {
+        return $this->hasOne(Placement::class, 'intern_id')->where('status', 'active');
     }
 
     public function school()
     {
         return $this->belongsTo(School::class);
+    }
+
+    public function weeklyReport()
+    {
+        return $this->hasMany(WeeklyReport::class);
     }
 }

@@ -8,6 +8,7 @@ use App\Policies\ProgramPolicy;
 use App\Policies\SchoolPolicy;
 use App\Policies\TaskPolicy;
 use App\Policies\UserPolicy;
+use App\Policies\WeeklyReportPolicy;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
@@ -50,7 +51,7 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('placement:create', [PlacementPolicy::class, "create"]);
         Gate::define('placement:update', [PlacementPolicy::class, "update"]);
         Gate::define('placement:delete', [PlacementPolicy::class, "delete"]);
-
+        
         Gate::define('task:read', [TaskPolicy::class, "read"]);
         Gate::define('task:create', [TaskPolicy::class, "create"]);
         Gate::define('task:update', [TaskPolicy::class, "update"]);
@@ -58,12 +59,17 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('task:change-status', [TaskPolicy::class, "changeStatus"]);
         Gate::define('task:submit', [TaskPolicy::class, "submit"]);
         Gate::define('task:review', [TaskPolicy::class, "review"]);
-
+        
         Gate::define('attendance:read', [AttendancePolicy::class, "read"]);
         Gate::define('attendance:create', [AttendancePolicy::class, "create"]);
         Gate::define('attendance:update', [AttendancePolicy::class, "update"]);
         Gate::define('attendance:delete', [AttendancePolicy::class, "delete"]);
         Gate::define('attendance:check-in', [AttendancePolicy::class, "checkIn"]);
         Gate::define('attendance:check-out', [AttendancePolicy::class, "checkOut"]);
+        
+        Gate::define('weekly-report:read', [WeeklyReportPolicy::class, "read"]);
+        Gate::define('weekly-report:create', [WeeklyReportPolicy::class, "create"]);
+        Gate::define('weekly-report:update', [WeeklyReportPolicy::class, "update"]);
+        Gate::define('weekly-report:delete', [WeeklyReportPolicy::class, "delete"]);
     }
 }

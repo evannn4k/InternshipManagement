@@ -94,7 +94,7 @@ export default function AttendanceIndex({ data, placements }) {
     return (
         <>
             <Head>
-                <title>Log Absensi</title>``
+                <title>Log Absensi</title>
                 <meta name="description" content="Mengelola data absensi" />
             </Head>
             <Layout header="Log Absensi">

@@ -17,6 +17,7 @@ export default function FormField({
     col = 1,
     step = 1,
     hidden = false,
+    disabled = false,
     className,
 }) {
     if (hidden) return null;
@@ -37,6 +38,7 @@ export default function FormField({
                         onChange={onChange}
                         value={value}
                         type={type}
+                        disabled={disabled}
                     />
                 );
             case "number":
@@ -49,6 +51,7 @@ export default function FormField({
                         value={value}
                         type={type}
                         step={step}
+                        disabled={disabled}
                     />
                 );
             case "select":
@@ -58,6 +61,7 @@ export default function FormField({
                         id={name}
                         onChange={onChange}
                         value={value}
+                        disabled={disabled}
                     >
                         {options.map((option, i) => (
                             <NativeSelectOption key={i} value={option.value}>
@@ -74,6 +78,7 @@ export default function FormField({
                         placeholder={placeholder}
                         onChange={onChange}
                         value={value}
+                        disabled={disabled}
                     />
                 );
             default:
