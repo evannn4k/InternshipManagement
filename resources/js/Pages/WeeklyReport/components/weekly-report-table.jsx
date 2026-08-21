@@ -36,6 +36,26 @@ import {
 export default function WeeklyReportTable({ weeklyReports, modal }) {
     const { can } = useCan();
 
+    const actions = [
+        {
+            enabled: (weeklyReport) =>
+                can("weekly-report:create") &&
+                weeklyReport.status === "draft",
+            label: "Kirim",
+            icon: <Send />,
+            onClick: (weeklyReport) =>
+                router.patch(`/weekly-report/${weeklyReport.id}/submit`),
+        },
+        {
+            enabled: (weeklyReport) =>
+                can("weeklyReport:update") && weeklyReport.status === "draft",
+            label: "Tetapkan",
+            icon: <UserRoundArrowLeft />,
+            onClick: (weeklyReport) =>
+                handleChangeStatus(weeklyReport.id, "assigned"),
+        },
+    ];
+
     return (
         <div className="overflow-hidden rounded-lg border">
             <Table className="m-0">
@@ -93,7 +113,30 @@ export default function WeeklyReportTable({ weeklyReports, modal }) {
                                             }
                                         />
                                         <DropdownMenuContent align="end">
-                                            
+                                            <DropdownMenuGroup>
+                                                <DropdownMenuLabel>
+                                                    Action
+                                                </DropdownMenuLabel>
+                                                {actions.map((action) => {
+                                                    return action.enabled(
+                                                        weeklyReport,
+                                                    ) ? (
+                                                        <DropdownMenuItem
+                                                            key={action.label}
+                                                            onClick={() =>
+                                                                action.onClick(
+                                                                    weeklyReport,
+                                                                )
+                                                            }
+                                                        >
+                                                            {action.icon}
+                                                            {action.label}
+                                                        </DropdownMenuItem>
+                                                    ) : null;
+                                                })}
+                                                <DropdownMenuSeparator />
+                                            </DropdownMenuGroup>
+
                                             {can("weekly-report:update") &&
                                                 weeklyReport.status !==
                                                     "completed" && (
@@ -126,7 +169,7 @@ export default function WeeklyReportTable({ weeklyReports, modal }) {
                                                         variant="destructive"
                                                         onClick={() =>
                                                             modal.openDelete(
-                                                                task.id,
+                                                                weeklyReport.id,
                                                             )
                                                         }
                                                     >

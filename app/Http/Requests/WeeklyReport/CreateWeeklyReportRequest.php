@@ -30,7 +30,6 @@ class CreateWeeklyReportRequest extends FormRequest
             'lessons_learned' => 'required|string',
             'next_week_plan' => 'required|string',
             'support_needed' => 'nullable|string',
-            'status' => 'required|in:draft,submitted,revision_requested,approved',
         ];
     }
 }

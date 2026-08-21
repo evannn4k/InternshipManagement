@@ -1,56 +1,48 @@
 <?php
 
-use App\Http\Controllers\DashboardController;
-
+use App\Http\Controllers\Attendance\CheckInAttendanceController;
+use App\Http\Controllers\Attendance\CheckOutAttendanceController;
+use App\Http\Controllers\Attendance\CreateAttendanceController;
+use App\Http\Controllers\Attendance\DeleteAttendanceController;
+use App\Http\Controllers\Attendance\UpdateAttendanceController;
+use App\Http\Controllers\Attendance\ViewAttendanceController;
 use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Auth\ViewAuthController;
-use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LogoutController;
-
-use App\Http\Controllers\Role\ViewRoleController;
-use App\Http\Controllers\Role\SyncRoleController;
-
-use App\Http\Controllers\School\CreateSchoolController;
-use App\Http\Controllers\School\DeleteSchoolController;
-use App\Http\Controllers\School\UpdateSchoolController;
-use App\Http\Controllers\School\ViewSchoolController;
-
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\ViewAuthController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Placement\CompletePlacementController;
 use App\Http\Controllers\Placement\CreatePlacementController;
 use App\Http\Controllers\Placement\DeletePlacementController;
+use App\Http\Controllers\Placement\TerminatePlacementController;
 use App\Http\Controllers\Placement\UpdatePlacementController;
 use App\Http\Controllers\Placement\ViewPlacementController;
-use App\Http\Controllers\Placement\TerminatePlacementController;
-use App\Http\Controllers\Placement\CompletePlacementController;
-
-use App\Http\Controllers\Task\CreateTaskController;
-use App\Http\Controllers\Task\DeleteTaskController;
-use App\Http\Controllers\Task\UpdateTaskController;
-use App\Http\Controllers\Task\ViewTaskController;
-use App\Http\Controllers\Task\ChangeTaskStatusController;
-use App\Http\Controllers\Task\SubmitTaskController;
-use App\Http\Controllers\Task\CompletedTaskController;
-use App\Http\Controllers\Task\RevisionTaskController;
-
 use App\Http\Controllers\Program\CreateProgramController;
 use App\Http\Controllers\Program\DeleteProgramController;
 use App\Http\Controllers\Program\UpdateProgramController;
 use App\Http\Controllers\Program\ViewProgramController;
-
+use App\Http\Controllers\Role\SyncRoleController;
+use App\Http\Controllers\Role\ViewRoleController;
+use App\Http\Controllers\School\CreateSchoolController;
+use App\Http\Controllers\School\DeleteSchoolController;
+use App\Http\Controllers\School\UpdateSchoolController;
+use App\Http\Controllers\School\ViewSchoolController;
+use App\Http\Controllers\Task\ChangeTaskStatusController;
+use App\Http\Controllers\Task\CompletedTaskController;
+use App\Http\Controllers\Task\CreateTaskController;
+use App\Http\Controllers\Task\DeleteTaskController;
+use App\Http\Controllers\Task\RevisionTaskController;
+use App\Http\Controllers\Task\SubmitTaskController;
+use App\Http\Controllers\Task\UpdateTaskController;
+use App\Http\Controllers\Task\ViewTaskController;
+use App\Http\Controllers\TestingController;
 use App\Http\Controllers\User\CreateUserController;
 use App\Http\Controllers\User\DeleteUserController;
+use App\Http\Controllers\User\ResetPasswordUserController;
 use App\Http\Controllers\User\UpdateUserController;
 use App\Http\Controllers\User\ViewUserController;
-use App\Http\Controllers\User\ResetPasswordUserController;
-
-use App\Http\Controllers\Attendance\CreateAttendanceController;
-use App\Http\Controllers\Attendance\CheckInAttendanceController;
-use App\Http\Controllers\Attendance\CheckOutAttendanceController;
-use App\Http\Controllers\Attendance\DeleteAttendanceController;
-use App\Http\Controllers\Attendance\UpdateAttendanceController;
-use App\Http\Controllers\Attendance\ViewAttendanceController;
-
-use App\Http\Controllers\TestingController;
 use App\Http\Controllers\WeeklyReport\CreateWeeklyReportController;
+use App\Http\Controllers\WeeklyReport\SubmitWeeklyReportController;
 use App\Http\Controllers\WeeklyReport\ViewWeeklyReportController;
 use Illuminate\Support\Facades\Route;
 
@@ -142,6 +134,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/', [ViewWeeklyReportController::class, "index"])->name("index");
         Route::post('/', CreateWeeklyReportController::class)->name("create");
 
+        Route::patch('/{weeklyReport}/submit', SubmitWeeklyReportController::class)->name("show");
         // Route::get('/{weeklyReport}', [ViewWeeklyReportController::class, "show"])->name("show");
         // Route::put('/{weeklyReport}', UpdateWeeklyReportController::class)->name("update");
         // Route::delete('/{weeklyReport}', DeleteWeeklyReportController::class)->name("delete");

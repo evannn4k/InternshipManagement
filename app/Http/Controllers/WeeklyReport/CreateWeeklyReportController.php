@@ -45,7 +45,6 @@ class CreateWeeklyReportController extends Controller
             $credentials['placement_id'] = $placement->id;
             $credentials['week_start_date'] = $start;
             $credentials['week_end_date'] = $end;
-            $credentials['submitted_at'] = now();
 
             WeeklyReport::create($credentials);
 
