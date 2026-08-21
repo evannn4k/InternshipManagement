@@ -24,7 +24,11 @@ export default function WeeklyReportIndex({ data, defaultDates }) {
 
     const handleSearch = (e) => {
         e.preventDefault();
-        router.get("/weekly-report/", { search: search }, { preserveState: true });
+        router.get(
+            "/weekly-report/",
+            { search: search },
+            { preserveState: true },
+        );
     };
 
     const handleFilter = (filter, key = null) => {
@@ -35,43 +39,45 @@ export default function WeeklyReportIndex({ data, defaultDates }) {
         );
     };
 
-
     const filterStatus = [
         {
             label: "Semua",
             value: "",
         },
         {
-            label: "Present",
-            value: "present",
+            label: "Draft",
+            value: "draft",
         },
         {
-            label: "Absent",
-            value: "absent",
+            label: "Submitted",
+            value: "submitted",
         },
         {
-            label: "Late",
-            value: "late",
+            label: "Revision Requested",
+            value: "revision_requested",
         },
         {
-            label: "Sick",
-            value: "sick",
+            label: "Approved",
+            value: "approved",
         },
-        {
-            label: "Permitted",
-            value: "permitted",
-        }, 
     ];
 
     return (
         <>
             <Head>
                 <title>Lapotan Mingguan</title>
-                <meta name="description" content="Mengelola data laporan mingguan" />
+                <meta
+                    name="description"
+                    content="Mengelola data laporan mingguan"
+                />
             </Head>
             <Layout header="Lapotan Mingguan">
-                {(can("weekly-report:create") || can("weekly-report:update")) && (
-                    <WeeklyReportForm modal={modal} defaultDates={defaultDates}/>
+                {(can("weekly-report:create") ||
+                    can("weekly-report:update")) && (
+                    <WeeklyReportForm
+                        modal={modal}
+                        defaultDates={defaultDates}
+                    />
                 )}
                 <PageHeader
                     title="Lapotan Mingguan"
@@ -92,16 +98,14 @@ export default function WeeklyReportIndex({ data, defaultDates }) {
                                 keyFilter="status"
                             />
                             {can("weekly-report:create") && (
-                                <Button
-                                    onClick={() => modal.openCreate()}
-                                >
+                                <Button onClick={() => modal.openCreate()}>
                                     <Plus /> Tambah
                                 </Button>
                             )}
                         </div>
                     }
                 />
-                <WeeklyReportTable WeeklyReports={data.data} modal={modal} />
+                <WeeklyReportTable weeklyReports={data.data} modal={modal} />
                 <ListPagination data={data} />
             </Layout>
         </>

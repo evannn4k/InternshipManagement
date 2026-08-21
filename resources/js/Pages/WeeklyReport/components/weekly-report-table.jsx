@@ -34,7 +34,7 @@ import {
 } from "lucide-react";
 
 export default function WeeklyReportTable({ weeklyReports, modal }) {
-    const { can } = useCan();   
+    const { can } = useCan();
 
     return (
         <div className="overflow-hidden rounded-lg border">
@@ -48,15 +48,33 @@ export default function WeeklyReportTable({ weeklyReports, modal }) {
                         <TableHead>Status</TableHead>
                         <TableHead>Pada</TableHead>
                         <TableHead>Direview oleh</TableHead>
-                        <TableHead>Indikasi Terlambat</TableHead>
                         <TableHead className="text-right">Aksi</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
                     {weeklyReports?.length > 0 ? (
-                        weeklyReports.map((task, i) => (
-                            <TableRow key={task.id}>
+                        weeklyReports.map((weeklyReport, i) => (
+                            <TableRow key={weeklyReport.id}>
+                                {console.log(weeklyReport)}
                                 <TableCell>{i + 1}.</TableCell>
+                                <TableCell>
+                                    {weeklyReport.placement.intern.name ?? "-"}
+                                </TableCell>
+                                <TableCell>
+                                    {weeklyReport.week_start_date ?? "-"}
+                                </TableCell>
+                                <TableCell>
+                                    {weeklyReport.week_end_date ?? "-"}
+                                </TableCell>
+                                <TableCell>
+                                    {weeklyReport.status ?? "-"}
+                                </TableCell>
+                                <TableCell>
+                                    {weeklyReport.submitted_at ?? "-"}
+                                </TableCell>
+                                <TableCell>
+                                    {weeklyReport.reviewed_by?.name ?? "-"}
+                                </TableCell>
 
                                 <TableCell className="text-right">
                                     <DropdownMenu>
@@ -75,7 +93,7 @@ export default function WeeklyReportTable({ weeklyReports, modal }) {
                                             }
                                         />
                                         <DropdownMenuContent align="end">
-                                            \
+                                            
                                             {can("weekly-report:update") &&
                                                 weeklyReport.status !==
                                                     "completed" && (

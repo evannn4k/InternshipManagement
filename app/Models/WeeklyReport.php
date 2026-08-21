@@ -23,7 +23,7 @@ class WeeklyReport extends Model
         return $query;
     }
 
-    public function placementId()
+    public function placement()
     {
         return $this->belongsTo(Placement::class, 'placement_id');
     }

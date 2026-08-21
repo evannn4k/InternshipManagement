@@ -25,7 +25,7 @@ class ViewWeeklyReportController extends Controller
             $filter = '';
         }
 
-        $data = WeeklyReport::hasRole(Auth::user())->when($search, function ($query, $search) {
+        $data = WeeklyReport::hasRole(Auth::user())->with(['placement:id,intern_id','placement.intern:id,name', 'reviewedBy:id,name'])->when($search, function ($query, $search) {
             return $query->where('name', 'like', "%$search%");
         })->when($filter, function ($query) use ($key, $filter) {
             return $query->where($key, $filter);
