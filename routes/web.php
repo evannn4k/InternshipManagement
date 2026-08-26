@@ -41,8 +41,10 @@ use App\Http\Controllers\User\DeleteUserController;
 use App\Http\Controllers\User\ResetPasswordUserController;
 use App\Http\Controllers\User\UpdateUserController;
 use App\Http\Controllers\User\ViewUserController;
+use App\Http\Controllers\WeeklyReport\ApproveWeeklyReportController;
 use App\Http\Controllers\WeeklyReport\CreateWeeklyReportController;
 use App\Http\Controllers\WeeklyReport\DeleteWeeklyReportController;
+use App\Http\Controllers\WeeklyReport\RevisionWeeklyReportController;
 use App\Http\Controllers\WeeklyReport\SubmitWeeklyReportController;
 use App\Http\Controllers\WeeklyReport\UpdateWeeklyReportController;
 use App\Http\Controllers\WeeklyReport\ViewWeeklyReportController;
@@ -136,7 +138,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/', [ViewWeeklyReportController::class, "index"])->name("index");
         Route::post('/', CreateWeeklyReportController::class)->name("create");
 
-        Route::patch('/{weeklyReport}/submit', SubmitWeeklyReportController::class)->name("show");
+        Route::put('/{weeklyReport}/revision', RevisionWeeklyReportController::class)->name("revision");
+        Route::put('/{weeklyReport}/approve', ApproveWeeklyReportController::class)->name("approve");
+        Route::patch('/{weeklyReport}/submit', SubmitWeeklyReportController::class)->name("submit");
         Route::get('/{weeklyReport}', [ViewWeeklyReportController::class, "show"])->name("show");
         Route::put('/{weeklyReport}', UpdateWeeklyReportController::class)->name("update");
         Route::delete('/{weeklyReport}', DeleteWeeklyReportController::class)->name("delete");

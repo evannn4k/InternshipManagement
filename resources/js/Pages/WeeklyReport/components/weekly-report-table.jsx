@@ -39,11 +39,28 @@ export default function WeeklyReportTable({ weeklyReports, modal }) {
     const actions = [
         {
             enabled: (weeklyReport) =>
+                can("weekly-report:review") &&
+                weeklyReport.status === "submitted",
+            label: "Tinjau",
+            icon: <Eye />,
+            onClick: (weeklyReport) =>
+                router.get(`/weekly-report/${weeklyReport.id}`),
+        },
+        {
+            enabled: (weeklyReport) =>
                 can("weekly-report:create") && weeklyReport.status === "draft",
             label: "Kirim",
             icon: <Send />,
             onClick: (weeklyReport) =>
                 router.patch(`/weekly-report/${weeklyReport.id}/submit`),
+        },
+        {
+            enabled: (weeklyReport) =>
+                can("weekly-report:create") &&
+                weeklyReport.status === "revision_requested",
+            label: "Revisi",
+            icon: <Send />,
+            onClick: (weeklyReport) => modal.openModal('revision', weeklyReport),
         },
         {
             enabled: (weeklyReport) =>

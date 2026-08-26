@@ -13,29 +13,36 @@ import {
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, CircleCheck, FileCheck, FileX } from "lucide-react";
+import {
+    ArrowLeft,
+    CircleCheck,
+    FileCheck,
+    FileX,
+    NotebookPen,
+} from "lucide-react";
 import { useCan } from "@/hooks/use-can";
 import { useModal } from "@/hooks/use-modal";
-// import ReviewForm from "./components/review-form";
+import WeeklyReportReviewForm from "./components/weekly-report-review-form";
 
-export default function WeeklyReportShow({ weeklyReport:report }) {
+export default function WeeklyReportShow({ weeklyReport: report }) {
     const { can } = useCan();
     const modal = useModal();
-
-    console.log(report)
 
     return (
         <>
             <Head>
                 <title>Laporan Mingguan</title>
-                <meta name="description" content="Mengelola data laporan mingguan" />
+                <meta
+                    name="description"
+                    content="Mengelola data laporan mingguan"
+                />
             </Head>
             <Layout header="Laporan Mingguan">
-                {/* {can("weekly_report:review") &&
+                {can("weekly-report:review") &&
                     (report.status === "revision_requested" ||
                         report.status === "submitted") && (
-                        <ReviewForm modal={modal} />
-                    )} */}
+                        <WeeklyReportReviewForm modal={modal} />
+                    )}
                 <PageHeader
                     title={`Laporan Minggu (${report.week_start_date ? formatDate(report.week_start_date) : "-"} - ${report.week_end_date ? formatDate(report.week_end_date) : "-"})`}
                     titleAddOn={
@@ -68,7 +75,7 @@ export default function WeeklyReportShow({ weeklyReport:report }) {
                         </Button>
                     }
                     rightActions={
-                        can("weekly_report:review") &&
+                        can("weekly-report:review") &&
                         report.status === "submitted" && (
                             <div className="flex gap-2 items-center">
                                 <Button
@@ -81,7 +88,7 @@ export default function WeeklyReportShow({ weeklyReport:report }) {
                                 </Button>
                                 <Button
                                     onClick={() =>
-                                        modal.openModal("approved", report)
+                                        modal.openModal("approve", report)
                                     }
                                 >
                                     <FileCheck /> Setujui
@@ -122,7 +129,8 @@ export default function WeeklyReportShow({ weeklyReport:report }) {
                                         </CardDescription>
                                         <CardTitle className="text-neutral-700">
                                             {report.reviewer?.name ??
-                                                report.placement?.mentor?.name ??
+                                                report.placement?.mentor
+                                                    ?.name ??
                                                 "-"}
                                         </CardTitle>
                                     </div>
@@ -132,7 +140,9 @@ export default function WeeklyReportShow({ weeklyReport:report }) {
                                         </CardDescription>
                                         <CardTitle className="text-neutral-700">
                                             {report.week_start_date
-                                                ? formatDate(report.week_start_date)
+                                                ? formatDate(
+                                                      report.week_start_date,
+                                                  )
                                                 : "-"}
                                         </CardTitle>
                                     </div>
@@ -142,7 +152,9 @@ export default function WeeklyReportShow({ weeklyReport:report }) {
                                         </CardDescription>
                                         <CardTitle className="text-neutral-700">
                                             {report.week_end_date
-                                                ? formatDate(report.week_end_date)
+                                                ? formatDate(
+                                                      report.week_end_date,
+                                                  )
                                                 : "-"}
                                         </CardTitle>
                                     </div>

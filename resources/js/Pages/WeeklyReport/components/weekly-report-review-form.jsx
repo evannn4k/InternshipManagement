@@ -15,29 +15,29 @@ import { Save } from "lucide-react";
 import { useEffect } from "react";
 import { Spinner } from "@/components/ui/spinner";
 
-export default function ReviewForm({ modal }) {
+export default function WeeklyReportReviewForm({ modal }) {
     const { data, setData, put, processing, errors, clearErrors, reset } =
         useForm({
-            review_notes: "",
+            mentor_feedback: "",
         });
 
     useEffect(() => {
         clearErrors();
         reset();
-    }, [modal.isOpen("revision"), modal.isOpen("completed")]);
+    }, [modal.isOpen("revision"), modal.isOpen("approve")]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
         if (modal.isOpen("revision")) {
-            put("/task/" + modal.data?.id + "/revision", {
+            put("/weekly-report/" + modal.data?.id + "/revision", {
                 onSuccess: () => {
                     modal.closeModal();
                     reset();
                 },
             });
-        } else if (modal.isOpen("completed")) {
-            put("/task/" + modal.data?.id + "/completed", {
+        } else if (modal.isOpen("approve")) {
+            put("/weekly-report/" + modal.data?.id + "/approve", {
                 onSuccess: () => {
                     modal.closeModal();
                     reset();
@@ -55,10 +55,10 @@ export default function ReviewForm({ modal }) {
 
     const fields = [
         {
-            label: "Catatan",
-            name: "review_notes",
-            error: errors.review_notes,
-            value: data.review_notes,
+            label: "Masukan mentor",
+            name: "mentor_feedback",
+            error: errors.mentor_feedback,
+            value: data.mentor_feedback,
             onChange: handleChange,
             type: "textarea",
             placeholder: "contoh : Tidak memenuhi kriteria",
@@ -66,24 +66,26 @@ export default function ReviewForm({ modal }) {
         },
     ];
 
+    console.log(modal)
+
     return (
         <AlertDialog
-            open={modal.isOpen("revision") || modal.isOpen("completed")}
+            open={modal.isOpen("revision") || modal.isOpen("approve")}
             onOpenChange={() => modal.closeModal()}
         >
             <AlertDialogContent className="max-h-[90vh] overflow-y-auto no-scrollbar">
                 <form onSubmit={handleSubmit}>
                     <AlertDialogHeader>
                         <AlertDialogTitle>
-                            {modal.isOpen("revision") ? "Revisi" : "Selesaikan"}{" "}
-                            Tugas
+                            {modal.isOpen("revision") ? "Revisi" : "Setujui"}{" "}
+                            Laporan
                         </AlertDialogTitle>
                         <FieldDescription>
                             Isi detail di bawah ini untuk{" "}
                             {modal.isOpen("revision")
                                 ? "meminta revisi"
-                                : "menandai selesai"}{" "}
-                            tugas.
+                                : "menyetujui"}{" "}
+                            laporan.
                         </FieldDescription>
                     </AlertDialogHeader>
 

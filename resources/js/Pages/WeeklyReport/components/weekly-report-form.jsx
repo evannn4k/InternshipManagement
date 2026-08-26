@@ -16,7 +16,7 @@ import { Save } from "lucide-react";
 import { Spinner } from "@/components/ui/spinner";
 
 export default function WeeklyReportForm({ modal, defaultDates }) {
-    const isEdit = modal.isOpen("edit");
+    const isEdit = modal.isOpen("edit") || modal.isOpen("revision");
     const isModalOpen = isEdit || modal.isOpen("create");
 
     const { data, setData, post, put, processing, errors, clearErrors, reset } =
@@ -60,8 +60,7 @@ export default function WeeklyReportForm({ modal, defaultDates }) {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        if (modal.isOpen("edit")) {
-            console.log("berhasil edit")
+        if (isEdit) {
             put("/weekly-report/" + modal.data.id, {
                 onSuccess: () => {
                     modal.closeModal();
@@ -175,20 +174,20 @@ export default function WeeklyReportForm({ modal, defaultDates }) {
     ];
 
     return (
-        <AlertDialog
-            open={modal.isOpen("create") || modal.isOpen("edit")}
-            onOpenChange={() => modal.closeModal()}
-        >
+        <AlertDialog open={isModalOpen} onOpenChange={() => modal.closeModal()}>
             <AlertDialogContent className="!max-w-xl max-h-[90vh] overflow-y-auto no-scrollbar">
                 <form onSubmit={handleSubmit}>
                     <AlertDialogHeader>
                         <AlertDialogTitle>
                             {modal.isOpen("edit")
                                 ? "Edit Laporan Mingguan"
-                                : "Tambah Laporan Mingguan"}
+                                : modal.isOpen("revision")
+                                  ? "Kirim Revisi Laporan"
+                                  : " Tambah Laporan Mingguan"}
                         </AlertDialogTitle>
                         <FieldDescription>
-                            Isi detail di bawah ini untuk membuatlaporan minggu ini.
+                            Isi detail di bawah ini untuk membuatlaporan minggu
+                            ini.
                         </FieldDescription>
                     </AlertDialogHeader>
 

@@ -33,4 +33,9 @@ class WeeklyReportPolicy
     {
         return $this->user->hasPermission("weekly-report:delete");
     }
+    
+    public function review()
+    {
+        return $this->user->hasPermission("weekly-report:review");
+    }
 }

@@ -71,5 +71,6 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('weekly-report:create', [WeeklyReportPolicy::class, "create"]);
         Gate::define('weekly-report:update', [WeeklyReportPolicy::class, "update"]);
         Gate::define('weekly-report:delete', [WeeklyReportPolicy::class, "delete"]);
+        Gate::define('weekly-report:review', [WeeklyReportPolicy::class, "review"]);
     }
 }

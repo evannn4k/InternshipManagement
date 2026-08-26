@@ -149,6 +149,9 @@ class DatabaseSeeder extends Seeder
             [
                 'name' => 'weekly-report:delete',
             ],
+            [
+                'name' => 'weekly-report:review',
+            ],
         ]);
 
         RoleHasPermission::insert([
