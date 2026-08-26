@@ -61,6 +61,7 @@ export default function WeeklyReportForm({ modal, defaultDates }) {
         e.preventDefault();
 
         if (modal.isOpen("edit")) {
+            console.log("berhasil edit")
             put("/weekly-report/" + modal.data.id, {
                 onSuccess: () => {
                     modal.closeModal();

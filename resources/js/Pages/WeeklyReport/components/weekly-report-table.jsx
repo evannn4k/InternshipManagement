@@ -39,8 +39,7 @@ export default function WeeklyReportTable({ weeklyReports, modal }) {
     const actions = [
         {
             enabled: (weeklyReport) =>
-                can("weekly-report:create") &&
-                weeklyReport.status === "draft",
+                can("weekly-report:create") && weeklyReport.status === "draft",
             label: "Kirim",
             icon: <Send />,
             onClick: (weeklyReport) =>
@@ -66,7 +65,7 @@ export default function WeeklyReportTable({ weeklyReports, modal }) {
                         <TableHead>Mulai</TableHead>
                         <TableHead>Selesai</TableHead>
                         <TableHead>Status</TableHead>
-                        <TableHead>Pada</TableHead>
+                        <TableHead>Disubmit Pada</TableHead>
                         <TableHead>Direview oleh</TableHead>
                         <TableHead className="text-right">Aksi</TableHead>
                     </TableRow>
@@ -75,7 +74,6 @@ export default function WeeklyReportTable({ weeklyReports, modal }) {
                     {weeklyReports?.length > 0 ? (
                         weeklyReports.map((weeklyReport, i) => (
                             <TableRow key={weeklyReport.id}>
-                                {console.log(weeklyReport)}
                                 <TableCell>{i + 1}.</TableCell>
                                 <TableCell>
                                     {weeklyReport.placement.intern.name ?? "-"}
@@ -87,7 +85,27 @@ export default function WeeklyReportTable({ weeklyReports, modal }) {
                                     {weeklyReport.week_end_date ?? "-"}
                                 </TableCell>
                                 <TableCell>
-                                    {weeklyReport.status ?? "-"}
+                                    <Badge
+                                        variant={
+                                            weeklyReport.status === "submitted"
+                                                ? "primary"
+                                                : weeklyReport.status ===
+                                                    "approved"
+                                                  ? "success"
+                                                  : weeklyReport.status ===
+                                                      "revision_requested"
+                                                    ? "destructive"
+                                                    : "outline"
+                                        }
+                                    >
+                                        {weeklyReport.status === "approved" ? (
+                                            <CircleCheck />
+                                        ) : weeklyReport.status ===
+                                          "revision_requested" ? (
+                                            <CircleX />
+                                        ) : null}
+                                        {weeklyReport.status}
+                                    </Badge>
                                 </TableCell>
                                 <TableCell>
                                     {weeklyReport.submitted_at ?? "-"}
@@ -138,8 +156,10 @@ export default function WeeklyReportTable({ weeklyReports, modal }) {
                                             </DropdownMenuGroup>
 
                                             {can("weekly-report:update") &&
-                                                weeklyReport.status !==
-                                                    "completed" && (
+                                                (weeklyReport.status ==
+                                                    "draft" ||
+                                                    weeklyReport.status ==
+                                                        "revision_requested") && (
                                                     <DropdownMenuItem
                                                         onClick={() =>
                                                             modal.openEdit(

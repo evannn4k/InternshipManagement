@@ -137,7 +137,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/', CreateWeeklyReportController::class)->name("create");
 
         Route::patch('/{weeklyReport}/submit', SubmitWeeklyReportController::class)->name("show");
-        // Route::get('/{weeklyReport}', [ViewWeeklyReportController::class, "show"])->name("show");
+        Route::get('/{weeklyReport}', [ViewWeeklyReportController::class, "show"])->name("show");
         Route::put('/{weeklyReport}', UpdateWeeklyReportController::class)->name("update");
         Route::delete('/{weeklyReport}', DeleteWeeklyReportController::class)->name("delete");
     });
