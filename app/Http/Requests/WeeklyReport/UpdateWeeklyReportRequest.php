@@ -4,6 +4,7 @@ namespace App\Http\Requests\WeeklyReport;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class UpdateWeeklyReportRequest extends FormRequest
 {
@@ -12,7 +13,7 @@ class UpdateWeeklyReportRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return Auth::check();
     }
 
     /**
@@ -23,7 +24,12 @@ class UpdateWeeklyReportRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'completed_work' => 'required|string',
+            'challenges' => 'nullable|string',
+            'solutions' => 'nullable|string',
+            'lessons_learned' => 'required|string',
+            'next_week_plan' => 'required|string',
+            'support_needed' => 'nullable|string',
         ];
     }
 }

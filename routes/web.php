@@ -42,7 +42,9 @@ use App\Http\Controllers\User\ResetPasswordUserController;
 use App\Http\Controllers\User\UpdateUserController;
 use App\Http\Controllers\User\ViewUserController;
 use App\Http\Controllers\WeeklyReport\CreateWeeklyReportController;
+use App\Http\Controllers\WeeklyReport\DeleteWeeklyReportController;
 use App\Http\Controllers\WeeklyReport\SubmitWeeklyReportController;
+use App\Http\Controllers\WeeklyReport\UpdateWeeklyReportController;
 use App\Http\Controllers\WeeklyReport\ViewWeeklyReportController;
 use Illuminate\Support\Facades\Route;
 
@@ -136,7 +138,7 @@ Route::middleware('auth')->group(function () {
 
         Route::patch('/{weeklyReport}/submit', SubmitWeeklyReportController::class)->name("show");
         // Route::get('/{weeklyReport}', [ViewWeeklyReportController::class, "show"])->name("show");
-        // Route::put('/{weeklyReport}', UpdateWeeklyReportController::class)->name("update");
-        // Route::delete('/{weeklyReport}', DeleteWeeklyReportController::class)->name("delete");
+        Route::put('/{weeklyReport}', UpdateWeeklyReportController::class)->name("update");
+        Route::delete('/{weeklyReport}', DeleteWeeklyReportController::class)->name("delete");
     });
 });

@@ -143,6 +143,12 @@ class DatabaseSeeder extends Seeder
             [
                 'name' => 'weekly-report:create',
             ],
+            [
+                'name' => 'weekly-report:update',
+            ],
+            [
+                'name' => 'weekly-report:delete',
+            ],
         ]);
 
         RoleHasPermission::insert([

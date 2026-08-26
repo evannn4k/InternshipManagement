@@ -11,6 +11,7 @@ import ListFilter from "@/components/app/ListFilter";
 import ListPagination from "@/components/app/ListPagination";
 import WeeklyReportTable from "./components/weekly-report-table";
 import WeeklyReportForm from "./components/weekly-report-form";
+import { DeleteAlert } from "@/components/delete-alert";
 
 export default function WeeklyReportIndex({ data, defaultDates }) {
     const { can } = useCan();
@@ -77,6 +78,14 @@ export default function WeeklyReportIndex({ data, defaultDates }) {
                     <WeeklyReportForm
                         modal={modal}
                         defaultDates={defaultDates}
+                    />
+                )}
+                {can("weekly-report:delete") && (
+                    <DeleteAlert
+                        form={modal}
+                        title="Hapus laporan mingguan"
+                        description="Ini akan menghapus laporan secara permanen"
+                        onDelete={handleDelete}
                     />
                 )}
                 <PageHeader
