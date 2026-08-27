@@ -164,6 +164,9 @@ class DatabaseSeeder extends Seeder
             [
                 'name' => 'document:delete',
             ],
+            [
+                'name' => 'document:review',
+            ],
         ]);
 
         RoleHasPermission::insert([

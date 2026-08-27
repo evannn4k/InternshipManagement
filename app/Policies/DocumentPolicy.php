@@ -33,4 +33,9 @@ class DocumentPolicy
     {
         return $this->user->hasPermission("document:delete");
     }
+    
+    public function review()
+    {
+        return $this->user->hasPermission("document:review");
+    }
 }

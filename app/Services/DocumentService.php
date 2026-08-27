@@ -21,6 +21,6 @@ class DocumentService
     
     public static function destroy($oldName)
     {
-        Storage::delete('document/'.$oldName);
+        Storage::delete($oldName);
     }
 }

@@ -11,8 +11,9 @@ import ListFilter from "@/components/app/ListFilter";
 import ListPagination from "@/components/app/ListPagination";
 import DocumentForm from "./components/document-form";
 import DocumentTable from "./components/document-table";
+import { DeleteAlert } from "@/components/delete-alert";
 
-export default function TaskIndex({ data, placements }) {
+export default function DocumentIndex({ data, placements }) {
     const { can } = useCan();
     const [search, setSearch] = useState("");
     const modal = useModal();
@@ -23,35 +24,35 @@ export default function TaskIndex({ data, placements }) {
     }));
 
     const handleDelete = () => {
-        router.delete("/task/" + modal.data);
+        router.delete("/document/" + modal.data);
         modal.closeModal();
     };
 
     const handleSearch = (e) => {
         e.preventDefault();
-        router.get("/task/", { search: search }, { preserveState: true });
+        router.get("/document/", { search: search }, { preserveState: true });
     };
 
     const handleFilter = (filter, key = null) => {
         router.get(
-            "/task/",
+            "/document/",
             { filter: filter, key: key },
             { preserveState: true },
         );
     };
 
-    // const handleChangeStatus = (id, status) => {
-    //     router.patch(
-    //         "/task/" + id + "/change-status",
-    //         { status: status },
-    //         {
-    //             onError: (e) => {
-    //                 console.log(e);
-    //                 toast.error("Gagal mengubah status tugas.");
-    //             },
-    //         },
-    //     );
-    // };
+    const handleChangeStatus = (id, status) => {
+        router.patch(
+            "/document/" + id + "/change-status",
+            { status: status },
+            {
+                onError: (e) => {
+                    console.log(e);
+                    toast.error("Gagal mengubah status tugas.");
+                },
+            },
+        );
+    };
 
     const filterStatus = [
         {
@@ -59,32 +60,16 @@ export default function TaskIndex({ data, placements }) {
             value: "",
         },
         {
+            label: "Pending",
+            value: "draft",
+        },
+        {
             label: "Draft",
             value: "draft",
         },
         {
-            label: "Assigned",
-            value: "assigned",
-        },
-        {
-            label: "In Progress",
-            value: "in_progress",
-        },
-        {
-            label: "Submitted",
-            value: "submitted",
-        },
-        {
-            label: "Revision Requested",
-            value: "revision_requested",
-        },
-        {
-            label: "Completed",
-            value: "completed",
-        },
-        {
-            label: "Cancelled",
-            value: "cancelled",
+            label: "Draft",
+            value: "draft",
         },
     ];
     
@@ -98,14 +83,14 @@ export default function TaskIndex({ data, placements }) {
                 {(can("document:create") || can("document:update")) && (
                     <DocumentForm modal={modal} placements={placements} />
                 )}
-                {/* {can("task:delete") && (
+                {can("document:delete") && (
                     <DeleteAlert
                         form={modal}
-                        title="Hapus data tugas"
-                        description="Ini akan menghapus data tugas secara permanen"
+                        title="Hapus dokumen"
+                        description="Ini akan menghapus dokumen secara permanen"
                         onDelete={handleDelete}
                     />
-                )} */}
+                )}
                 <PageHeader
                     title="Dokumen"
                     description="Mengelola data dokumen"
@@ -124,7 +109,7 @@ export default function TaskIndex({ data, placements }) {
                                 options={filterStatus}
                                 keyFilter="status"
                             />
-                            {can("task:create") && (
+                            {can("document:create") && (
                                 <Button onClick={() => modal.openCreate()}>
                                     <Plus /> Tambah
                                 </Button>

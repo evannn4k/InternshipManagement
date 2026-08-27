@@ -78,5 +78,6 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('document:create', [DocumentPolicy::class, "create"]);
         Gate::define('document:update', [DocumentPolicy::class, "update"]);
         Gate::define('document:delete', [DocumentPolicy::class, "delete"]);
+        Gate::define('document:review', [DocumentPolicy::class, "review"]);
     }
 }

@@ -4,26 +4,35 @@ namespace App\Http\Controllers\Document;
 
 use App\Http\Controllers\Controller;
 use App\Models\Document;
-use App\Services\DocumentService;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 
-class DeleteDocumentController extends Controller
+class RejectDocumentController extends Controller
 {
     public function __invoke(Document $document)
     {
-        Gate::authorize('document:delete');
+        Gate::authorize('document:review');
+        $credentials = $request->validated();
 
         try {
-            DocumentService::destroy($document->file_path);
+            if ($document->status !== 'submitted') {
+                return redirect()
+                    ->back()
+                    ->with(
+                        'error',
+                        'Tugas tidak valid.',
+                    );
+            }
 
-            $document->delete();
+            $credentials['reviewed_at'] = now();
+
+            $document->update($credentials);
 
             return redirect()
                 ->back()
                 ->with(
                     'success',
-                    'Berhasil menghapus dokumen.',
+                    'Berhasil meminta menolak dokumen.',
                 );
         } catch (\Exception $e) {
             Log::error('Error : '.$e->getMessage());
