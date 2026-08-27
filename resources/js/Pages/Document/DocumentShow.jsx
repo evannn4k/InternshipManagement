@@ -13,10 +13,16 @@ import {
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, CircleCheck, Download, FileCheck, FileX } from "lucide-react";
+import {
+    ArrowLeft,
+    CircleCheck,
+    Download,
+    FileCheck,
+    FileX,
+} from "lucide-react";
 import { useCan } from "@/hooks/use-can";
 import { useModal } from "@/hooks/use-modal";
-import ReviewForm from "./components/review-form";
+import DocumentReviewForm from "./components/document-review-form";
 
 export default function DocumentShow({ document }) {
     const { can } = useCan();
@@ -37,11 +43,9 @@ export default function DocumentShow({ document }) {
                 <meta name="description" content="Mengelola data dokumen" />
             </Head>
             <Layout header="Dokumen">
-                {can("document:review") &&
-                    (document.status === "pending" ||
-                        document.status === "rejected") && (
-                        <ReviewForm modal={modal} />
-                    )}
+                {can("document:review") && document.status === "pending" && (
+                    <DocumentReviewForm modal={modal} />
+                )}
                 <PageHeader
                     title={document.title ?? "-"}
                     titleAddOn={
@@ -78,14 +82,14 @@ export default function DocumentShow({ document }) {
                                 <Button
                                     variant="destructive"
                                     onClick={() =>
-                                        modal.openModal("rejected", document)
+                                        modal.openModal("reject", document)
                                     }
                                 >
                                     <FileX /> Tolak
                                 </Button>
                                 <Button
                                     onClick={() =>
-                                        modal.openModal("accepted", document)
+                                        modal.openModal("accept", document)
                                     }
                                 >
                                     <FileCheck /> Terima
@@ -114,7 +118,9 @@ export default function DocumentShow({ document }) {
                                 </CardHeader>
                                 <CardContent className="text-sm text-muted-foreground grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div className="flex flex-col gap-1">
-                                        <CardDescription>Pemilik Dokumen</CardDescription>
+                                        <CardDescription>
+                                            Pemilik Dokumen
+                                        </CardDescription>
                                         <CardTitle className="text-neutral-700">
                                             {document.placement?.intern?.name ??
                                                 "-"}
@@ -144,7 +150,8 @@ export default function DocumentShow({ document }) {
                                             variant={
                                                 document.status === "accepted"
                                                     ? "success"
-                                                    : document.status === "rejected"
+                                                    : document.status ===
+                                                        "rejected"
                                                       ? "destructive"
                                                       : "outline"
                                             }
@@ -259,7 +266,9 @@ export default function DocumentShow({ document }) {
                                         </CardDescription>
                                         <CardTitle className="text-neutral-700">
                                             {document.reviewed_at
-                                                ? formatDate(document.reviewed_at)
+                                                ? formatDate(
+                                                      document.reviewed_at,
+                                                  )
                                                 : "-"}
                                         </CardTitle>
                                     </div>

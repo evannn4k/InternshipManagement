@@ -20,11 +20,17 @@ class UpdateWeeklyReportController extends Controller
         $credentials = $request->validated();
 
         try {
-            if ($weeklyReport->status !== 'submitted' || $weeklyReport->status !== 'revision_requested') {
-
-                $credentials['status'] = 'submitted';
+            if($weeklyReport->status !== "submitted" || $weeklyReport->status!== "revision_requested") {
+                return redirect()
+                ->back()
+                ->with(
+                    'error',
+                    'Laporan tidak valid.',
+                );
             }
-            $weeklyReport->update($credentials);
+
+            $credentials['status'] = 'submitted';
+            $weeklyReport->update($credentials);    
 
             return redirect()
                 ->back()

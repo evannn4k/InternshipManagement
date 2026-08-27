@@ -3,30 +3,34 @@
 namespace App\Http\Controllers\Document;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Document\RejectDocumentRequest;
 use App\Models\Document;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 
 class RejectDocumentController extends Controller
 {
-    public function __invoke(Document $document)
+    public function __invoke(RejectDocumentRequest $request, Document $document)
     {
         Gate::authorize('document:review');
         $credentials = $request->validated();
 
         try {
-            if ($document->status !== 'submitted') {
-                return redirect()
+            if ($document->status !== 'pending') {
+                return redirect()       
                     ->back()
                     ->with(
                         'error',
-                        'Tugas tidak valid.',
+                        'Dokumen tidak valid.',
                     );
             }
 
+            $credentials['reviewed_by'] = Auth::user()->id;
             $credentials['reviewed_at'] = now();
+            $credentials['status'] = "rejected";
 
-            $document->update($credentials);
+            $document->update($credentials);    
 
             return redirect()
                 ->back()

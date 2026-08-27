@@ -20,60 +20,31 @@ import { Link, router } from "@inertiajs/react";
 import { Badge } from "@/components/ui/badge";
 import { useCan } from "@/hooks/use-can";
 import {
-    CircleCheck,
-    CirclePlay,
-    CircleX,
     EllipsisVertical,
     Eye,
     FileText,
     PackageOpen,
-    Send,
     SquarePen,
     Trash2,
-    UserRoundArrowLeft,
 } from "lucide-react";
 
-export default function DocumentTable({ documents, modal }) {
+export default function DocumentTable({
+    documents,
+    modal,
+}) {
     const { can } = useCan();
 
-    // const actions = [
-    //     {
-    //         enabled: (document) =>
-    //             can("document:review") && document.status === "submitted",
-    //         label: "Tinjau",
-    //         icon: <Eye />,
-    //         onClick: (document) => router.get(`/document/${document.id}`),
-    //     },
-    //     {
-    //         enabled: (document) => can("document:update") && document.status === "draft",
-    //         label: "Tetapkan",
-    //         icon: <UserRoundArrowLeft />,
-    //         onClick: (document) => handleChangeStatus(document.id, "assigned"),
-    //     },
-    //     {
-    //         enabled: (document) => can("document:update") && document.status === "assigned",
-    //         label: "Mulai",
-    //         icon: <CirclePlay />,
-    //         onClick: (document) => handleChangeStatus(document.id, "in_progress"),
-    //     },
-    //     {
-    //         enabled: (document) =>
-    //             can("document:update") &&
-    //             (document.status === "assigned" || document.status === "in_progress"),
-    //         label: "Batalkan",
-    //         icon: <CircleX />,
-    //         onClick: (document) => handleChangeStatus(document.id, "cancelled"),
-    //     },
-    //     {
-    //         enabled: (document) =>
-    //             can("document:submit") &&
-    //             (document.status === "in_progress" ||
-    //                 document.status === "revision_requested"),
-    //         label: "Kumpulkan",
-    //         icon: <Send />,
-    //         onClick: (document) => modal.openModal("submit", document),
-    //     },
-    // ];
+    const actions = [
+        {
+            enabled: (document) =>
+                can("document:review") &&
+                document.status === "pending",
+            label: "Tinjau",
+            icon: <Eye />,
+            onClick: (document) =>
+                router.get(`/document/${document.id}`),
+        },
+    ];
 
     return (
         <div className="overflow-hidden rounded-lg border">
@@ -138,7 +109,7 @@ export default function DocumentTable({ documents, modal }) {
                                             }
                                         />
                                         <DropdownMenuContent align="end">
-                                            {/* <DropdownMenuGroup>
+                                            <DropdownMenuGroup>
                                                 <DropdownMenuLabel>
                                                     Action
                                                 </DropdownMenuLabel>
@@ -160,7 +131,7 @@ export default function DocumentTable({ documents, modal }) {
                                                     ) : null;
                                                 })}
                                                 <DropdownMenuSeparator />
-                                            </DropdownMenuGroup> */}
+                                            </DropdownMenuGroup>
 
                                             {can("document:update") &&
                                                 document.status !==

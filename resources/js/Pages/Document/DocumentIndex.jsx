@@ -41,19 +41,6 @@ export default function DocumentIndex({ data, placements }) {
         );
     };
 
-    const handleChangeStatus = (id, status) => {
-        router.patch(
-            "/document/" + id + "/change-status",
-            { status: status },
-            {
-                onError: (e) => {
-                    console.log(e);
-                    toast.error("Gagal mengubah status tugas.");
-                },
-            },
-        );
-    };
-
     const filterStatus = [
         {
             label: "Semua",
@@ -120,7 +107,6 @@ export default function DocumentIndex({ data, placements }) {
                 <DocumentTable
                     documents={data.data}
                     modal={modal}
-                    // handleChangeStatus={handleChangeStatus}
                 />
                 <ListPagination data={data} />
             </Layout>

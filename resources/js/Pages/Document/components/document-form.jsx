@@ -131,11 +131,11 @@ export default function DocumentForm({ modal, placements }) {
                 <form onSubmit={handleSubmit}>
                     <AlertDialogHeader>
                         <AlertDialogTitle>
-                            {isEdit ? "Edit Data Tugas" : "Tambah Data Tugas"}
+                            {isEdit ? "Edit Dokumen" : "Tambah Dokumen"}
                         </AlertDialogTitle>
                         <FieldDescription>
                             Isi detail di bawah ini untuk menambahkan atau
-                            memperbarui tugas.
+                            memperbarui dokumen.
                         </FieldDescription>
                     </AlertDialogHeader>
 
