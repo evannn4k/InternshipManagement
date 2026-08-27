@@ -31,7 +31,7 @@ import { useEffect } from "react";
 import { usePage } from "@inertiajs/react";
 import { toast } from "sonner";
 
-export default function UserShow({ user, roles }) {
+export default function UserShow({ user, roles, schools }) {
     const modal = useModal();
     const { can } = useCan();
 
@@ -49,7 +49,7 @@ export default function UserShow({ user, roles }) {
     return (
         <Layout header="Alex Pratama">
             <ResetPassword form={modal} />
-            <UserForm form={modal} roles={roles} />
+            <UserForm form={modal} roles={roles} schools={schools} />
             <div className="flex flex-col gap-6 typeset typeset-docs">
                 {/* Header Section */}
                 <div className="w-full flex justify-between items-start md:items-end flex-col md:flex-row gap-6">

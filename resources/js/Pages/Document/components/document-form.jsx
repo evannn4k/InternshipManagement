@@ -14,8 +14,11 @@ import FormField from "../../../components/app/FormField";
 import { useEffect } from "react";
 import { Save } from "lucide-react";
 import { Spinner } from "@/components/ui/spinner";
+import { useCan } from "@/hooks/use-can";
 
 export default function DocumentForm({ modal, placements }) {
+    const { can } = useCan();
+
     const { data, setData, post, put, processing, errors, clearErrors, reset } =
         useForm({
             placement_id: "",
@@ -71,6 +74,10 @@ export default function DocumentForm({ modal, placements }) {
         });
     };
 
+    const options = can("document:review")
+        ? [{ value: "", label: "Pilih peserta" }, ...placements]
+        : placements;
+
     const fields = [
         {
             label: "Masukan peserta magang",
@@ -78,11 +85,12 @@ export default function DocumentForm({ modal, placements }) {
             error: errors.placement_id,
             value: data.placement_id,
             type: "select",
-            options: [{ value: "", label: "Pilih peserta" }, ...placements],
+            options: options,
             onChange: handleChange,
             required: true,
             hidden: isEdit,
             col: 2,
+            disabled: !can("document:review"),
         },
         {
             label: "Judul Dokumen",

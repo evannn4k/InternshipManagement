@@ -18,10 +18,24 @@ class CreateDocumentController extends Controller
         $credentials = $request->validated();
 
         try {
+            $user = Auth::user();
+            if ($user->role->name === 'intern') {
+                $credentials['placement_id'] = $user->placementAsIntern->where('status', 'active')->first()->id;
+            }
+
+            if ($user->role->name === 'mentor' && ! in_array($credentials['placement_id'], $user->placementAsMentor->where('status', 'active')->pluck('id')->all())) {
+                return redirect()
+                    ->back()
+                    ->with(
+                        'error',
+                        'Penempatan tidak valid.',
+                    );
+            }
+
             $file = $request->file('file');
 
             $pathname = DocumentService::save($file);
-            $credentials['file_path'] = "document/". $pathname;
+            $credentials['file_path'] = 'document/'.$pathname;
             $credentials['mime_type'] = $file->getClientMimeType();
             $credentials['original_filename'] = $file->getClientOriginalName();
             $credentials['file_size'] = $file->getSize();

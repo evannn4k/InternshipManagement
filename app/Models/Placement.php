@@ -8,6 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 #[Guarded([])]
 class Placement extends Model
 {
+    public function scopeHasRole($query, User $user)
+    {
+        if ($user->role->name === 'intern') {
+            return $query->where('intern_id', $user->id)->where("status", "active");
+        } elseif ($user->role->name === 'mentor') {
+            return $query->where('mentor_id', $user->id)->where("status", "active");
+        }
+
+        return $query;
+    }
+    
     public function program()
     {
         return $this->belongsTo(Program::class, 'program_id');

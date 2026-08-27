@@ -28,15 +28,16 @@ class ViewUserController extends Controller
 
         $roles = Role::all();
         $schools = School::query()->where("is_active", true)->get();
-
+        
         return Inertia::render("User/UserIndex", compact("data", "roles", "schools"));
     }
-
+    
     public function show(User $user)
     {
         Gate::authorize('user:read');
         $roles = Role::all();
+        $schools = School::query()->where("is_active", true)->get();
 
-        return Inertia::render("User/UserShow", compact("user", "roles"));
+        return Inertia::render("User/UserShow", compact("user", "roles", "schools"));
     }
 }

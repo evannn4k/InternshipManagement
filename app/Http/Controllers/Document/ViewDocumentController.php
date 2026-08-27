@@ -35,7 +35,7 @@ class ViewDocumentController extends Controller
             return $query->where($key, $filter);
         })->orderByDesc('created_at')->paginate(10)->withQueryString();
 
-        $placements = Placement::with(['intern:id,name', 'program:id,name'])->select('id', 'intern_id', 'mentor_id', 'program_id', 'status')->where('status', 'active')->get();
+        $placements = Placement::hasRole(Auth::user())->with(['intern:id,name', 'program:id,name'])->select('id', 'intern_id', 'mentor_id', 'program_id', 'status')->where('status', 'active')->get();
 
         return Inertia::render('Document/DocumentIndex', compact('data', 'placements'));
     }

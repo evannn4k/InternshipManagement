@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests\Document;
 
-use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Validator;
 
 class CreateDocumentRequest extends FormRequest
 {
@@ -24,11 +24,25 @@ class CreateDocumentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'placement_id' => 'required|integer|exists:placements,id',
+            'placement_id' => 'nullable|integer|exists:placements,id',
             'title' => 'required|string|max:255',
             'category' => 'required|string|max:255',
             'file' => 'required|file|max:5120|mimes:pdf,jepg,jpg,png,webp,jfif,docx',
             'description' => 'nullable|max:5120',
+        ];
+    }
+
+    public function after()
+    {
+        return [
+            function (Validator $validator) {
+                if (Auth::user()->role->name === "intern") {
+                    return;
+                }
+                if (!$this->placement_id) {
+                    $validator->errors()->add('placement_id', 'Penempatan wajib diisi.');
+                }
+            },
         ];
     }
 }
