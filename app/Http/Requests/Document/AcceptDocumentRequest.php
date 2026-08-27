@@ -4,6 +4,7 @@ namespace App\Http\Requests\Document;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class AcceptDocumentRequest extends FormRequest
 {
@@ -12,7 +13,7 @@ class AcceptDocumentRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return Auth::check();
     }
 
     /**
@@ -23,7 +24,7 @@ class AcceptDocumentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            "review_notes" => "nullable|string"
         ];
     }
 }
