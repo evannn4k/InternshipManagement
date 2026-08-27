@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { Field, FieldError, FieldLabel } from "../ui/field";
+import { Field, FieldDescription, FieldError, FieldLabel } from "../ui/field";
 import { Input } from "../ui/input";
 import { NativeSelect, NativeSelectOption } from "../ui/native-select";
 import { Textarea } from "../ui/textarea";
@@ -8,6 +8,7 @@ export default function FormField({
     label,
     name,
     type = "text",
+    description,
     value,
     onChange,
     error,
@@ -29,6 +30,7 @@ export default function FormField({
             case "datetime-local":
             case "password":
             case "email":
+            case "file":
             case "date":
                 return (
                     <Input
@@ -96,7 +98,14 @@ export default function FormField({
                 {required && <span className="text-destructive">*</span>}
             </FieldLabel>
             {renderInput()}
-            {error && <FieldError>{error}</FieldError>}
+
+            {error ? (
+                <FieldError>{error}</FieldError>
+            ) : (
+                description && (
+                    <FieldDescription>{description}</FieldDescription>
+                )
+            )}
         </Field>
     );
 }

@@ -37,6 +37,7 @@ import {
     ScrollText,
     Summary,
     BookText,
+    FileText,
 } from "lucide-react";
 import { useCan } from "@/hooks/use-can";
 
@@ -86,8 +87,7 @@ export function AppSidebar({ ...props }) {
                                     <SidebarMenuButton
                                         render={
                                             <Link href="/user">
-                                                <User className="size-4" />{" "}
-                                                User
+                                                <User className="size-4" /> User
                                             </Link>
                                         }
                                     />
@@ -157,6 +157,16 @@ export function AppSidebar({ ...props }) {
                                             <Link href="/weekly-report">
                                                 <BookText className="size-4" />
                                                 Laporan Mingguan
+                                            </Link>
+                                        }
+                                    />
+                                )}
+                                {can("document:read") && (
+                                    <SidebarMenuButton
+                                        render={
+                                            <Link href="/document">
+                                                <FileText className="size-4" />
+                                                Dokumen
                                             </Link>
                                         }
                                     />

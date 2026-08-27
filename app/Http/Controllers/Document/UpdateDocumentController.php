@@ -1,0 +1,17 @@
+<?php
+
+namespace App\Http\Controllers\Document;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+
+class UpdateDocumentController extends Controller
+{
+    /**
+     * Handle the incoming request.
+     */
+    public function __invoke(Request $request)
+    {
+        //
+    }
+}

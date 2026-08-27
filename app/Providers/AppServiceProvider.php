@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Policies\AttendancePolicy;
+use App\Policies\DocumentPolicy;
 use App\Policies\PlacementPolicy;
 use App\Policies\ProgramPolicy;
 use App\Policies\SchoolPolicy;
@@ -72,5 +73,10 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('weekly-report:update', [WeeklyReportPolicy::class, "update"]);
         Gate::define('weekly-report:delete', [WeeklyReportPolicy::class, "delete"]);
         Gate::define('weekly-report:review', [WeeklyReportPolicy::class, "review"]);
+        
+        Gate::define('document:read', [DocumentPolicy::class, "read"]);
+        Gate::define('document:create', [DocumentPolicy::class, "create"]);
+        Gate::define('document:update', [DocumentPolicy::class, "update"]);
+        Gate::define('document:delete', [DocumentPolicy::class, "delete"]);
     }
 }
