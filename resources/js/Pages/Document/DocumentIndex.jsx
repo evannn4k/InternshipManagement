@@ -9,8 +9,8 @@ import { useModal } from "@/hooks/use-modal";
 import ListSearch from "@/components/app/ListSearch";
 import ListFilter from "@/components/app/ListFilter";
 import ListPagination from "@/components/app/ListPagination";
-import { toast } from "sonner";
 import DocumentForm from "./components/document-form";
+import DocumentTable from "./components/document-table";
 
 export default function TaskIndex({ data, placements }) {
     const { can } = useCan();
@@ -40,18 +40,18 @@ export default function TaskIndex({ data, placements }) {
         );
     };
 
-    const handleChangeStatus = (id, status) => {
-        router.patch(
-            "/task/" + id + "/change-status",
-            { status: status },
-            {
-                onError: (e) => {
-                    console.log(e);
-                    toast.error("Gagal mengubah status tugas.");
-                },
-            },
-        );
-    };
+    // const handleChangeStatus = (id, status) => {
+    //     router.patch(
+    //         "/task/" + id + "/change-status",
+    //         { status: status },
+    //         {
+    //             onError: (e) => {
+    //                 console.log(e);
+    //                 toast.error("Gagal mengubah status tugas.");
+    //             },
+    //         },
+    //     );
+    // };
 
     const filterStatus = [
         {
@@ -132,11 +132,11 @@ export default function TaskIndex({ data, placements }) {
                         </div>
                     }
                 />
-                {/* <TaskTable
-                    tasks={data.data}
+                <DocumentTable
+                    documents={data.data}
                     modal={modal}
-                    handleChangeStatus={handleChangeStatus}
-                /> */}
+                    // handleChangeStatus={handleChangeStatus}
+                />
                 <ListPagination data={data} />
             </Layout>
         </>

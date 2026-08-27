@@ -25,8 +25,6 @@ export default function DocumentForm({ modal, placements }) {
             description: "",
         });
 
-    console.log(errors);
-
     const isEdit = modal.isOpen("edit");
 
     const isOpenModal = isEdit || modal.isOpen("create");

@@ -37,4 +37,9 @@ class Placement extends Model
     {
         return $this->hasMany(WeeklyReport::class);
     }
+
+    public function document()
+    {
+        return $this->hasMany(Document::class);
+    }
 }

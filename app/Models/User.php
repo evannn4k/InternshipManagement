@@ -92,4 +92,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(WeeklyReport::class);
     }
+
+    public function uploadedDocuments()
+    {
+        return $this->hasMany(Document::class);
+    }
 }

@@ -22,4 +22,14 @@ class Document extends Model
 
         return $query;
     }
+
+    public function uploadedBy()
+    {
+        return $this->belongsTo(User::class, 'uploaded_by');
+    }
+    
+    public function placement()
+    {
+        return $this->belongsTo(Placement::class, 'placement_id');
+    }
 }

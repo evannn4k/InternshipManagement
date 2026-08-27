@@ -29,14 +29,13 @@ class ViewDocumentController extends Controller
             $filter = '';
         }
 
-        $data = Document::hasRole(Auth::user())->when($search, function ($query, $search) {
+        $data = Document::hasRole(Auth::user())->with(['uploadedBy:id,name', 'placement:id,intern_id', 'placement.intern:id,name'])->when($search, function ($query, $search) {
             return $query->where('name', 'like', "%$search%");
         })->when($filter, function ($query) use ($key, $filter) {
             return $query->where($key, $filter);
         })->orderByDesc('created_at')->paginate(10)->withQueryString();
 
-        $placements = Placement::with(['intern:id,name', 'program:id,name'])->select('id', 'intern_id', 'mentor_id', 'program_id', 'status')->where("status", "active")->get();
-
+        $placements = Placement::with(['intern:id,name', 'program:id,name'])->select('id', 'intern_id', 'mentor_id', 'program_id', 'status')->where('status', 'active')->get();
 
         return Inertia::render('Document/DocumentIndex', compact('data', 'placements'));
     }
