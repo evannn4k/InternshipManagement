@@ -48,15 +48,15 @@ export default function DocumentIndex({ data, placements }) {
         },
         {
             label: "Pending",
-            value: "draft",
+            value: "pending",
         },
         {
-            label: "Draft",
-            value: "draft",
+            label: "Accepted",
+            value: "accepted",
         },
         {
-            label: "Draft",
-            value: "draft",
+            label: "Rejected",
+            value: "rejected",
         },
     ];
     

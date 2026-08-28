@@ -4,6 +4,7 @@ namespace App\Http\Requests\Document;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class UpdateDocumentRequest extends FormRequest
 {
@@ -12,7 +13,7 @@ class UpdateDocumentRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return Auth::check();
     }
 
     /**
@@ -23,7 +24,10 @@ class UpdateDocumentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'title' => 'required|string|max:255',
+            'category' => 'required|string|max:255',
+            'file' => 'nullable|file|max:5120|mimes:pdf,jepg,jpg,png,webp,jfif,docx',
+            'description' => 'nullable|max:5120',
         ];
     }
 }

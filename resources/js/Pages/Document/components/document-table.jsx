@@ -81,8 +81,8 @@ export default function DocumentTable({
                                             document.status === "rejected"
                                                 ? "destructive"
                                                 : document.status === "accepted"
-                                                  ? "success"
-                                                  : "outline"
+                                                    ? "success"
+                                                    : "outline"
                                         }
                                     >
                                         {document.status}
@@ -134,8 +134,8 @@ export default function DocumentTable({
                                             </DropdownMenuGroup>
 
                                             {can("document:update") &&
-                                                document.status !==
-                                                    "completed" && (
+                                                document.status ===
+                                                "pending" && (
                                                     <DropdownMenuItem
                                                         onClick={() =>
                                                             modal.openEdit(

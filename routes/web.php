@@ -15,6 +15,7 @@ use App\Http\Controllers\Document\AcceptDocumentController;
 use App\Http\Controllers\Document\CreateDocumentController;
 use App\Http\Controllers\Document\DeleteDocumentController;
 use App\Http\Controllers\Document\RejectDocumentController;
+use App\Http\Controllers\Document\UpdateDocumentController;
 use App\Http\Controllers\Document\ViewDocumentController;
 use App\Http\Controllers\Placement\CompletePlacementController;
 use App\Http\Controllers\Placement\CreatePlacementController;
@@ -156,8 +157,9 @@ Route::middleware('auth')->group(function () {
         Route::post('/', CreateDocumentController::class)->name('create');
 
         Route::get('/{document}', [ViewDocumentController::class, "show"])->name("show");
-        Route::put('/{document}/accept', AcceptDocumentController::class)->name("update");
-        Route::put('/{document}/reject', RejectDocumentController::class)->name("update");
+        Route::put('/{document}', UpdateDocumentController::class)->name("update");
+        Route::put('/{document}/accept', AcceptDocumentController::class)->name("accept");
+        Route::put('/{document}/reject', RejectDocumentController::class)->name("reject");
         Route::delete('/{document}', DeleteDocumentController::class)->name("delete");
     });
 });
