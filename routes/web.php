@@ -17,6 +17,11 @@ use App\Http\Controllers\Document\DeleteDocumentController;
 use App\Http\Controllers\Document\RejectDocumentController;
 use App\Http\Controllers\Document\UpdateDocumentController;
 use App\Http\Controllers\Document\ViewDocumentController;
+use App\Http\Controllers\Evaluation\CreateEvaluationController;
+use App\Http\Controllers\Evaluation\DeleteEvaluationController;
+use App\Http\Controllers\Evaluation\UpdateEvaluationController;
+use App\Http\Controllers\Evaluation\ViewEvaluationController;
+use App\Http\Controllers\Notification\FcmController;
 use App\Http\Controllers\Placement\CompletePlacementController;
 use App\Http\Controllers\Placement\CreatePlacementController;
 use App\Http\Controllers\Placement\DeletePlacementController;
@@ -68,6 +73,7 @@ Route::middleware('guest')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::post('/logout', LogoutController::class);
+    Route::post('/fcm-token', FcmController::class)->name("fcm.token");
 
     Route::get('/dashboard', DashboardController::class);
 
@@ -162,4 +168,14 @@ Route::middleware('auth')->group(function () {
         Route::put('/{document}/reject', RejectDocumentController::class)->name("reject");
         Route::delete('/{document}', DeleteDocumentController::class)->name("delete");
     });
+
+    Route::prefix('/evaluation')->name('evaluation.')->group(function () {
+        Route::get('/', [ViewEvaluationController::class, 'index'])->name('index');
+        Route::post('/', CreateEvaluationController::class)->name('create');
+
+        Route::get('/{evaluation}', [ViewEvaluationController::class, 'show'])->name('show');
+        Route::put('/{evaluation}', UpdateEvaluationController::class)->name('update');
+        Route::delete('/{evaluation}', DeleteEvaluationController::class)->name('delete');
+    });
 });
+    

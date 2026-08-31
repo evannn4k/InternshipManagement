@@ -167,6 +167,18 @@ class DatabaseSeeder extends Seeder
             [
                 'name' => 'document:review',
             ],
+            [
+                'name' => 'evaluation:read',
+            ],
+            [
+                'name' => 'evaluation:create',
+            ],
+            [
+                'name' => 'evaluation:update',
+            ],
+            [
+                'name' => 'evaluation:delete',
+            ],
         ]);
 
         RoleHasPermission::insert([

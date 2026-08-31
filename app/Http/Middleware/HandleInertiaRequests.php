@@ -46,6 +46,7 @@ class HandleInertiaRequests extends Middleware
                 "phone" => $request->user()->phont ?? "",
                 "avatar" => $request->user()->avatar ?? "",
                 "role" => $request->user()->role->name ?? "",
+                "fcm_token" => $request->user()->fcm_token ?? "",
                 "permission" => $request->user() ? $request->user()->getAllPermission() : ""
             ]
         ]);

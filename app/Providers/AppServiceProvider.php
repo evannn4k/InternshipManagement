@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Policies\AttendancePolicy;
 use App\Policies\DocumentPolicy;
+use App\Policies\EvaluationPolicy;
 use App\Policies\PlacementPolicy;
 use App\Policies\ProgramPolicy;
 use App\Policies\SchoolPolicy;
@@ -79,5 +80,10 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('document:update', [DocumentPolicy::class, "update"]);
         Gate::define('document:delete', [DocumentPolicy::class, "delete"]);
         Gate::define('document:review', [DocumentPolicy::class, "review"]);
+
+        Gate::define('evaluation:read', [EvaluationPolicy::class, "read"]);
+        Gate::define('evaluation:create', [EvaluationPolicy::class, "create"]);
+        Gate::define('evaluation:update', [EvaluationPolicy::class, "update"]);
+        Gate::define('evaluation:delete', [EvaluationPolicy::class, "delete"]);
     }
 }

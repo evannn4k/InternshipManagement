@@ -38,6 +38,7 @@ import {
     Summary,
     BookText,
     FileText,
+    ChartCandlestick,
 } from "lucide-react";
 import { useCan } from "@/hooks/use-can";
 
@@ -167,6 +168,16 @@ export function AppSidebar({ ...props }) {
                                             <Link href="/document">
                                                 <FileText className="size-4" />
                                                 Dokumen
+                                            </Link>
+                                        }
+                                    />
+                                )}
+                                {can("evaluation:read") && (
+                                    <SidebarMenuButton
+                                        render={
+                                            <Link href="/evaluation">
+                                                <ChartCandlestick className="size-4" />
+                                                Evaluasi
                                             </Link>
                                         }
                                     />

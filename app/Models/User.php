@@ -20,6 +20,7 @@ use Illuminate\Notifications\Notifiable;
         'password',
         'phone',
         'avatar',
+        // 'fcm_token',
         'is_active',
         'last_login_at',
     ]),
@@ -96,5 +97,15 @@ class User extends Authenticatable
     public function uploadedDocuments()
     {
         return $this->hasMany(Document::class);
+    }
+
+    // public function routeNotificationForFcm()
+    // {
+    //     return $this->fcm_token;
+    // }
+
+    public function evaluator()
+    {
+        return $this->hasMany(Evaluation::class);
     }
 }

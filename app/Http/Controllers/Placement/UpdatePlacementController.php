@@ -30,20 +30,6 @@ class UpdatePlacementController extends Controller
                     );
             }
 
-            $intern = User::with('placementAsIntern')->where('id', $placement->intern_id)->first();
-            if ($intern->placementAsIntern->count() > 0 && $credentials["status"] == 'active') {
-                foreach ($intern->placementAsIntern as $placement) {
-                    if ($placement->status === 'active') {
-                        return redirect()
-                            ->back()
-                            ->with(
-                                "error",
-                                "Gagal, peserta magang memiliki penempatan aktif.",
-                            );
-                    }
-                }
-            }
-
             $placement->update($credentials);
 
             return redirect()

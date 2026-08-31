@@ -18,7 +18,7 @@ class Placement extends Model
 
         return $query;
     }
-    
+
     public function program()
     {
         return $this->belongsTo(Program::class, 'program_id');
@@ -52,5 +52,10 @@ class Placement extends Model
     public function document()
     {
         return $this->hasMany(Document::class);
+    }
+
+    public function evaluation()
+    {
+        return $this->hasMany(Evaluation::class);
     }
 }

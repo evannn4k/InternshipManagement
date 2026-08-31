@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->string('avatar')->nullable();
             $table->boolean('is_active')->default(false);
+            $table->string('fcm_token')->nullable();
             $table->timestamp('last_login_at')->nullable();
             $table->rememberToken();
             $table->softDeletes();
