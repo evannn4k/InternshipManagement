@@ -16,35 +16,19 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Link, router } from "@inertiajs/react";
-import { Badge } from "@/components/ui/badge";
+import { Link } from "@inertiajs/react";
 import { useCan } from "@/hooks/use-can";
 import {
     EllipsisVertical,
-    Eye,
     FileText,
     PackageOpen,
     SquarePen,
     Trash2,
 } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 
-export default function DocumentTable({
-    documents,
-    modal,
-}) {
+export default function EvaluationTable({ evaluations, modal }) {
     const { can } = useCan();
-
-    const actions = [
-        {
-            enabled: (document) =>
-                can("document:review") &&
-                document.status === "pending",
-            label: "Tinjau",
-            icon: <Eye />,
-            onClick: (document) =>
-                router.get(`/document/${document.id}`),
-        },
-    ];
 
     return (
         <div className="overflow-hidden rounded-lg border">
@@ -52,46 +36,46 @@ export default function DocumentTable({
                 <TableHeader className="bg-muted">
                     <TableRow>
                         <TableHead>No</TableHead>
-                        <TableHead>File</TableHead>
-                        <TableHead>Judul</TableHead>
-                        <TableHead>Kategori</TableHead>
-                        <TableHead>Status</TableHead>
+                        <TableHead>Anak Magang</TableHead>
+                        <TableHead>Rata-rata</TableHead>
+                        <TableHead>Periode Mulai</TableHead>
+                        <TableHead>Periode Selesai</TableHead>
                         <TableHead>Diunggah oleh</TableHead>
+                        <TableHead>Dilihat Magang</TableHead>
                         <TableHead className="text-right">Aksi</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {documents.length > 0 ? (
-                        documents.map((document, i) => (
-                            <TableRow key={document.id}>
+                    {evaluations.length > 0 ? (
+                        evaluations.map((evaluation, i) => (
+                            <TableRow key={evaluation.id}>
                                 <TableCell>{i + 1}.</TableCell>
                                 <TableCell>
-                                    <a
-                                        className="text-blue-600 hover:text-blue-700 hover:underline"
-                                        href={"storage/" + document.file_path}
-                                    >
-                                        {document.original_filename}
-                                    </a>
+                                    {evaluation.placement.intern.name}
                                 </TableCell>
-                                <TableCell>{document.title}</TableCell>
-                                <TableCell>{document.category}</TableCell>
+                                <TableCell>{evaluation.avg_score}</TableCell>
+                                <TableCell>
+                                    {evaluation.period_start_date}
+                                </TableCell>
+                                <TableCell>
+                                    {evaluation.period_end_date}
+                                </TableCell>
+                                <TableCell>
+                                    {evaluation.evaluator.name}
+                                </TableCell>
                                 <TableCell>
                                     <Badge
                                         variant={
-                                            document.status === "rejected"
-                                                ? "destructive"
-                                                : document.status === "accepted"
-                                                    ? "success"
-                                                    : "outline"
+                                            evaluation.is_visible_to_intern
+                                                ? "success"
+                                                : "destructive"
                                         }
                                     >
-                                        {document.status}
+                                        {evaluation.is_visible_to_intern
+                                            ? "Terlihat"
+                                            : "Tersembunyi"}
                                     </Badge>
                                 </TableCell>
-                                <TableCell>
-                                    {document.uploaded_by.name}
-                                </TableCell>
-
                                 <TableCell className="text-right">
                                     <DropdownMenu>
                                         <DropdownMenuTrigger
@@ -109,63 +93,37 @@ export default function DocumentTable({
                                             }
                                         />
                                         <DropdownMenuContent align="end">
-                                            <DropdownMenuGroup>
-                                                <DropdownMenuLabel>
-                                                    Action
-                                                </DropdownMenuLabel>
-                                                {actions.map((action) => {
-                                                    return action.enabled(
-                                                        document,
-                                                    ) ? (
-                                                        <DropdownMenuItem
-                                                            key={action.label}
-                                                            onClick={() =>
-                                                                action.onClick(
-                                                                    document,
-                                                                )
-                                                            }
-                                                        >
-                                                            {action.icon}
-                                                            {action.label}
-                                                        </DropdownMenuItem>
-                                                    ) : null;
-                                                })}
-                                                <DropdownMenuSeparator />
-                                            </DropdownMenuGroup>
-
-                                            {can("document:update") &&
-                                                document.status ===
-                                                "pending" && (
-                                                    <DropdownMenuItem
-                                                        onClick={() =>
-                                                            modal.openEdit(
-                                                                document,
-                                                            )
-                                                        }
-                                                    >
-                                                        <SquarePen /> Edit
-                                                    </DropdownMenuItem>
-                                                )}
+                                            {can("evaluation:update") && (
+                                                <DropdownMenuItem
+                                                    onClick={() =>
+                                                        modal.openEdit(
+                                                            evaluation,
+                                                        )
+                                                    }
+                                                >
+                                                    <SquarePen /> Edit
+                                                </DropdownMenuItem>
+                                            )}
                                             <DropdownMenuItem
                                                 render={
                                                     <Link
                                                         href={
-                                                            "/document/" +
-                                                            document.id
+                                                            "/evaluation/" +
+                                                            evaluation.id
                                                         }
                                                     />
                                                 }
                                             >
                                                 <FileText /> Detail
                                             </DropdownMenuItem>
-                                            {can("document:delete") && (
+                                            {can("evaluation:delete") && (
                                                 <>
                                                     <DropdownMenuSeparator />
                                                     <DropdownMenuItem
                                                         variant="destructive"
                                                         onClick={() =>
                                                             modal.openDelete(
-                                                                document.id,
+                                                                evaluation.id,
                                                             )
                                                         }
                                                     >

@@ -4,6 +4,7 @@ namespace App\Http\Requests\Evaluation;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class UpdateEvaluationRequest extends FormRequest
 {
@@ -12,7 +13,7 @@ class UpdateEvaluationRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return Auth::check();
     }
 
     /**
@@ -23,7 +24,7 @@ class UpdateEvaluationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            
         ];
     }
 }

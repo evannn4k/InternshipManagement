@@ -125,6 +125,7 @@ export default function EvaluationForm({ modal, placements }) {
             onChange: handleChange,
             required: true,
             placeholder: "contoh : Bulanan",
+            col: isEdit ? 2 : 1,
         },
         {
             label: "Periode mulai",
@@ -187,6 +188,17 @@ export default function EvaluationForm({ modal, placements }) {
 
     const scoreField = [
         {
+            label: "Komunikasi",
+            name: "communication_score",
+            error: errors.communication_score,
+            value: data.communication_score,
+            type: "select",
+            options: scoreOptions,
+            onChange: handleChange,
+            required: true,
+            col: isEdit ? 2 : 1,
+        },
+        {
             label: "Keandalan",
             name: "reliability_score",
             error: errors.reliability_score,
@@ -231,16 +243,6 @@ export default function EvaluationForm({ modal, placements }) {
             name: "collaboration_score",
             error: errors.collaboration_score,
             value: data.collaboration_score,
-            type: "select",
-            options: scoreOptions,
-            onChange: handleChange,
-            required: true,
-        },
-        {
-            label: "Komunikasi",
-            name: "communication_score",
-            error: errors.communication_score,
-            value: data.communication_score,
             type: "select",
             options: scoreOptions,
             onChange: handleChange,

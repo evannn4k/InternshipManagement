@@ -3,7 +3,7 @@ import { Pagination, PaginationContent, PaginationItem } from "../ui/pagination"
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "../ui/button";
 
-export default function ListPagination({data}) {
+export default function ListPagination({data, links}) {
     return (
         <div className="flex flex-col md:flex-row gap-4 justify-between">
             <div className="">
@@ -14,14 +14,14 @@ export default function ListPagination({data}) {
             </div>
             <Pagination>
                 <PaginationContent className="list-none m-0">
-                    {data.prev_page_url && (
+                    {links?.prev || data.prev_page_url && (
                         <PaginationItem>
                             <Button
                                 variant="ghost"
                                 className="no-underline px-3 font-medium"
                             >
                                 <Link
-                                    href={data.prev_page_url}
+                                    href={links.prev ?? data.prev_page_url}
                                     className="no-underline flex items-center gap-1"
                                 >
                                     <ChevronLeft />
@@ -42,14 +42,14 @@ export default function ListPagination({data}) {
                             </Button>
                         </PaginationItem>
                     ))}
-                    {data.next_page_url && (
+                    {links?.next || data.next_page_url && (
                         <PaginationItem>
                             <Button
                                 variant="ghost"
                                 className="no-underline px-3 font-medium"
                             >
                                 <Link
-                                    href={data.next_page_url}
+                                    href={links?.next ?? data.next_page_url}
                                     className="no-underline flex items-center gap-1"
                                 >
                                     Selanjutnya

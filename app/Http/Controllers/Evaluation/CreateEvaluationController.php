@@ -34,7 +34,7 @@ class CreateEvaluationController extends Controller
                     );
             }
             
-            $credentials['evaluator_id'] = $user->id;
+            $credentials['evaluator_id'] = $user->id;   
             
             Evaluation::create($credentials);
 

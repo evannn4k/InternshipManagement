@@ -10,7 +10,7 @@ import ListSearch from "@/components/app/ListSearch";
 import ListFilter from "@/components/app/ListFilter";
 import ListPagination from "@/components/app/ListPagination";
 import EvaluationForm from "./components/evaluation-form";
-// import evaluationTable from "./components/evaluation-table";
+import EvaluationTable from "./components/evaluation-table";
 import { DeleteAlert } from "@/components/delete-alert";
 
 export default function EvaluationIndex({ data, placements }) {
@@ -48,6 +48,8 @@ export default function EvaluationIndex({ data, placements }) {
         },  
     ];
 
+    // console.log(data)
+    
     return (
         <>
             <Head>
@@ -92,11 +94,11 @@ export default function EvaluationIndex({ data, placements }) {
                         </div>
                     }
                 />
-                {/* <evaluationTable
+                <EvaluationTable
                     evaluations={data.data}
                     modal={modal}
-                /> */}
-                <ListPagination data={data} />
+                /> 
+                <ListPagination data={data.meta} links={data.links} />
             </Layout>
         </>
     );

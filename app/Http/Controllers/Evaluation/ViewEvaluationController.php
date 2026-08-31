@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Evaluation;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\EvaluationResource;
 use App\Models\Evaluation;
 use App\Models\Placement;
 use Illuminate\Http\Request;
@@ -29,13 +30,15 @@ class ViewEvaluationController extends Controller
             $filter = '';
         }
 
-        $data = Evaluation::hasRole(Auth::user())->when($search, function ($query, $search) {
+        $data = Evaluation::hasRole(Auth::user())->with(['evaluator:id,name', 'placement:id,intern_id,program_id,position_title', 'placement.intern:id,name', 'placement.program:id,name'])->when($search, function ($query, $search) {
             return $query->where('name', 'like', "%$search%");
         })->when($filter, function ($query) use ($key, $filter) {
             return $query->where($key, $filter);
         })->orderByDesc('created_at')->paginate(10)->withQueryString();
 
         $placements = Placement::hasRole(Auth::user())->with(['intern:id,name', 'program:id,name'])->select('id', 'intern_id', 'mentor_id', 'program_id', 'status')->where('status', 'active')->get();
+
+        $data = EvaluationResource::collection($data);
 
         return Inertia::render('Evaluation/EvaluationIndex', compact('data', 'placements'));
     }

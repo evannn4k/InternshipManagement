@@ -21,8 +21,6 @@ export default function Layout({ children, header }) {
         }
     }, [flash]);
 
-    console.log(auth)
-
     // useEffect(() => {
     //     if (auth && !auth.fcm_token) {
     //         requestFcmToken()
