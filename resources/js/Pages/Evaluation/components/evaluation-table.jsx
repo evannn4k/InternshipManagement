@@ -53,7 +53,9 @@ export default function EvaluationTable({ evaluations, modal }) {
                                 <TableCell>
                                     {evaluation.placement.intern.name}
                                 </TableCell>
-                                <TableCell>{evaluation.avg_score}</TableCell>
+                                <TableCell>
+                                    {evaluation.average_score}
+                                </TableCell>
                                 <TableCell>
                                     {evaluation.period_start_date}
                                 </TableCell>

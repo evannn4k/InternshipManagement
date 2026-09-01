@@ -24,6 +24,7 @@ export default function EvaluationForm({ modal, placements }) {
         useForm({
             placement_id: "",
             evaluation_type: "",
+            is_visible_to_intern: "",
             period_start_date: "",
             period_end_date: "",
             strengths: "",
@@ -49,6 +50,7 @@ export default function EvaluationForm({ modal, placements }) {
             setData({
                 placement_id: modal.data?.placement_id ?? "",
                 evaluation_type: modal.data?.evaluation_type ?? "",
+                is_visible_to_intern: modal.data?.is_visible_to_intern ?? 0,
                 period_start_date: modal.data?.period_start_date ?? "",
                 period_end_date: modal.data?.period_end_date ?? "",
                 strengths: modal.data?.strengths ?? "",
@@ -86,7 +88,9 @@ export default function EvaluationForm({ modal, placements }) {
         }
     };
 
-    placements = [{ value: "", label: "Pilih penempatan" }, ...placements];
+    const options = can("document:review")
+        ? [{ value: "", label: "Pilih peserta" }, ...placements]
+        : placements;
 
     const handleChange = (e) => {
         const { id, type, value, files } = e.target;
@@ -112,10 +116,11 @@ export default function EvaluationForm({ modal, placements }) {
             error: errors.placement_id,
             value: data.placement_id,
             type: "select",
-            options: placements,
+            options: options,
             onChange: handleChange,
             required: true,
             hidden: isEdit,
+            col: 2,
         },
         {
             label: "Tipe evaluasi",
@@ -125,7 +130,20 @@ export default function EvaluationForm({ modal, placements }) {
             onChange: handleChange,
             required: true,
             placeholder: "contoh : Bulanan",
-            col: isEdit ? 2 : 1,
+        },
+        {
+            label: "Dilihat oleh peserta magang",
+            name: "is_visible_to_intern",
+            error: errors.is_visible_to_intern,
+            value: data.is_visible_to_intern ? 1 : 0,
+            onChange: handleChange,
+            required: true,
+            orientation: "horizontal",
+            type: "radio-group",
+            options: [
+                { label: "Terlihat", value: 1 },
+                { label: "Tidak", value: 0 },
+            ],
         },
         {
             label: "Periode mulai",
@@ -149,6 +167,7 @@ export default function EvaluationForm({ modal, placements }) {
             label: "Kelebihan",
             name: "strengths",
             error: errors.strengths,
+            value: data.strengths,
             value: data.strengths,
             onChange: handleChange,
             required: true,
@@ -196,7 +215,7 @@ export default function EvaluationForm({ modal, placements }) {
             options: scoreOptions,
             onChange: handleChange,
             required: true,
-            col: isEdit ? 2 : 1,
+            col: 2,
         },
         {
             label: "Keandalan",
@@ -260,6 +279,8 @@ export default function EvaluationForm({ modal, placements }) {
         },
     ];
 
+    console.log(data);
+
     return (
         <AlertDialog open={isOpenModal} onOpenChange={() => modal.closeModal()}>
             <AlertDialogContent className="!max-w-xl max-h-[90vh] overflow-y-auto no-scrollbar">
@@ -278,7 +299,11 @@ export default function EvaluationForm({ modal, placements }) {
                         <FieldSet className="py-6">
                             <FormSection col={2}>
                                 {mainField.map((field) => (
-                                    <FormField key={field.name} {...field} />
+                                    <FormField
+                                        key={field.name}
+                                        {...field}
+                                        setData={setData}
+                                    />
                                 ))}
                                 <div className="col-span-1 md:col-span-2 flex flex-col gap-4">
                                     <Separator />

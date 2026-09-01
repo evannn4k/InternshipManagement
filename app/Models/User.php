@@ -20,7 +20,7 @@ use Illuminate\Notifications\Notifiable;
         'password',
         'phone',
         'avatar',
-        // 'fcm_token',
+        'fcm_token',
         'is_active',
         'last_login_at',
     ]),

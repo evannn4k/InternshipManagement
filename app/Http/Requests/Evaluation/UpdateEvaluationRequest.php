@@ -24,7 +24,21 @@ class UpdateEvaluationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            
+            'evaluation_type' => 'required|string|max:255',
+            'period_start_date' => 'required|date',
+            'period_end_date' => 'required|date|after_or_equal:period_start_date',
+            'strengths' => 'required|string',
+            'improvement_areas' => 'required|string',
+            'action_plan' => 'nullable|string',
+            'overall_comment' => 'required|string',
+            'reliability_score' => 'required|integer|min:1|max:4',
+            'learning_score' => 'required|integer|min:1|max:4',
+            'code_quality_score' => 'required|integer|min:1|max:4',
+            'problem_solving_score' => 'required|integer|min:1|max:4',
+            'collaboration_score' => 'required|integer|min:1|max:4',
+            'communication_score' => 'required|integer|min:1|max:4',
+            'documentation_score' => 'required|integer|min:1|max:4',
+            'is_visible_to_intern' => 'required|boolean',
         ];
     }
 }

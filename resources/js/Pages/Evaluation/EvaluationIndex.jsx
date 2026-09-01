@@ -45,11 +45,9 @@ export default function EvaluationIndex({ data, placements }) {
         {
             label: "Semua",
             value: "",
-        },  
+        },
     ];
 
-    // console.log(data)
-    
     return (
         <>
             <Head>
@@ -60,14 +58,14 @@ export default function EvaluationIndex({ data, placements }) {
                 {(can("evaluation:create") || can("evaluation:update")) && (
                     <EvaluationForm modal={modal} placements={placements} />
                 )}
-                {/* {can("evaluation:delete") && (
+                {can("evaluation:delete") && (
                     <DeleteAlert
                         form={modal}
                         title="Hapus evaluasi"
                         description="Ini akan menghapus evaluasi secara permanen"
                         onDelete={handleDelete}
                     />
-                )} */}
+                )}
                 <PageHeader
                     title="Evaluasi"
                     description="Mengelola data evaluasi"
@@ -94,10 +92,7 @@ export default function EvaluationIndex({ data, placements }) {
                         </div>
                     }
                 />
-                <EvaluationTable
-                    evaluations={data.data}
-                    modal={modal}
-                /> 
+                <EvaluationTable evaluations={data.data} modal={modal} />
                 <ListPagination data={data.meta} links={data.links} />
             </Layout>
         </>

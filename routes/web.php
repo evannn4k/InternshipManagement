@@ -73,6 +73,7 @@ Route::middleware('guest')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::post('/logout', LogoutController::class);
+    
     Route::post('/fcm-token', FcmController::class)->name("fcm.token");
 
     Route::get('/dashboard', DashboardController::class);

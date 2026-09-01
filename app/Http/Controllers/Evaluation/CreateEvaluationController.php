@@ -24,7 +24,7 @@ class CreateEvaluationController extends Controller
 
         try {
             $user = Auth::user();
-            
+
             if ($user->role->name === 'mentor' && ! in_array($credentials['placement_id'], $user->placementAsMentor->where('status', 'active')->pluck('id')->all())) {
                 return redirect()
                     ->back()
@@ -33,9 +33,9 @@ class CreateEvaluationController extends Controller
                         'Penempatan tidak valid.',
                     );
             }
-            
-            $credentials['evaluator_id'] = $user->id;   
-            
+
+            $credentials['evaluator_id'] = $user->id;
+
             Evaluation::create($credentials);
 
             return redirect()
@@ -54,5 +54,5 @@ class CreateEvaluationController extends Controller
                     'terjadi kesalahan sistem. Silahkan coba lagi.',
                 );
         }
-    }   
+    }
 }

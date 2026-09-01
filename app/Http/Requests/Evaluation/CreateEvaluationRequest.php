@@ -41,6 +41,7 @@ class CreateEvaluationRequest extends FormRequest
             'collaboration_score' => 'required|integer|min:1|max:4',
             'communication_score' => 'required|integer|min:1|max:4',
             'documentation_score' => 'required|integer|min:1|max:4',
+            'is_visible_to_intern' => 'required|boolean',
         ];
     }
 

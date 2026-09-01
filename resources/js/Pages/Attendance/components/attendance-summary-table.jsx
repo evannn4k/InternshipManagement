@@ -6,9 +6,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import {
-    PackageOpen,
-} from "lucide-react";
+import { PackageOpen } from "lucide-react";
 
 export default function AttendanceSummaryTabble({ users }) {
     return (
@@ -34,38 +32,55 @@ export default function AttendanceSummaryTabble({ users }) {
                                 <TableCell className="flex flex-col">
                                     <span className="text-neutral-800 font-semibold">
                                         {user.name ?? "-"}
-                                    </span> 
+                                    </span>
                                     <span className="text-light text-neutral-500 text-sm">
                                         {user.active_placement
                                             ?.position_title ?? "-"}
                                     </span>
                                 </TableCell>
                                 <TableCell>
-                                    {user.active_placement?.attendance?.length ?? 0}
+                                    {user.active_placement?.attendance
+                                        ?.length ?? 0}
                                 </TableCell>
                                 <TableCell>
-                                    {user.active_placement?.attendance?.filter(a => a.status == "late" || a.status == "present").length ?? 0}
+                                    {user.active_placement?.attendance?.filter(
+                                        (a) =>
+                                            a.status == "late" ||
+                                            a.status == "present",
+                                    ).length ?? 0}
                                 </TableCell>
                                 <TableCell>
-                                    {user.active_placement?.attendance?.filter(a => a.status == "late").length ?? 0}
+                                    {user.active_placement?.attendance?.filter(
+                                        (a) => a.status == "late",
+                                    ).length ?? 0}
                                 </TableCell>
                                 <TableCell>
-                                    {user.active_placement?.attendance?.filter(a => a.status == "absent").length ?? 0}
+                                    {user.active_placement?.attendance?.filter(
+                                        (a) => a.status == "absent",
+                                    ).length ?? 0}
                                 </TableCell>
                                 <TableCell>
-                                    {user.active_placement?.attendance?.filter(a => a.status == "sick").length ?? 0}
+                                    {user.active_placement?.attendance?.filter(
+                                        (a) => a.status == "sick",
+                                    ).length ?? 0}
                                 </TableCell>
                                 <TableCell>
-                                    {user.active_placement?.attendance?.filter(a => a.status == "permitted").length ?? 0}
+                                    {user.active_placement?.attendance?.filter(
+                                        (a) => a.status == "permitted",
+                                    ).length ?? 0}
                                 </TableCell>
                                 <TableCell>
-                                    {user.active_placement?.attendance?.reduce((total, a) => total + (a.late_minutes ?? ""), 0) ?? 0}
+                                    {user.active_placement?.attendance?.reduce(
+                                        (total, a) =>
+                                            total + (a.late_minutes ?? ""),
+                                        0,
+                                    ) ?? 0}
                                 </TableCell>
                             </TableRow>
                         ))
                     ) : (
                         <TableRow>
-                            <TableCell colSpan={8} className="p-8">
+                            <TableCell colSpan={9} className="p-8">
                                 <div className="flex items-center flex-col gap-2">
                                     <PackageOpen className="size-8 text-muted-foreground" />
                                     <span>Tidak ada data</span>

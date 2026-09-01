@@ -21,7 +21,7 @@ import { Spinner } from "@/components/ui/spinner";
 
 export function LoginForm({ className, ...props }) {
     const { data, setData, post, errors, processing } = useForm({
-        email: "evan@gmail.com",
+        email: "admin@gmail.com",
         password: "123123123",
     });
 

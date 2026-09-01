@@ -15,7 +15,7 @@ class Evaluation extends Model
         if ($user->role->name === 'intern') {
             $placement = $user->placementAsIntern()->get()->pluck('id');
 
-            return $query->whereIn('placement_id', $placement->all());
+            return $query->where('is_visible_to_intern', true)->whereIn('placement_id', $placement->all());
         } elseif ($user->role->name === 'mentor') {
             $placement = $user->placementAsMentor()->get()->pluck('id');
 

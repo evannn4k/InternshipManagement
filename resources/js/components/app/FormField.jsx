@@ -1,8 +1,16 @@
 import { cn } from "@/lib/utils";
-import { Field, FieldDescription, FieldError, FieldLabel } from "../ui/field";
 import { Input } from "../ui/input";
 import { NativeSelect, NativeSelectOption } from "../ui/native-select";
 import { Textarea } from "../ui/textarea";
+import {
+    Field,
+    FieldContent,
+    FieldDescription,
+    FieldTitle,
+    FieldError,
+    FieldLabel,
+} from "@/components/ui/field";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 export default function FormField({
     label,
@@ -19,6 +27,8 @@ export default function FormField({
     step = 1,
     hidden = false,
     disabled = false,
+    setData = false,
+    orientation = "vertical",
     className,
 }) {
     if (hidden) return null;
@@ -82,6 +92,40 @@ export default function FormField({
                         value={value}
                         disabled={disabled}
                     />
+                );
+            case "radio-group":
+                return (
+                    <RadioGroup
+                        aria-invalid={Boolean(error)}
+                        id={name}
+                        onValueChange={(value) =>
+                            setData((data) => ({ ...data, [name]: value }))
+                        }
+                        value={value}
+                        disabled={disabled}
+                        className={
+                            orientation === "horizontal"
+                                ? "grid grid-cols-2 gap-4"
+                                : "flex flex-col gap-2"
+                        }
+                    >
+                        {options.map((option) => (
+                            <FieldLabel
+                                htmlFor={option.value}
+                                key={option.value}
+                            >
+                                <Field orientation="horizontal">
+                                    <FieldContent>
+                                        <FieldTitle>{option.label}</FieldTitle>
+                                    </FieldContent>
+                                    <RadioGroupItem
+                                        value={option.value}
+                                        id={option.value}
+                                    />
+                                </Field>
+                            </FieldLabel>
+                        ))}
+                    </RadioGroup>
                 );
             default:
                 return null;

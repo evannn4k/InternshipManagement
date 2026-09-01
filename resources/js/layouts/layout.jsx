@@ -8,7 +8,7 @@ import { Separator } from "@/components/ui/separator";
 import { usePage } from "@inertiajs/react";
 import { toast } from "sonner";
 import { useEffect } from "react";
-// import { requestFcmToken } from "@/services/firebase";
+import { requestFcmToken } from "@/services/firebase";
 
 export default function Layout({ children, header }) {
     const { flash, auth } = usePage().props;
@@ -21,11 +21,11 @@ export default function Layout({ children, header }) {
         }
     }, [flash]);
 
-    // useEffect(() => {
-    //     if (auth && !auth.fcm_token) {
-    //         requestFcmToken()
-    //     }
-    // }, [])
+    useEffect(() => {
+        if (auth && !auth.fcm_token) {
+            requestFcmToken()
+        }
+    }, [])
 
     return (
         <SidebarProvider
