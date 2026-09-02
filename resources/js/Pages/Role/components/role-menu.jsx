@@ -12,13 +12,23 @@ import {
 } from "@/components/ui/table";
 import { useForm } from "@inertiajs/react";
 import { Plus, Save } from "lucide-react";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useMemo, useState } from "react";
 
 export default function RoleMenu({ roles, permissions }) {
     const [selectedRole, setSelectedRole] = useState();
     const { put, data, setData, processing, errors } = useForm({
         permissions: null,
     });
+
+    const allPermissionIds = useMemo(() => {
+        return Object.values(permissions)
+            .flat()
+            .map((p) => p.id);
+    }, [permissions]);
+
+    const isAllChecked = useMemo(() => {
+        return allPermissionIds.every((id) => data?.permissions?.includes(id));
+    }, [data.permissions, allPermissionIds]);
 
     useEffect(() => {
         setData({ permissions: selectedRole?.permissions.map((p) => p.id) });
@@ -36,6 +46,14 @@ export default function RoleMenu({ roles, permissions }) {
 
     const handleSave = () => {
         put("/role/sync-permission/" + selectedRole.id);
+    };
+
+    const handleCheckAll = (status) => {
+        if (status) {
+            setData({ permissions: allPermissionIds });
+        } else {
+            setData({ permissions: [] });
+        }
     };
 
     return (
@@ -68,7 +86,7 @@ export default function RoleMenu({ roles, permissions }) {
                                         <TableCell className="text-right">
                                             <Button
                                                 size="sm"
-                                                variant="outline"
+                                                variant="success"
                                                 onClick={() =>
                                                     setSelectedRole(role)
                                                 }
@@ -91,7 +109,7 @@ export default function RoleMenu({ roles, permissions }) {
                             {selectedRole && (
                                 <Button
                                     size="sm"
-                                    variant="outline"
+                                    variant="success"
                                     className="m-0"
                                     onClick={handleSave}
                                     disabled={processing}
@@ -106,6 +124,22 @@ export default function RoleMenu({ roles, permissions }) {
                         {selectedRole ? (
                             <Table className="m-0">
                                 <TableBody>
+                                    <TableRow>
+                                        <TableCell>
+                                            <Checkbox
+                                                id="check-all"
+                                                onCheckedChange={(status) =>
+                                                    handleCheckAll(status)
+                                                }
+                                                checked={isAllChecked}
+                                            />
+                                        </TableCell>
+                                        <TableCell className="font-semibold">
+                                            <label htmlFor="check-all">
+                                                Semua
+                                            </label>
+                                        </TableCell>
+                                    </TableRow>
                                     {Object.entries(permissions).map(
                                         ([
                                             groupPermissionName,
