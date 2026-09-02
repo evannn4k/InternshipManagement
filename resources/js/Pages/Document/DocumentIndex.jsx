@@ -59,7 +59,7 @@ export default function DocumentIndex({ data, placements }) {
             value: "rejected",
         },
     ];
-    
+
     return (
         <>
             <Head>
@@ -92,22 +92,23 @@ export default function DocumentIndex({ data, placements }) {
                         <div className="flex gap-2 items-center">
                             <ListFilter
                                 name="Status"
+                                variant="success"
                                 handleFilter={handleFilter}
                                 options={filterStatus}
                                 keyFilter="status"
                             />
                             {can("document:create") && (
-                                <Button onClick={() => modal.openCreate()}>
+                                <Button
+                                    variant="success"
+                                    onClick={() => modal.openCreate()}
+                                >
                                     <Plus /> Tambah
                                 </Button>
                             )}
                         </div>
                     }
                 />
-                <DocumentTable
-                    documents={data.data}
-                    modal={modal}
-                />
+                <DocumentTable documents={data.data} modal={modal} />
                 <ListPagination data={data} />
             </Layout>
         </>

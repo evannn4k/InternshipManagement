@@ -128,7 +128,7 @@ export function RegisterForm({ className, ...props }) {
                                 )}
                             </Field>
                             <Field>
-                                <Button type="submit" disabled={processing}>
+                                <Button variant="success" type="submit" disabled={processing}>
                                     {processing && <Spinner />}
                                     Register
                                 </Button>

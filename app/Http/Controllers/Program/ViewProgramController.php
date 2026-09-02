@@ -17,7 +17,7 @@ class ViewProgramController extends Controller
         $search = $request->input("search");
         $filter = $request->input("filter");
 
-        $data = Program::with('user')->when($search, function ($query, $search) {
+        $data = Program::with(['createdBy'])->when($search, function ($query, $search) {
             return $query->where('name', 'like',  "%$search%");
         })->when($filter, function ($query, $filter) {
             return $query->where('status', $filter);
@@ -30,6 +30,8 @@ class ViewProgramController extends Controller
     {
         Gate::authorize('program:read');
 
-        return Inertia::render("Program/ProgramShow", compact("program"));
+        $placements = $program->placements()->get();
+
+        return Inertia::render("Program/ProgramShow", compact("program", "placements"));
     }
 }

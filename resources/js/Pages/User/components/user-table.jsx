@@ -140,7 +140,7 @@ export default function UserTable({ users, form }) {
                         ))
                     ) : (
                         <TableRow>
-                            <TableCell colSpan={6} className="p-8">
+                            <TableCell colSpan={8} className="p-8">
                                 <div className="flex items-center flex-col gap-2">
                                     <Package className="size-8 text-muted-foreground" />
                                     <span>Tidak ada data</span>

@@ -37,9 +37,7 @@ export default function AttendanceForm({ modal, placements }) {
                 attendance_date: modal.isOpen("edit")
                     ? (modal.data?.attendance_date ?? "")
                     : "",
-                status: modal.isOpen("edit")
-                    ? (modal.data?.status ?? "")
-                    : "",
+                status: modal.isOpen("edit") ? (modal.data?.status ?? "") : "",
                 check_in_at: modal.isOpen("edit")
                     ? (modal.data?.check_in_at ?? "")
                     : "",
@@ -50,7 +48,7 @@ export default function AttendanceForm({ modal, placements }) {
                     ? (modal.data?.mentor_notes ?? "")
                     : "",
                 correction_reason: modal.isOpen("edit")
-                ? (modal.data?.correction_reason ?? "")
+                    ? (modal.data?.correction_reason ?? "")
                     : "",
             });
         }
@@ -194,7 +192,11 @@ export default function AttendanceForm({ modal, placements }) {
 
                     <AlertDialogFooter className="mt-4">
                         <AlertDialogCancel>Batal</AlertDialogCancel>
-                        <AlertDialogAction type="submit" disabled={processing}>
+                        <AlertDialogAction
+                            variant="success"
+                            type="submit"
+                            disabled={processing}
+                        >
                             {processing ? <Spinner /> : <Save />}
                             Simpan
                         </AlertDialogAction>

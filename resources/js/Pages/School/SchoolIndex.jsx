@@ -116,7 +116,10 @@ export default function SchoolIndex({ data }) {
                                 </DropdownMenuContent>
                             </DropdownMenu>
                             {can("school:create") && (
-                                <Button onClick={() => modal.openCreate()}>
+                                <Button
+                                    variant="success"
+                                    onClick={() => modal.openCreate()}
+                                >
                                     <Plus /> Tambah
                                 </Button>
                             )}

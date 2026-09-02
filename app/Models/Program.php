@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Attributes\Guarded;
 #[Guarded([])]
 class Program extends Model
 {
-    public function user()
+    public function createdBy()
     {
         return $this->belongsTo(User::class, "created_by");
     }

@@ -46,6 +46,109 @@ export function AppSidebar({ ...props }) {
     const { auth } = usePage().props;
     const { isMobile } = useSidebar();
     const { can } = useCan();
+    const url = usePage().url;
+
+    const navigation = [
+        {
+            title: "Master Data",
+            items: [
+                {
+                    name: "Dashboard",
+                    href: "/dashboard",
+                    icon: PieChart,
+                    permission: null,
+                    activePattern: "/dashboard",
+                },
+                {
+                    name: "User",
+                    href: "/user",
+                    icon: User,
+                    permission: "user:read",
+                    activePattern: "/user",
+                },
+                {
+                    name: "Role",
+                    href: "/role",
+                    icon: Shield,
+                    permission: "role:manage",
+                    activePattern: "/role",
+                },
+            ],
+        },
+        {
+            title: "Management Data",
+            items: [
+                {
+                    name: "School",
+                    href: "/school",
+                    icon: School,
+                    permission: "school:read",
+                    activePattern: "/school",
+                },
+                {
+                    name: "Program",
+                    href: "/program",
+                    icon: SquareActivity,
+                    permission: "program:read",
+                    activePattern: "/program",
+                },
+                {
+                    name: "Penempatan",
+                    href: "/placement",
+                    icon: SquareArrowRightEnter,
+                    permission: "placement:read",
+                    activePattern: "/placement",
+                },
+                {
+                    name: "Tugas",
+                    href: "/task",
+                    icon: ClipboardList,
+                    permission: "task:read",
+                    activePattern: "/task",
+                },
+                {
+                    name: "Laporan Mingguan",
+                    href: "/weekly-report",
+                    icon: BookText,
+                    permission: "weekly-report:read",
+                    activePattern: "/weekly-report",
+                },
+                {
+                    name: "Dokumen",
+                    href: "/document",
+                    icon: FileText,
+                    permission: "document:read",
+                    activePattern: "/document",
+                },
+                {
+                    name: "Evaluasi",
+                    href: "/evaluation",
+                    icon: ChartCandlestick,
+                    permission: "evaluation:read",
+                    activePattern: "/evaluation",
+                },
+            ],
+        },
+        {
+            title: "Absensi",
+            items: [
+                {
+                    name: "Log Absensi",
+                    href: "/attendance",
+                    icon: ScrollText,
+                    permission: "attendance:read",
+                    activePattern: "/attendance",
+                },
+                {
+                    name: "Ringkasan Absensi",
+                    href: "/attendance/summary",
+                    icon: Summary,
+                    permission: "attendance:read",
+                    activePattern: "/attendance/summary",
+                },
+            ],
+        },
+    ];
 
     return (
         <Sidebar collapsible="offcanvas" {...props}>
@@ -71,150 +174,49 @@ export function AppSidebar({ ...props }) {
                 </SidebarMenu>
             </SidebarHeader>
             <SidebarContent>
-                <SidebarGroup>
-                    <SidebarGroupLabel>Master Data</SidebarGroupLabel>
-                    <SidebarGroupContent>
-                        <SidebarMenu>
-                            <SidebarMenuItem>
-                                <SidebarMenuButton
-                                    render={
-                                        <Link href="/dashboard">
-                                            <PieChart className="size-4" />{" "}
-                                            Dashboard
-                                        </Link>
-                                    }
-                                />
-                                {can("user:read") && (
-                                    <SidebarMenuButton
-                                        render={
-                                            <Link href="/user">
-                                                <User className="size-4" /> User
-                                            </Link>
-                                        }
-                                    />
-                                )}
-                                {can("role:manage") && (
-                                    <SidebarMenuButton
-                                        render={
-                                            <Link href="/role">
-                                                <Shield className="size-4" />{" "}
-                                                Role
-                                            </Link>
-                                        }
-                                    />
-                                )}
-                            </SidebarMenuItem>
-                        </SidebarMenu>
-                    </SidebarGroupContent>
-                </SidebarGroup>
-                <SidebarGroup>
-                    <SidebarGroupLabel>Management Data</SidebarGroupLabel>
-                    <SidebarGroupContent>
-                        <SidebarMenu>
-                            <SidebarMenuItem>
-                                {can("school:read") && (
-                                    <SidebarMenuButton
-                                        render={
-                                            <Link href="/school">
-                                                <School className="size-4" />
-                                                School
-                                            </Link>
-                                        }
-                                    />
-                                )}
-                                {can("program:read") && (
-                                    <SidebarMenuButton
-                                        render={
-                                            <Link href="/program">
-                                                <SquareActivity className="size-4" />
-                                                Program
-                                            </Link>
-                                        }
-                                    />
-                                )}
-                                {can("placement:read") && (
-                                    <SidebarMenuButton
-                                        render={
-                                            <Link href="/placement">
-                                                <SquareArrowRightEnter className="size-4" />
-                                                Penempatan
-                                            </Link>
-                                        }
-                                    />
-                                )}
-                                {can("task:read") && (
-                                    <SidebarMenuButton
-                                        render={
-                                            <Link href="/task">
-                                                <ClipboardList className="size-4" />
-                                                Tugas
-                                            </Link>
-                                        }
-                                    />
-                                )}
-                                {can("weekly-report:read") && (
-                                    <SidebarMenuButton
-                                        render={
-                                            <Link href="/weekly-report">
-                                                <BookText className="size-4" />
-                                                Laporan Mingguan
-                                            </Link>
-                                        }
-                                    />
-                                )}
-                                {can("document:read") && (
-                                    <SidebarMenuButton
-                                        render={
-                                            <Link href="/document">
-                                                <FileText className="size-4" />
-                                                Dokumen
-                                            </Link>
-                                        }
-                                    />
-                                )}
-                                {can("evaluation:read") && (
-                                    <SidebarMenuButton
-                                        render={
-                                            <Link href="/evaluation">
-                                                <ChartCandlestick className="size-4" />
-                                                Evaluasi
-                                            </Link>
-                                        }
-                                    />
-                                )}
-                            </SidebarMenuItem>
-                        </SidebarMenu>
-                    </SidebarGroupContent>
-                </SidebarGroup>
-                <SidebarGroup>
-                    <SidebarGroupLabel>Absensi</SidebarGroupLabel>
-                    <SidebarGroupContent>
-                        <SidebarMenu>
-                            <SidebarMenuItem>
-                                {can("attendance:read") && (
-                                    <SidebarMenuButton
-                                        render={
-                                            <Link href="/attendance">
-                                                <ScrollText className="size-4" />
-                                                Log Absensi
-                                            </Link>
-                                        }
-                                    />
-                                )}
-                                {can("attendance:read") && (
-                                    <SidebarMenuButton
-                                        render={
-                                            <Link href="/attendance/summary">
-                                                <Summary className="size-4" />
-                                                Ringkasan Absensi
-                                            </Link>
-                                        }
-                                    />
-                                )}
-                            </SidebarMenuItem>
-                        </SidebarMenu>
-                    </SidebarGroupContent>
-                </SidebarGroup>
+                {navigation.map((nav) => {
+                    if (
+                        !nav.items.some(
+                            (item) => !item.permission || can(item.permission),
+                        )
+                    )
+                        return null;
+                    return (
+                        <SidebarGroup key={nav.title}>
+                            <SidebarGroupLabel>{nav.title}</SidebarGroupLabel>
+                            <SidebarGroupContent>
+                                <SidebarMenu className="gap-1">
+                                    {nav.items.map((item) => {
+                                        const Icon = item.icon;
+                                        if (
+                                            item.permission &&
+                                            !can(item.permission)
+                                        )
+                                            return null;
+                                        return (
+                                            <SidebarMenuItem key={item.href}>
+                                                <SidebarMenuButton
+                                                    variant={
+                                                        url.includes(item.href)
+                                                            ? "success"
+                                                            : "default"
+                                                    }
+                                                    render={
+                                                        <Link href={item.href}>
+                                                            <Icon className="size-4" />
+
+                                                            {item.name}
+                                                        </Link>
+                                                    }
+                                                />
+                                            </SidebarMenuItem>
+                                        );
+                                    })}
+                                </SidebarMenu>
+                            </SidebarGroupContent>
+                        </SidebarGroup>
+                    );
+                })}
             </SidebarContent>
             <SidebarFooter>
                 <SidebarMenu>

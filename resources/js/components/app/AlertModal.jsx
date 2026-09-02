@@ -21,7 +21,6 @@ export default function AlertModal({
     addon,
     disabled = false,
 }) {
-
     return (
         <AlertDialog
             open={modal.isOpen(nameModal)}
@@ -38,7 +37,11 @@ export default function AlertModal({
                 {addon}
                 <AlertDialogFooter>
                     <AlertDialogCancel>Batal</AlertDialogCancel>
-                    <AlertDialogAction onClick={action} disabled={disabled}>
+                    <AlertDialogAction
+                        variant="success"
+                        onClick={action}
+                        disabled={disabled}
+                    >
                         {actionLabel}
                     </AlertDialogAction>
                 </AlertDialogFooter>

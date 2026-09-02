@@ -116,7 +116,10 @@ export default function UserIndex({ data, roles, schools }) {
                                 </DropdownMenuContent>
                             </DropdownMenu>
                             {can("user:create") && (
-                                <Button onClick={() => modal.openCreate()}>
+                                <Button
+                                    variant="success"
+                                    onClick={() => modal.openCreate()}
+                                >
                                     <Plus /> Tambah
                                 </Button>
                             )}

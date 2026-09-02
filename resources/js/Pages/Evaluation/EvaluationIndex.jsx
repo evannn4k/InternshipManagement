@@ -85,7 +85,7 @@ export default function EvaluationIndex({ data, placements }) {
                                 keyFilter="status"
                             />
                             {can("evaluation:create") && (
-                                <Button onClick={() => modal.openCreate()}>
+                                <Button variant="success" onClick={() => modal.openCreate()}>
                                     <Plus /> Tambah
                                 </Button>
                             )}

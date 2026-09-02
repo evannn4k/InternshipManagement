@@ -21,11 +21,11 @@ export default function Layout({ children, header }) {
         }
     }, [flash]);
 
-    useEffect(() => {
-        if (auth && !auth.fcm_token) {
-            requestFcmToken()
-        }
-    }, [])
+    // useEffect(() => {
+    //     if (auth && !auth.fcm_token) {
+    //         requestFcmToken()
+    //     }
+    // }, [])
 
     return (
         <SidebarProvider

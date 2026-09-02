@@ -122,7 +122,7 @@ export default function PlacementIndex({ data, users, programs }) {
                                 </DropdownMenuContent>
                             </DropdownMenu>
                             {can("placement:create") && (
-                                <Button onClick={() => modal.openCreate()}>
+                                <Button variant="success" onClick={() => modal.openCreate()}>
                                     <Plus /> Tambah
                                 </Button>
                             )}

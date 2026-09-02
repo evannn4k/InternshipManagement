@@ -67,7 +67,7 @@ export default function SchoolShow({ school }) {
                         </Button>
                         {can("school:update") && (
                             <Button
-                                variant="default"
+                                variant="success"
                                 onClick={() => modal.openEdit(school)}
                             >
                                 <SquarePen /> Edit
@@ -227,6 +227,7 @@ export default function SchoolShow({ school }) {
                                             WhatsApp
                                         </Button>
                                         <Button
+                                            variant="success"
                                             className="flex-1 gap-2"
                                             nativeButton={false}
                                             render={

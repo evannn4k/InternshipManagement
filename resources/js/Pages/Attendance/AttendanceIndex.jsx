@@ -84,7 +84,7 @@ export default function AttendanceIndex({ data, placements }) {
         {
             label: "Permitted",
             value: "permitted",
-        }, 
+        },
     ];
 
     const handleChangeInternNotes = (e) => {
@@ -183,6 +183,7 @@ export default function AttendanceIndex({ data, placements }) {
                             />
                             {can("attendance:check-in") && (
                                 <Button
+                                    variant="success"
                                     onClick={() => modal.openModal("check-in")}
                                 >
                                     <Plus /> Check In
@@ -190,6 +191,7 @@ export default function AttendanceIndex({ data, placements }) {
                             )}
                             {can("attendance:create") && (
                                 <Button
+                                    variant="success"
                                     onClick={() => modal.openCreate()}
                                 >
                                     <Plus /> Tambah

@@ -44,10 +44,14 @@ export default function ProgramTable({ programs, form }) {
                                 <TableCell className="font-medium">
                                     {i + 1}.
                                 </TableCell>
-                                <TableCell>{program.name}</TableCell>
-                                <TableCell>{program.start_date}</TableCell>
-                                <TableCell>{program.end_date}</TableCell>
-                                <TableCell>{program.user.name}</TableCell>
+                                <TableCell>{program.name ?? "-"}</TableCell>
+                                <TableCell>
+                                    {program.start_date ?? "-"}
+                                </TableCell>
+                                <TableCell>{program.end_date ?? "-"}</TableCell>
+                                <TableCell>
+                                    {program.created_by.name ?? "-"}
+                                </TableCell>
                                 <TableCell>
                                     <Badge
                                         variant={

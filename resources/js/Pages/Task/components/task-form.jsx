@@ -220,7 +220,11 @@ export default function TaskForm({ modal, placements }) {
 
                     <AlertDialogFooter className="mt-4">
                         <AlertDialogCancel>Batal</AlertDialogCancel>
-                        <AlertDialogAction type="submit" disabled={processing}>
+                        <AlertDialogAction
+                            variant="success"
+                            type="submit"
+                            disabled={processing}
+                        >
                             {processing ? <Spinner /> : <Save />}
                             Simpan
                         </AlertDialogAction>
