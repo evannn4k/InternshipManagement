@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 use App\Models\Program;
+use App\Models\User;
 
 class ViewProgramController extends Controller
 {
@@ -30,8 +31,18 @@ class ViewProgramController extends Controller
     {
         Gate::authorize('program:read');
 
-        $placements = $program->placements()->get();
+        $program->load(['placements.mentor', 'placements.intern']);
 
-        return Inertia::render("Program/ProgramShow", compact("program", "placements"));
+        $mentors = User::select(['id', 'name'])->whereHas("placementAsMentor", function ($query) use ($program) {
+            return $query->where('program_id', $program->id);
+        })->get();
+
+        $interns = User::select(['id', 'name'])->with(['placementAsIntern' => function ($query) {
+            return $query->select(['id', 'mentor_id', 'intern_id'])->where('status', 'active')->limit(1);
+        }, 'placementAsIntern.mentor:id,name'])->whereHas("placementAsIntern", function ($query) use ($program) {
+            return $query->where('program_id', $program->id);
+        })->get();
+
+        return Inertia::render("Program/ProgramShow", compact("program", "mentors", "interns"));
     }
 }

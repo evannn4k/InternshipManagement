@@ -60,15 +60,8 @@ export default function WeeklyReportTable({ weeklyReports, modal }) {
                 weeklyReport.status === "revision_requested",
             label: "Revisi",
             icon: <Send />,
-            onClick: (weeklyReport) => modal.openModal('revision', weeklyReport),
-        },
-        {
-            enabled: (weeklyReport) =>
-                can("weeklyReport:update") && weeklyReport.status === "draft",
-            label: "Tetapkan",
-            icon: <UserRoundArrowLeft />,
             onClick: (weeklyReport) =>
-                handleChangeStatus(weeklyReport.id, "assigned"),
+                modal.openModal("revision", weeklyReport),
         },
     ];
 

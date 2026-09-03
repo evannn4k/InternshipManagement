@@ -17,12 +17,11 @@ import {
     Archive,
     ArrowLeft,
     CheckCircle,
-    Clock,
     FileText,
     XCircle,
 } from "lucide-react";
 
-export default function ProgramShow({ program, placements }) {
+export default function ProgramShow({ program, mentors, interns }) {
     const parseWorkingDays = (days) => {
         if (!days) return "-";
         if (Array.isArray(days)) return days.join(", ");
@@ -86,7 +85,7 @@ export default function ProgramShow({ program, placements }) {
                             <TabsTrigger value="jadwal">
                                 Jadwal & Jam Kerja
                             </TabsTrigger>
-                            <TabsTrigger value="user">
+                            <TabsTrigger value="intern">
                                 Mentor dan peserta Magang
                             </TabsTrigger>
                         </TabsList>
@@ -229,7 +228,7 @@ export default function ProgramShow({ program, placements }) {
                                 </CardContent>
                             </Card>
                         </TabsContent>
-                        <TabsContent value="user">
+                        <TabsContent value="intern">
                             <Card>
                                 <CardHeader>
                                     <h2 className="m-0">
@@ -238,32 +237,52 @@ export default function ProgramShow({ program, placements }) {
                                 </CardHeader>
                                 <CardContent className="text-sm text-muted-foreground">
                                     <div className="flex w-full max-w-sm flex-col gap-2 text-sm">
-                                        <div className="flex items-center justify-between">
-                                            <div className="text-slate-800">
-                                                Item 1
+                                        {mentors.map((mentor, i) => (
+                                            <div
+                                                key={mentor.id}
+                                                className="flex items-center gap-2"
+                                            >
+                                                <div className="text-muted-foreground">
+                                                    {i + 1}.
+                                                </div>
+                                                <div className="text-slate-800">
+                                                    {mentor.name}
+                                                </div>
                                             </div>
-                                            <div className="text-muted-foreground">
-                                                Value 1
-                                            </div>
-                                        </div>
+                                        ))}
                                     </div>
                                 </CardContent>
                                 <CardContent>
                                     <Separator />
                                 </CardContent>
                                 <CardHeader>
-                                    <h2 className="m-0">Detail Hari Kerja</h2>
+                                    <h2 className="m-0">
+                                        Peserta magang yang ditugaskan
+                                    </h2>
                                 </CardHeader>
-                                <CardContent className="text-sm text-muted-foreground grid grid-cols-1 gap-4">
-                                    <div className="flex flex-col gap-1">
-                                        <CardDescription>
-                                            Hari Kerja Berlaku
-                                        </CardDescription>
-                                        <CardTitle className="text-neutral-700">
-                                            {parseWorkingDays(
-                                                program.working_days,
-                                            )}
-                                        </CardTitle>
+                                <CardContent className="text-sm text-muted-foreground">
+                                    <div className="flex w-full max-w-sm flex-col gap-2 text-sm">
+                                        {interns.map((intern, i) => (
+                                            <div
+                                                key={intern.id}
+                                                className="flex items-center gap-2"
+                                            >
+                                                <div className="text-muted-foreground">
+                                                    {i + 1}.
+                                                </div>
+                                                <div className="text-slate-800">
+                                                    {intern.name}
+                                                </div>
+                                                <div className="ms-auto text-slate-800">
+                                                    Mentor :{" "}
+                                                    {
+                                                        intern
+                                                            .placement_as_intern[0]
+                                                            .mentor.name
+                                                    }
+                                                </div>
+                                            </div>
+                                        ))}
                                     </div>
                                 </CardContent>
                             </Card>

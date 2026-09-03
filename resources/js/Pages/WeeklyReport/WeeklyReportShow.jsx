@@ -87,6 +87,7 @@ export default function WeeklyReportShow({ weeklyReport: report }) {
                                     <FileX /> Revisi
                                 </Button>
                                 <Button
+                                    variant="success"
                                     onClick={() =>
                                         modal.openModal("approve", report)
                                     }
