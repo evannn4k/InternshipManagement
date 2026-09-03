@@ -36,6 +36,11 @@ export default function DocumentShow({ document }) {
         return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
     };
 
+    const handleDownload = (path) => {
+        console.log("berhasil");
+        window.location.href = `/download?path=${path}`;
+    };
+
     return (
         <>
             <Head>
@@ -76,26 +81,42 @@ export default function DocumentShow({ document }) {
                         </Button>
                     }
                     rightActions={
-                        can("document:review") &&
-                        document.status === "pending" && (
-                            <div className="flex gap-2 items-center">
-                                <Button
-                                    variant="destructive"
-                                    onClick={() =>
-                                        modal.openModal("reject", document)
-                                    }
-                                >
-                                    <FileX /> Tolak
-                                </Button>
-                                <Button
-                                    onClick={() =>
-                                        modal.openModal("accept", document)
-                                    }
-                                >
-                                    <FileCheck /> Terima
-                                </Button>
-                            </div>
-                        )
+                        <>
+                            {can("document:review") &&
+                                document.status === "pending" && (
+                                    <div className="flex gap-2 items-center">
+                                        <Button
+                                            variant="destructive"
+                                            onClick={() =>
+                                                modal.openModal(
+                                                    "reject",
+                                                    document,
+                                                )
+                                            }
+                                        >
+                                            <FileX /> Tolak
+                                        </Button>
+                                        <Button
+                                            onClick={() =>
+                                                modal.openModal(
+                                                    "accept",
+                                                    document,
+                                                )
+                                            }
+                                        >
+                                            <FileCheck /> Terima
+                                        </Button>
+                                    </div>
+                                )}
+                            <Button
+                                variant="success"
+                                onClick={() =>
+                                    handleDownload(document.file_path)
+                                }
+                            >
+                                <Download /> Download
+                            </Button>
+                        </>
                     }
                 />
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-start">
@@ -131,7 +152,7 @@ export default function DocumentShow({ document }) {
                                             Pengunggah
                                         </CardDescription>
                                         <CardTitle className="text-neutral-700">
-                                            {document.uploader?.name ?? "-"}
+                                            {document.uploaded_by?.name ?? "-"}
                                         </CardTitle>
                                     </div>
                                     <div className="flex flex-col gap-1">
@@ -195,7 +216,7 @@ export default function DocumentShow({ document }) {
                                 <CardHeader>
                                     <h2 className="m-0">Detail Berkas</h2>
                                 </CardHeader>
-                                <CardContent className="text-sm text-muted-foreground grid grid-cols-1 gap-4">
+                                <CardContent className="text-sm text-muted-foreground grid md:grid-cols-2 grid-cols-1 gap-4">
                                     <div className="flex flex-col gap-1">
                                         <CardDescription>
                                             Nama File Asli
@@ -204,8 +225,6 @@ export default function DocumentShow({ document }) {
                                             {document.original_filename ?? "-"}
                                         </CardTitle>
                                     </div>
-                                </CardContent>
-                                <CardContent className="text-sm text-muted-foreground grid md:grid-cols-2 grid-cols-1 gap-4">
                                     <div className="flex flex-col gap-1">
                                         <CardDescription>
                                             Tipe MIME
@@ -222,22 +241,22 @@ export default function DocumentShow({ document }) {
                                             {formatBytes(document.file_size)}
                                         </CardTitle>
                                     </div>
-                                </CardContent>
-                                <CardContent className="text-sm text-muted-foreground grid grid-cols-1 gap-4">
                                     <div className="flex flex-col gap-1">
                                         <CardDescription>
-                                            Unduh Berkas
+                                            Lihat Dokumen
                                         </CardDescription>
                                         {document.file_path ? (
-                                            <a
-                                                href={`/storage/${document.file_path}`}
-                                                target="_blank"
-                                                rel="noreferrer"
-                                                className="flex items-center gap-2 text-blue-600 hover:text-blue-700 underline text-lg"
-                                            >
-                                                <Download className="w-4 h-4" />
-                                                Unduh File
-                                            </a>
+                                            <CardTitle className="text-neutral-700">
+                                                <a
+                                                    className="text-blue-600 hover:text-blue-700 hover:underline"
+                                                    href={
+                                                        "/storage/" +
+                                                        document.file_path
+                                                    }
+                                                >
+                                                    {document.original_filename}
+                                                </a>
+                                            </CardTitle>
                                         ) : (
                                             <CardTitle className="text-neutral-700">
                                                 -

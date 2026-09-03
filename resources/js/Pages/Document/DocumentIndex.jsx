@@ -41,6 +41,10 @@ export default function DocumentIndex({ data, placements }) {
         );
     };
 
+    const handleDownload = (path) => {
+        window.location.href = `/download?path=${path}`;
+    };
+
     const filterStatus = [
         {
             label: "Semua",
@@ -108,7 +112,11 @@ export default function DocumentIndex({ data, placements }) {
                         </div>
                     }
                 />
-                <DocumentTable documents={data.data} modal={modal} />
+                <DocumentTable
+                    documents={data.data}
+                    modal={modal}
+                    handleDownload={handleDownload}
+                />
                 <ListPagination data={data} />
             </Layout>
         </>

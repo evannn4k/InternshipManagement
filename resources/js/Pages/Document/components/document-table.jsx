@@ -29,7 +29,7 @@ import {
     Trash2,
 } from "lucide-react";
 
-export default function DocumentTable({ documents, modal }) {
+export default function DocumentTable({ documents, modal, handleDownload }) {
     const { can } = useCan();
 
     const actions = [
@@ -47,10 +47,6 @@ export default function DocumentTable({ documents, modal }) {
             onClick: (document) => handleDownload(document.file_path),
         },
     ];
-
-    const handleDownload = (path) => {
-        window.location.href = `/download?path=${path}`;
-    };
 
     return (
         <div className="overflow-hidden rounded-lg border">

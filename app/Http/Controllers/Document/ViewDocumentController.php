@@ -44,6 +44,8 @@ class ViewDocumentController extends Controller
     {
         Gate::authorize('document:read');
 
+        $document->load(['uploadedBy:id,name', 'placement:id,intern_id', 'placement.intern:id,name']);
+
         return Inertia::render('Document/DocumentShow', compact('document'));
     }
 }
