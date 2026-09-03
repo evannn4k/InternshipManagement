@@ -22,7 +22,7 @@ class ViewProgramController extends Controller
             return $query->where('name', 'like',  "%$search%");
         })->when($filter, function ($query, $filter) {
             return $query->where('status', $filter);
-        })->paginate(10)->withQueryString();
+        })->orderBy('created_at', 'desc')->paginate(10)->withQueryString();
 
         return Inertia::render("Program/ProgramIndex", compact("data"));
     }

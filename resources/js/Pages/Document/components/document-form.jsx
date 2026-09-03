@@ -19,16 +19,24 @@ import { useCan } from "@/hooks/use-can";
 export default function DocumentForm({ modal, placements }) {
     const { can } = useCan();
 
-    const { data, setData, post, put, processing, errors, clearErrors, reset } =
-        useForm({
-            placement_id: "",
-            title: "",
-            category: "",
-            file: "",
-            description: "",
-        });
-
     const isEdit = modal.isOpen("edit");
+
+    const {
+        data,
+        transform,
+        setData,
+        post,
+        processing,
+        errors,
+        clearErrors,
+        reset,
+    } = useForm({
+        placement_id: "",
+        title: "",
+        category: "",
+        file: "",
+        description: "",
+    });
 
     const isOpenModal = isEdit || modal.isOpen("create");
 
@@ -45,11 +53,18 @@ export default function DocumentForm({ modal, placements }) {
         }
     }, [isOpenModal]);
 
+    console.log(data);
+
     const handleSubmit = (e) => {
         e.preventDefault();
 
         if (isEdit) {
-            put("/document/" + modal.data.id, {
+            transform(() => ({
+                ...data,
+                _method: "PUT",
+            }));
+
+            post("/document/" + modal.data.id, {
                 onSuccess: () => {
                     modal.closeModal();
                     reset();
@@ -119,7 +134,7 @@ export default function DocumentForm({ modal, placements }) {
             type: "file",
             col: 2,
             description:
-                "Hanya jepg, jpg, png, webp, jfif dan docx, Maksimal 5 MB",
+                "Hanya jepg, jpg, png, webp, jfif, json dan docx, Maksimal 5 MB",
         },
         {
             label: "Deskripsi",
@@ -159,7 +174,11 @@ export default function DocumentForm({ modal, placements }) {
 
                     <AlertDialogFooter className="mt-4">
                         <AlertDialogCancel>Batal</AlertDialogCancel>
-                        <AlertDialogAction variant="success" type="submit" disabled={processing}>
+                        <AlertDialogAction
+                            variant="success"
+                            type="submit"
+                            disabled={processing}
+                        >
                             {processing ? <Spinner /> : <Save />}
                             Simpan
                         </AlertDialogAction>

@@ -20,6 +20,7 @@ import { Link, router } from "@inertiajs/react";
 import { Badge } from "@/components/ui/badge";
 import { useCan } from "@/hooks/use-can";
 import {
+    Download,
     EllipsisVertical,
     Eye,
     FileText,
@@ -28,23 +29,28 @@ import {
     Trash2,
 } from "lucide-react";
 
-export default function DocumentTable({
-    documents,
-    modal,
-}) {
+export default function DocumentTable({ documents, modal }) {
     const { can } = useCan();
 
     const actions = [
         {
             enabled: (document) =>
-                can("document:review") &&
-                document.status === "pending",
+                can("document:review") && document.status === "pending",
             label: "Tinjau",
             icon: <Eye />,
-            onClick: (document) =>
-                router.get(`/document/${document.id}`),
+            onClick: (document) => router.get(`/document/${document.id}`),
+        },
+        {
+            enabled: (document) => can("document:read"),
+            label: "Download",
+            icon: <Download />,
+            onClick: (document) => handleDownload(document.file_path),
         },
     ];
+
+    const handleDownload = (path) => {
+        window.location.href = `/download?path=${path}`;
+    };
 
     return (
         <div className="overflow-hidden rounded-lg border">
@@ -81,8 +87,8 @@ export default function DocumentTable({
                                             document.status === "rejected"
                                                 ? "destructive"
                                                 : document.status === "accepted"
-                                                    ? "success"
-                                                    : "outline"
+                                                  ? "success"
+                                                  : "outline"
                                         }
                                     >
                                         {document.status}
@@ -135,7 +141,7 @@ export default function DocumentTable({
 
                                             {can("document:update") &&
                                                 document.status ===
-                                                "pending" && (
+                                                    "pending" && (
                                                     <DropdownMenuItem
                                                         onClick={() =>
                                                             modal.openEdit(

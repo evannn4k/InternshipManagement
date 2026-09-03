@@ -46,6 +46,8 @@ class ViewPlacementController extends Controller
     {
         Gate::authorize('placement:read');
 
+        $placement->load("intern", "mentor", "program", "attendance", "weeklyReport", "evaluation.evaluator:id,name", "evaluation", "document");
+
         return Inertia::render("Placement/PlacementShow", compact("placement"));
     }
 }

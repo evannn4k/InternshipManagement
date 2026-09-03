@@ -15,14 +15,8 @@ import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import {
     ArrowLeft,
-    Award,
-    Calendar,
-    CheckCircle2,
     Eye,
     EyeOff,
-    FileText,
-    User,
-    UserCheck,
 } from "lucide-react";
 
 export default function EvaluationShow({ evaluation }) {

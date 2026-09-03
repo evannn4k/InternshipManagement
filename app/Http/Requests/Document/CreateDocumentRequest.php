@@ -27,7 +27,7 @@ class CreateDocumentRequest extends FormRequest
             'placement_id' => 'nullable|integer|exists:placements,id',
             'title' => 'required|string|max:255',
             'category' => 'required|string|max:255',
-            'file' => 'required|file|max:5120|mimes:pdf,jepg,jpg,png,webp,jfif,docx',
+            'file' => 'required|file|max:5120|mimes:pdf,jepg,jpg,png,webp,jfif,docx,json',
             'description' => 'nullable|max:5120',
         ];
     }

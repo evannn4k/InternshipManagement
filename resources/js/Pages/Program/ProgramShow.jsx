@@ -237,19 +237,21 @@ export default function ProgramShow({ program, mentors, interns }) {
                                 </CardHeader>
                                 <CardContent className="text-sm text-muted-foreground">
                                     <div className="flex w-full max-w-sm flex-col gap-2 text-sm">
-                                        {mentors.map((mentor, i) => (
-                                            <div
-                                                key={mentor.id}
-                                                className="flex items-center gap-2"
-                                            >
-                                                <div className="text-muted-foreground">
-                                                    {i + 1}.
-                                                </div>
-                                                <div className="text-slate-800">
-                                                    {mentor.name}
-                                                </div>
-                                            </div>
-                                        ))}
+                                        {mentors.length > 0
+                                            ? mentors.map((mentor, i) => (
+                                                  <div
+                                                      key={mentor.id}
+                                                      className="flex items-center gap-2"
+                                                  >
+                                                      <div className="text-muted-foreground">
+                                                          {i + 1}.
+                                                      </div>
+                                                      <div className="text-slate-800">
+                                                          {mentor.name}
+                                                      </div>
+                                                  </div>
+                                              ))
+                                            : "-"}
                                     </div>
                                 </CardContent>
                                 <CardContent>
@@ -262,27 +264,29 @@ export default function ProgramShow({ program, mentors, interns }) {
                                 </CardHeader>
                                 <CardContent className="text-sm text-muted-foreground">
                                     <div className="flex w-full max-w-sm flex-col gap-2 text-sm">
-                                        {interns.map((intern, i) => (
-                                            <div
-                                                key={intern.id}
-                                                className="flex items-center gap-2"
-                                            >
-                                                <div className="text-muted-foreground">
-                                                    {i + 1}.
-                                                </div>
-                                                <div className="text-slate-800">
-                                                    {intern.name}
-                                                </div>
-                                                <div className="ms-auto text-slate-800">
-                                                    Mentor :{" "}
-                                                    {
-                                                        intern
-                                                            .placement_as_intern[0]
-                                                            .mentor.name
-                                                    }
-                                                </div>
-                                            </div>
-                                        ))}
+                                        {interns.length > 0
+                                            ? interns.map((intern, i) => (
+                                                  <div
+                                                      key={intern.id}
+                                                      className="flex items-center gap-2"
+                                                  >
+                                                      <div className="text-muted-foreground">
+                                                          {i + 1}.
+                                                      </div>
+                                                      <div className="text-slate-800">
+                                                          {intern.name}
+                                                      </div>
+                                                      <div className="ms-auto text-slate-800">
+                                                          Mentor :{" "}
+                                                          {
+                                                              intern
+                                                                  .placement_as_intern[0]
+                                                                  .mentor.name
+                                                          }
+                                                      </div>
+                                                  </div>
+                                              ))
+                                            : "-"}
                                     </div>
                                 </CardContent>
                             </Card>

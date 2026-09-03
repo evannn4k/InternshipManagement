@@ -160,10 +160,10 @@ export function AppSidebar({ ...props }) {
                                 <img
                                     src="/storage/images/main/logo.png"
                                     alt="logo"
-                                    className="h-10"
+                                    className="h-10 p-1"
                                 />
                                 <div className="flex flex-col gap-0 leading-none">
-                                    <span className="font-semibold">
+                                    <span className="font-semibold text-emerald-700">
                                         Internship
                                     </span>
                                     <span className="text-sm">Management</span>

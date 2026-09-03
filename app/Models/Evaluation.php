@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Model;
 #[Guarded([])]
 class Evaluation extends Model
 {
+    protected $appends = ['average_score'];
+
     public function scopeHasRole($query, User $user)
     {
         if ($user->role->name === 'intern') {
@@ -33,5 +35,18 @@ class Evaluation extends Model
     public function evaluator()
     {
         return $this->belongsTo(User::class, "evaluator_id");
+    }
+
+    public function getAverageScoreAttribute()
+    {
+        return number_format((
+            $this->reliability_score +
+            $this->learning_score +
+            $this->code_quality_score +
+            $this->problem_solving_score +
+            $this->collaboration_score +
+            $this->communication_score +
+            $this->documentation_score
+        ) / 7, 2);
     }
 }

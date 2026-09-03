@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Requests\Document;
+namespace App\Http\Requests;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
-class UpdateDocumentRequest extends FormRequest
+class DownloadFileRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,10 +24,7 @@ class UpdateDocumentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'nullable|string|max:255',
-            'category' => 'nullable|string|max:255',
-            'file' => 'nullable|file|max:5120|mimes:pdf,jepg,jpg,png,webp,jfif,docx',
-            'description' => 'nullable|max:5120',
+            'path' => 'required|string|exists:documents,file_path',
         ];
     }
 }

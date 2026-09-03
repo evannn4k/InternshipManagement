@@ -17,6 +17,7 @@ use App\Http\Controllers\Document\DeleteDocumentController;
 use App\Http\Controllers\Document\RejectDocumentController;
 use App\Http\Controllers\Document\UpdateDocumentController;
 use App\Http\Controllers\Document\ViewDocumentController;
+use App\Http\Controllers\DownloadFileController;
 use App\Http\Controllers\Evaluation\CreateEvaluationController;
 use App\Http\Controllers\Evaluation\DeleteEvaluationController;
 use App\Http\Controllers\Evaluation\UpdateEvaluationController;
@@ -73,9 +74,9 @@ Route::middleware('guest')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::post('/logout', LogoutController::class);
-    
-    Route::post('/fcm-token', FcmController::class)->name("fcm.token");
 
+    Route::post('/fcm-token', FcmController::class)->name("fcm.token");
+    Route::get('/download', DownloadFileController::class);
     Route::get('/dashboard', DashboardController::class);
 
     Route::prefix('/user')->name('user.')->group(function () {
@@ -179,4 +180,3 @@ Route::middleware('auth')->group(function () {
         Route::delete('/{evaluation}', DeleteEvaluationController::class)->name('delete');
     });
 });
-    
