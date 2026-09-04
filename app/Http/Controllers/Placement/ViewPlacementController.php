@@ -49,7 +49,7 @@ class ViewPlacementController extends Controller
     {
         Gate::authorize('placement:read');
 
-        $placement->load("intern", "mentor", "attendance", "program", "weeklyReport", "evaluation.evaluator:id,name", "evaluation", "document");
+        $placement->load("intern", "mentor", "tasks", "attendance", "program", "weeklyReport", "evaluation.evaluator:id,name", "evaluation", "document");
 
         $total_attendance = $placement->attendance->count();
 
@@ -58,7 +58,6 @@ class ViewPlacementController extends Controller
         $end_date = now()->startOfDay();
 
         $period = CarbonPeriod::create($start_date, $end_date);
-
         $efective_days = 0;
 
         foreach ($period as $date) {
@@ -71,10 +70,21 @@ class ViewPlacementController extends Controller
 
         $attendance['attendance_percentage'] = round(($total_attendance / $efective_days) * 100);
         $attendance['efective_days'] = $efective_days;
+
         $attendance['present'] = $placement->attendance->whereIn('status', ['present', 'late'])->count();
         $attendance['sickAndPermitted'] = $placement->attendance->whereIn('status', ['permitted', 'sick'])->count();
         $attendance['absent'] = $placement->attendance->where('status', 'absent')->count();
 
-        return Inertia::render("Placement/PlacementShow", compact("placement", "attendance"));
+        $task = [];
+        $total_task = $placement->tasks->count();
+
+        $task['completed'] = $placement->tasks->where('status', 'completed')->count();
+        $task['in_progress'] = $placement->tasks->where('status', 'in_progress')->count();
+        $task['pending'] = $placement->tasks->wherein('status', ['draft', 'assigned'])->count();
+
+        $task['completion_rate'] = round(($task['completed'] / $total_task) * 100);
+        $task['total'] = $total_task;
+
+        return Inertia::render("Placement/PlacementShow", compact("placement", "attendance", "task"));
     }
 }

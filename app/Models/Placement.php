@@ -33,6 +33,11 @@ class Placement extends Model
     {
         return $this->belongsTo(User::class, 'mentor_id');
     }
+    
+    public function tasks()
+    {
+        return $this->hasMany(Task::class);
+    }
 
     public function attendance()
     {

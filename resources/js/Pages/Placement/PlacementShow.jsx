@@ -29,7 +29,7 @@ import {
     AlertCircle,
 } from "lucide-react";
 
-export default function PlacementShow({ placement, attendance }) {
+export default function PlacementShow({ placement, attendance, task }) {
     const attendanceSummary = placement.attendance_summary ?? {
         total_days: attendance.efective_days,
         present: attendance.present,
@@ -39,14 +39,14 @@ export default function PlacementShow({ placement, attendance }) {
     };
 
     const tasksSummary = placement.tasks_summary ?? {
-        total_tasks: 10,
-        completed: 8,
-        in_progress: 1,
-        pending: 1,
-        completion_rate: 80,
+        total_tasks: task.total,
+        completed: task.completed,
+        in_progress: task.in_progress,
+        pending: task.pending,
+        completion_rate: task.completion_rate,
     };
 
-    console.log(attendance);
+    console.log(task);
 
     const handleDownload = (path) => {
         window.location.href = `/download?path=${path}`;
@@ -264,32 +264,33 @@ export default function PlacementShow({ placement, attendance }) {
                                         </CardTitle>
                                     </div>
                                     <Progress
+                                        colorIndicator="bg-emerald-500"
                                         value={attendanceSummary.percentage}
                                         className="h-2"
                                     />
                                     <div className="grid grid-cols-3 gap-2 pt-2 text-center">
-                                        <div className="bg-neutral-50 p-2 rounded border">
+                                        <div className="bg-emerald-50 border-emerald-200 p-2 rounded-lg border">
                                             <CardDescription>
                                                 Hadir
                                             </CardDescription>
-                                            <CardTitle className="text-neutral-700">
+                                            <CardTitle className="text-emerald-800">
                                                 {attendanceSummary.present} Hari
                                             </CardTitle>
                                         </div>
-                                        <div className="bg-neutral-50 p-2 rounded border">
+                                        <div className="bg-blue-50 border-blue-200 p-2 rounded-lg border">
                                             <CardDescription>
                                                 Izin/Sakit
                                             </CardDescription>
-                                            <CardTitle className="text-neutral-700">
+                                            <CardTitle className="text-blue-800">
                                                 {attendanceSummary.permission}{" "}
                                                 Hari
                                             </CardTitle>
                                         </div>
-                                        <div className="bg-neutral-50 p-2 rounded border">
+                                        <div className="bg-red-50 border-red-200 p-2 rounded-lg border">
                                             <CardDescription>
                                                 Alpa
                                             </CardDescription>
-                                            <CardTitle className="text-neutral-700">
+                                            <CardTitle className="text-red-800">
                                                 {attendanceSummary.absent} Hari
                                             </CardTitle>
                                         </div>
@@ -311,31 +312,32 @@ export default function PlacementShow({ placement, attendance }) {
                                         </CardTitle>
                                     </div>
                                     <Progress
+                                        colorIndicator="bg-green-600"
                                         value={tasksSummary.completion_rate}
                                         className="h-2"
                                     />
                                     <div className="grid grid-cols-3 gap-2 pt-2 text-center">
-                                        <div className="bg-neutral-50 p-2 rounded border">
+                                        <div className="bg-green-50 border-green-200 p-2 rounded-lg border">
                                             <CardDescription>
                                                 Selesai
                                             </CardDescription>
-                                            <CardTitle className="text-neutral-700">
+                                            <CardTitle className="text-green-800">
                                                 {tasksSummary.completed}
                                             </CardTitle>
                                         </div>
-                                        <div className="bg-neutral-50 p-2 rounded border">
+                                        <div className="bg-blue-50 border-blue-200 p-2 rounded-lg border">
                                             <CardDescription>
                                                 Sedang Dikerjakan
                                             </CardDescription>
-                                            <CardTitle className="text-neutral-700">
+                                            <CardTitle className="text-blue-800">
                                                 {tasksSummary.in_progress}
                                             </CardTitle>
                                         </div>
-                                        <div className="bg-neutral-50 p-2 rounded border">
+                                        <div className="bg-red-50 border-red-200 p-2 rounded-lg border">
                                             <CardDescription>
                                                 Belum Dikerjakan
                                             </CardDescription>
-                                            <CardTitle className="text-neutral-700">
+                                            <CardTitle className="text-red-800">
                                                 {tasksSummary.pending}
                                             </CardTitle>
                                         </div>

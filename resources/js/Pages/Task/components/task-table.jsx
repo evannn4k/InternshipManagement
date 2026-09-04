@@ -45,20 +45,20 @@ export default function TaskTable({ tasks, modal, handleChangeStatus }) {
             onClick: (task) => router.get(`/task/${task.id}`),
         },
         {
-            enabled: (task) => can("task:update") && task.status === "draft",
+            enabled: (task) => can("task:change-status") && task.status === "draft",
             label: "Tetapkan",
             icon: <UserRoundArrowLeft />,
             onClick: (task) => handleChangeStatus(task.id, "assigned"),
         },
         {
-            enabled: (task) => can("task:update") && task.status === "assigned",
+            enabled: (task) => can("task:change-status") && task.status === "assigned",
             label: "Mulai",
             icon: <CirclePlay />,
             onClick: (task) => handleChangeStatus(task.id, "in_progress"),
         },
         {
             enabled: (task) =>
-                can("task:update") &&
+                can("task:change-status") &&
                 (task.status === "assigned" || task.status === "in_progress"),
             label: "Batalkan",
             icon: <CircleX />,
