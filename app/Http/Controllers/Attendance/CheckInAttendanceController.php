@@ -66,11 +66,11 @@ class CheckInAttendanceController extends Controller
 
             if (now()->format('H:i:s') > $placement->program->work_start_time->format('H:i:s')) {
                 $credentials['status'] = "late";
-                $credentials['late_minutes'] = abs(now()->diffInMinutes($placement->program->work_start_time));
+                $credentials['late_minutes'] = ceil(abs(now()->diffInMinutes($placement->program->work_start_time)));
             }
 
             Attendance::create($credentials);
-            
+
             return redirect()
                 ->back()
                 ->with(

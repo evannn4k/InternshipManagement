@@ -7,6 +7,9 @@ use Illuminate\Support\Facades\Gate;
 use App\Http\Controllers\Controller;
 use App\Models\Program;
 use App\Models\User;
+use Carbon\Carbon;
+use Carbon\CarbonPeriod;
+use Google\Service\Dataflow\WorkItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -46,8 +49,32 @@ class ViewPlacementController extends Controller
     {
         Gate::authorize('placement:read');
 
-        $placement->load("intern", "mentor", "program", "attendance", "weeklyReport", "evaluation.evaluator:id,name", "evaluation", "document");
+        $placement->load("intern", "mentor", "attendance", "program", "weeklyReport", "evaluation.evaluator:id,name", "evaluation", "document");
 
-        return Inertia::render("Placement/PlacementShow", compact("placement"));
+        $total_attendance = $placement->attendance->count();
+
+        $attendance = [];
+        $start_date = Carbon::parse($placement->start_date);
+        $end_date = now()->startOfDay();
+
+        $period = CarbonPeriod::create($start_date, $end_date);
+
+        $efective_days = 0;
+
+        foreach ($period as $date) {
+            $dayName = $date->locale('id')->isoFormat('dddd');
+
+            if (in_array($dayName, $placement->program->working_days)) {
+                $efective_days++;
+            }
+        }
+
+        $attendance['attendance_percentage'] = round(($total_attendance / $efective_days) * 100);
+        $attendance['efective_days'] = $efective_days;
+        $attendance['present'] = $placement->attendance->whereIn('status', ['present', 'late'])->count();
+        $attendance['sickAndPermitted'] = $placement->attendance->whereIn('status', ['permitted', 'sick'])->count();
+        $attendance['absent'] = $placement->attendance->where('status', 'absent')->count();
+
+        return Inertia::render("Placement/PlacementShow", compact("placement", "attendance"));
     }
 }

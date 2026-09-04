@@ -150,6 +150,14 @@ export function AppSidebar({ ...props }) {
         },
     ];
 
+    const isActive = (href) => {
+        if (href == "/attendance") {
+            return url.startsWith(href) && url != "/attendance/summary";
+        }
+
+        return url.startsWith(href);
+    };
+
     return (
         <Sidebar collapsible="offcanvas" {...props}>
             <SidebarHeader>
@@ -197,7 +205,7 @@ export function AppSidebar({ ...props }) {
                                             <SidebarMenuItem key={item.href}>
                                                 <SidebarMenuButton
                                                     variant={
-                                                        url.includes(item.href)
+                                                        isActive(item.href)
                                                             ? "success"
                                                             : "default"
                                                     }

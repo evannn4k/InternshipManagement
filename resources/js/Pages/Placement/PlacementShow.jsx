@@ -29,14 +29,13 @@ import {
     AlertCircle,
 } from "lucide-react";
 
-export default function PlacementShow({ placement }) {
-    // Dummy Data untuk Relasi/Metrik Tambahan
+export default function PlacementShow({ placement, attendance }) {
     const attendanceSummary = placement.attendance_summary ?? {
-        total_days: 20,
-        present: 18,
-        permission: 1,
-        absent: 1,
-        percentage: 90,
+        total_days: attendance.efective_days,
+        present: attendance.present,
+        permission: attendance.sickAndPermitted,
+        absent: attendance.absent,
+        percentage: attendance.attendance_percentage,
     };
 
     const tasksSummary = placement.tasks_summary ?? {
@@ -46,6 +45,8 @@ export default function PlacementShow({ placement }) {
         pending: 1,
         completion_rate: 80,
     };
+
+    console.log(attendance);
 
     const handleDownload = (path) => {
         window.location.href = `/download?path=${path}`;

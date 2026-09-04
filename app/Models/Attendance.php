@@ -12,10 +12,12 @@ class Attendance extends Model
     {
         if ($user->role->name === 'intern') {
             $placement = $user->placementAsIntern()->get()->pluck('id');
-            return $query->where('placement_id', $placement->all());
+
+            return $query->whereIn('placement_id', $placement->all());
         } else if ($user->role->name === 'mentor') {
             $placement = $user->placementAsMentor()->get()->pluck('id');
-            return $query->where('placement_id', $placement->all());
+
+            return $query->whereIn('placement_id', $placement->all());
         }
 
         return $query;
@@ -25,7 +27,7 @@ class Attendance extends Model
     {
         return $this->belongsTo(Placement::class, 'placement_id');
     }
-    
+
     public function correctedBy()
     {
         return $this->belongsTo(User::class, 'corrected_by');

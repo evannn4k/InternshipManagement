@@ -91,6 +91,8 @@ export default function AttendanceIndex({ data, placements }) {
         internNotesForm.setData({ intern_notes: e.target.value });
     };
 
+    console.log(data)
+    
     return (
         <>
             <Head>
