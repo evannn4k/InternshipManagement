@@ -43,10 +43,15 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 "name" => $request->user()->name ?? "",
                 "email" => $request->user()->email ?? "",
-                "phone" => $request->user()->phont ?? "",
+                "phone" => $request->user()->phone ?? "",
                 "avatar" => $request->user()->avatar ?? "",
                 "role" => $request->user()->role->name ?? "",
+                "email_verified_at" => $request->user()->email_verified_at ?? "",
+                "last_login_at" => $request->user()->last_login_at ?? "",
                 "fcm_token" => $request->user()->fcm_token ?? "",
+                "is_active" => $request->user()->is_active ?? false,
+                "school" => $request->user()->school->name ?? "",
+                "created_at" => $request->user()->created_at ?? "",
                 "permission" => $request->user() ? $request->user()->getAllPermission() : ""
             ]
         ]);

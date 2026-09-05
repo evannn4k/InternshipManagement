@@ -160,7 +160,7 @@ export function AppSidebar({ ...props }) {
 
     return (
         <Sidebar collapsible="offcanvas" {...props}>
-            <SidebarHeader>
+            <SidebarHeader className="">
                 <SidebarMenu>
                     <SidebarMenuItem>
                         <div className="h-auto rounded-lg hover:bg-muted cursor-default">
@@ -282,17 +282,12 @@ export function AppSidebar({ ...props }) {
                                 </DropdownMenuGroup>
                                 <DropdownMenuSeparator />
                                 <DropdownMenuGroup>
-                                    <DropdownMenuItem className="flex items-center gap-2 cursor-pointer">
+                                    <DropdownMenuItem
+                                        render={<Link href="/profile" />}
+                                        className="flex items-center gap-2 cursor-pointer"
+                                    >
                                         <User className="size-4" />
-                                        Account
-                                    </DropdownMenuItem>
-                                    <DropdownMenuItem className="flex items-center gap-2 cursor-pointer">
-                                        <CreditCard className="size-4" />
-                                        Billing
-                                    </DropdownMenuItem>
-                                    <DropdownMenuItem className="flex items-center gap-2 cursor-pointer">
-                                        <Bell className="size-4" />
-                                        Notifications
+                                        Akun
                                     </DropdownMenuItem>
                                 </DropdownMenuGroup>
                                 <DropdownMenuSeparator />

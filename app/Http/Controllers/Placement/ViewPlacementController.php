@@ -9,7 +9,6 @@ use App\Models\Program;
 use App\Models\User;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
-use Google\Service\Dataflow\WorkItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -59,7 +58,7 @@ class ViewPlacementController extends Controller
 
         $period = CarbonPeriod::create($start_date, $end_date);
         $efective_days = 0;
-
+            
         foreach ($period as $date) {
             $dayName = $date->locale('id')->isoFormat('dddd');
 

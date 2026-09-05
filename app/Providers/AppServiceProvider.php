@@ -6,6 +6,7 @@ use App\Policies\AttendancePolicy;
 use App\Policies\DocumentPolicy;
 use App\Policies\EvaluationPolicy;
 use App\Policies\PlacementPolicy;
+use App\Policies\ProfilePolicy;
 use App\Policies\ProgramPolicy;
 use App\Policies\SchoolPolicy;
 use App\Policies\TaskPolicy;
@@ -29,7 +30,7 @@ class AppServiceProvider extends ServiceProvider
      * Bootstrap any application services.
      */
     public function boot(): void
-    {   
+    {
         Gate::define('role:manage', function () {
             return Auth::user()->hasPermission("role:manage");
         });
@@ -48,12 +49,12 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('program:create', [ProgramPolicy::class, "create"]);
         Gate::define('program:update', [ProgramPolicy::class, "update"]);
         Gate::define('program:delete', [ProgramPolicy::class, "delete"]);
-        
+
         Gate::define('placement:read', [PlacementPolicy::class, "read"]);
         Gate::define('placement:create', [PlacementPolicy::class, "create"]);
         Gate::define('placement:update', [PlacementPolicy::class, "update"]);
         Gate::define('placement:delete', [PlacementPolicy::class, "delete"]);
-        
+
         Gate::define('task:read', [TaskPolicy::class, "read"]);
         Gate::define('task:create', [TaskPolicy::class, "create"]);
         Gate::define('task:update', [TaskPolicy::class, "update"]);
@@ -61,20 +62,20 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('task:change-status', [TaskPolicy::class, "changeStatus"]);
         Gate::define('task:submit', [TaskPolicy::class, "submit"]);
         Gate::define('task:review', [TaskPolicy::class, "review"]);
-        
+
         Gate::define('attendance:read', [AttendancePolicy::class, "read"]);
         Gate::define('attendance:create', [AttendancePolicy::class, "create"]);
         Gate::define('attendance:update', [AttendancePolicy::class, "update"]);
         Gate::define('attendance:delete', [AttendancePolicy::class, "delete"]);
         Gate::define('attendance:check-in', [AttendancePolicy::class, "checkIn"]);
         Gate::define('attendance:check-out', [AttendancePolicy::class, "checkOut"]);
-        
+
         Gate::define('weekly-report:read', [WeeklyReportPolicy::class, "read"]);
         Gate::define('weekly-report:create', [WeeklyReportPolicy::class, "create"]);
         Gate::define('weekly-report:update', [WeeklyReportPolicy::class, "update"]);
         Gate::define('weekly-report:delete', [WeeklyReportPolicy::class, "delete"]);
         Gate::define('weekly-report:review', [WeeklyReportPolicy::class, "review"]);
-        
+
         Gate::define('document:read', [DocumentPolicy::class, "read"]);
         Gate::define('document:create', [DocumentPolicy::class, "create"]);
         Gate::define('document:update', [DocumentPolicy::class, "update"]);
@@ -85,5 +86,8 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('evaluation:create', [EvaluationPolicy::class, "create"]);
         Gate::define('evaluation:update', [EvaluationPolicy::class, "update"]);
         Gate::define('evaluation:delete', [EvaluationPolicy::class, "delete"]);
+
+        Gate::define('profile:read', [ProfilePolicy::class, "read"]);
+        Gate::define('profile:update', [ProfilePolicy::class, "update"]);
     }
 }

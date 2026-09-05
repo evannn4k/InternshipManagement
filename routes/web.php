@@ -60,6 +60,8 @@ use App\Http\Controllers\WeeklyReport\RevisionWeeklyReportController;
 use App\Http\Controllers\WeeklyReport\SubmitWeeklyReportController;
 use App\Http\Controllers\WeeklyReport\UpdateWeeklyReportController;
 use App\Http\Controllers\WeeklyReport\ViewWeeklyReportController;
+use App\Http\Controllers\Profile\UpdateProfileController;
+use App\Http\Controllers\Profile\ViewProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', TestingController::class);
@@ -79,6 +81,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/download', DownloadFileController::class);
     Route::get('/dashboard', DashboardController::class);
 
+    Route::prefix('/profile')->name('profile.')->group(function () {
+        Route::get('/', ViewProfileController::class)->name('index');
+        Route::put('/', UpdateProfileController::class)->name('update');
+    });
+    
     Route::prefix('/user')->name('user.')->group(function () {
         Route::get('/', [ViewUserController::class, 'index'])->name('index');
         Route::post('/', CreateUserController::class)->name('create');
