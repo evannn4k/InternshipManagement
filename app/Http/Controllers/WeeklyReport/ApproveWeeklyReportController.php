@@ -5,6 +5,7 @@ namespace App\Http\Controllers\WeeklyReport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\WeeklyReport\ApproveWeeklyReportRequest;
 use App\Models\WeeklyReport;
+use App\Notifications\FcmNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -36,6 +37,12 @@ class ApproveWeeklyReportController extends Controller
 
             $weeklyReport->update($credentials);
 
+            $intern = $weeklyReport->placement->intern;
+
+            if ($intern->fcm_token) {
+                $intern->notify(new FcmNotification(title: "Laporan Diterima", body: $credentials['mentor_feedback'] ?? ""));
+            }
+
             return redirect()
                 ->back()
                 ->with(
@@ -43,7 +50,7 @@ class ApproveWeeklyReportController extends Controller
                     'Berhasil meminta menyetujui laporan.',
                 );
         } catch (\Exception $e) {
-            Log::error('Error : '.$e->getMessage());
+            Log::error('Error : ' . $e->getMessage());
 
             return redirect()
                 ->back()

@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Evaluation;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Evaluation\CreateEvaluationRequest;
 use App\Models\Evaluation;
+use App\Models\Placement;
+use App\Notifications\FcmNotification;
 use Google\Service\DriveActivity\Create;
 use Google\Service\VMwareEngine\Credentials;
 use Illuminate\Http\Request;
@@ -37,6 +39,14 @@ class CreateEvaluationController extends Controller
             $credentials['evaluator_id'] = $user->id;
 
             Evaluation::create($credentials);
+
+            if ($credentials['is_visible_to_intern'] == 1) {
+                $intern = Placement::find($credentials['placement_id'])->intern;
+
+                if ($intern->fcm_token) {
+                    $intern->notify(new FcmNotification(title: "Mendapat Evaluasi Baru", body: $credentials['evaluation_type'] ?? ""));
+                }
+            }
 
             return redirect()
                 ->back()

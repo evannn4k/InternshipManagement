@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Document;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Document\AcceptDocumentRequest;
 use App\Models\Document;
+use App\Notifications\FcmNotification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
@@ -32,6 +33,12 @@ class AcceptDocumentController extends Controller
 
             $document->update($credentials);
 
+            $intern = $document->placement->intern;
+
+            if ($intern->fcm_token) {
+                $intern->notify(new FcmNotification(title: "Dokumen diterima", body: $credentials['review_notes'] ?? ""));
+            }
+
             return redirect()
                 ->back()
                 ->with(
@@ -39,7 +46,7 @@ class AcceptDocumentController extends Controller
                     'Berhasil menerima dokumen.',
                 );
         } catch (\Exception $e) {
-            Log::error('Error : '.$e->getMessage());
+            Log::error('Error : ' . $e->getMessage());
 
             return redirect()
                 ->back()

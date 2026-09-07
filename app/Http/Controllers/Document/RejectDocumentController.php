@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Document;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Document\RejectDocumentRequest;
 use App\Models\Document;
+use App\Notifications\FcmNotification;
+use App\Services\DocumentService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
@@ -31,6 +33,14 @@ class RejectDocumentController extends Controller
             $credentials['status'] = "rejected";
 
             $document->update($credentials);    
+
+            DocumentService::destroy($document->file_path);
+            
+            $intern = $document->placement->intern;
+
+            if ($intern->fcm_token) {
+                $intern->notify(new FcmNotification(title: "Dokumen ditolak", body: $credentials['review_notes'] ?? ""));
+            }
 
             return redirect()
                 ->back()

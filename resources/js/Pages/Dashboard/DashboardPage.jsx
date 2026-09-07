@@ -6,9 +6,6 @@ export default function DashboardPage() {
             <Layout>
                 <div className="">This is dashboard page</div>
                 <br />
-                <form action="/notif" method="post">
-                    <button type="submit">Notif</button>
-                </form>
                 <form action="logout" method="post">
                     <button type="submit">Logout</button>
                 </form>

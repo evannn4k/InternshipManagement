@@ -82,40 +82,42 @@ export default function DocumentShow({ document }) {
                     }
                     rightActions={
                         <>
-                            {can("document:review") &&
-                                document.status === "pending" && (
-                                    <div className="flex gap-2 items-center">
-                                        <Button
-                                            variant="destructive"
-                                            onClick={() =>
-                                                modal.openModal(
-                                                    "reject",
-                                                    document,
-                                                )
-                                            }
-                                        >
-                                            <FileX /> Tolak
-                                        </Button>
-                                        <Button
-                                            onClick={() =>
-                                                modal.openModal(
-                                                    "accept",
-                                                    document,
-                                                )
-                                            }
-                                        >
-                                            <FileCheck /> Terima
-                                        </Button>
-                                    </div>
-                                )}
-                            <Button
-                                variant="success"
-                                onClick={() =>
-                                    handleDownload(document.file_path)
-                                }
-                            >
-                                <Download /> Download
-                            </Button>
+                            <div className="flex gap-2 items-center">
+                                {can("document:review") &&
+                                    document.status === "pending" && (
+                                        <>
+                                            <Button
+                                                variant="destructive"
+                                                onClick={() =>
+                                                    modal.openModal(
+                                                        "reject",
+                                                        document,
+                                                    )
+                                                }
+                                            >
+                                                <FileX /> Tolak
+                                            </Button>
+                                            <Button
+                                                onClick={() =>
+                                                    modal.openModal(
+                                                        "accept",
+                                                        document,
+                                                    )
+                                                }
+                                            >
+                                                <FileCheck /> Terima
+                                            </Button>
+                                        </>
+                                    )}
+                                <Button
+                                    variant="success"
+                                    onClick={() =>
+                                        handleDownload(document.file_path)
+                                    }
+                                >
+                                    <Download /> Download
+                                </Button>
+                            </div>
                         </>
                     }
                 />

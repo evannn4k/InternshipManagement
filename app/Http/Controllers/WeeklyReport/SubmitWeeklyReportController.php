@@ -40,7 +40,7 @@ class SubmitWeeklyReportController extends Controller
                     'Berhasil submit laporan mingguan.',
                 );
         } catch (\Exception $e) {
-            Log::error('Error : '.$e->getMessage());
+            Log::error('Error : ' . $e->getMessage());
 
             return redirect()
                 ->back()

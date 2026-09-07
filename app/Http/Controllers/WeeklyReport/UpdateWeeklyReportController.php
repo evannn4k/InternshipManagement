@@ -20,17 +20,17 @@ class UpdateWeeklyReportController extends Controller
         $credentials = $request->validated();
 
         try {
-            if($weeklyReport->status !== "submitted" || $weeklyReport->status!== "revision_requested") {
+            if ($weeklyReport->status !== "submitted" && $weeklyReport->status !== "revision_requested") {
                 return redirect()
-                ->back()
-                ->with(
-                    'error',
-                    'Laporan tidak valid.',
-                );
+                    ->back()
+                    ->with(
+                        'error',
+                        'Laporan tidak valid.',
+                    );
             }
 
             $credentials['status'] = 'submitted';
-            $weeklyReport->update($credentials);    
+            $weeklyReport->update($credentials);
 
             return redirect()
                 ->back()
@@ -39,7 +39,7 @@ class UpdateWeeklyReportController extends Controller
                     'Berhasil mengubah data laporan mingguan.',
                 );
         } catch (\Exception $e) {
-            Log::error('Error : '.$e->getMessage());
+            Log::error('Error : ' . $e->getMessage());
 
             return redirect()
                 ->back()

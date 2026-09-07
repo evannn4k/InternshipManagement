@@ -65,7 +65,6 @@ use App\Http\Controllers\Profile\ViewProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [TestingController::class, "index"]);
-Route::post('/notif', [TestingController::class, "notif"]);
 
 Route::middleware('guest')->group(function () {
     Route::get('/login', [ViewAuthController::class, 'login'])->name('login');

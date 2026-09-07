@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Task;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Task\CompletedTaskRequest;
 use App\Models\Task;
+use App\Notifications\FcmNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -34,8 +35,14 @@ class CompletedTaskController extends Controller
             $credentials['reviewed_by'] = Auth::user()->id;
             $credentials['reviewed_at'] = now();
             $credentials['completed_at'] = now();
-            
+
             $task->update($credentials);
+
+            $intern = $task->placement->intern;
+
+            if ($intern->fcm_token) {
+                $intern->notify(new FcmNotification(title: "Tugas Selesai", body: $credentials['review_notes'] ?? ""));
+            }
 
             return redirect()
                 ->back()

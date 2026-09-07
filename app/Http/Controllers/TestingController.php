@@ -16,23 +16,4 @@ class TestingController extends Controller
     {
         return redirect()->intended('/login');
     }
-
-    public function notif(Request $request)
-    {
-        $intern = Auth::user();
-
-        try {
-            $intern->notify(new FcmNotification(title: "Ada Tugas Baru", body: "test aja sih"));
-            Log::info('Notif berhasil dikirim ke: ' . $intern->fcm_token);
-        } catch (\Exception $e) {
-            Log::error('Gagal kirim notif: ' . $e->getMessage());
-        }
-
-        return redirect()
-            ->back()
-            ->with(
-                "success",
-                "Berhasil mengirim notifikasi.",
-            );
-    }
 }

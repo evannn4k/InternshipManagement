@@ -5,6 +5,7 @@ namespace App\Http\Controllers\WeeklyReport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\WeeklyReport\RevisionWeeklyReportRequest;
 use App\Models\WeeklyReport;
+use App\Notifications\FcmNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -35,6 +36,12 @@ class RevisionWeeklyReportController extends Controller
             $credentials['reviewed_by'] = Auth::user()->id;
 
             $weeklyReport->update($credentials);
+
+            $intern = $weeklyReport->placement->intern;
+
+            if ($intern->fcm_token) {
+                $intern->notify(new FcmNotification(title: "Laporan Perlu Direvisi", body: $credentials['mentor_feedback'] ?? ""));
+            }
 
             return redirect()
                 ->back()

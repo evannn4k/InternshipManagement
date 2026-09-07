@@ -26,8 +26,6 @@ class CreateTaskController extends Controller
 
             if ($intern->fcm_token) {
                 $intern->notify(new FcmNotification(title: "Ada Tugas Baru", body: $credentials['description']));
-
-                Log::info('Notif berhasil dikirim ke: ' . $intern->fcm_token);
             }
 
             return redirect()
