@@ -99,10 +99,10 @@ class User extends Authenticatable
         return $this->hasMany(Document::class);
     }
 
-    // public function routeNotificationForFcm()
-    // {
-    //     return $this->fcm_token;
-    // }
+    public function routeNotificationForFcm()
+    {
+        return $this->fcm_token;
+    }
 
     public function evaluator()
     {

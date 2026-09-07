@@ -4,10 +4,11 @@ namespace App\Http\Controllers\Task;
 
 use App\Http\Controllers\Controller;
 use App\Models\Task;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 use App\Http\Requests\Task\CreateTaskRequest;
+use App\Models\Placement;
+use App\Notifications\FcmNotification;
 use Illuminate\Support\Facades\Auth;
 
 class CreateTaskController extends Controller
@@ -20,6 +21,14 @@ class CreateTaskController extends Controller
         try {
             $credentials['created_by'] = Auth::user()->id;
             Task::create($credentials);
+
+            $intern = Placement::find($credentials['placement_id'])->intern;
+
+            if ($intern->fcm_token) {
+                $intern->notify(new FcmNotification(title: "Ada Tugas Baru", body: $credentials['description']));
+
+                Log::info('Notif berhasil dikirim ke: ' . $intern->fcm_token);
+            }
 
             return redirect()
                 ->back()

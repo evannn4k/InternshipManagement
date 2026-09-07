@@ -64,7 +64,8 @@ use App\Http\Controllers\Profile\UpdateProfileController;
 use App\Http\Controllers\Profile\ViewProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', TestingController::class);
+Route::get('/', [TestingController::class, "index"]);
+Route::post('/notif', [TestingController::class, "notif"]);
 
 Route::middleware('guest')->group(function () {
     Route::get('/login', [ViewAuthController::class, 'login'])->name('login');
@@ -76,6 +77,7 @@ Route::middleware('guest')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::post('/logout', LogoutController::class);
+    Route::post('/fcm-token', FcmController::class)->name("fcm.token");
 
     Route::post('/fcm-token', FcmController::class)->name("fcm.token");
     Route::get('/download', DownloadFileController::class);
