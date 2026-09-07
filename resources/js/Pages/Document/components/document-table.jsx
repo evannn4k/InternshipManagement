@@ -41,7 +41,8 @@ export default function DocumentTable({ documents, modal, handleDownload }) {
             onClick: (document) => router.get(`/document/${document.id}`),
         },
         {
-            enabled: (document) => can("document:read"),
+            enabled: (document) =>
+                can("document:read") && document.status === "accepted",
             label: "Download",
             icon: <Download />,
             onClick: (document) => handleDownload(document.file_path),
@@ -68,12 +69,18 @@ export default function DocumentTable({ documents, modal, handleDownload }) {
                             <TableRow key={document.id}>
                                 <TableCell>{i + 1}.</TableCell>
                                 <TableCell>
-                                    <a
-                                        className="text-blue-600 hover:text-blue-700 hover:underline"
-                                        href={"storage/" + document.file_path}
-                                    >
-                                        {document.original_filename}
-                                    </a>
+                                    {document.status !== "rejected" ? (
+                                        <a
+                                            className="text-blue-600 hover:text-blue-700 hover:underline"
+                                            href={
+                                                "storage/" + document.file_path
+                                            }
+                                        >
+                                            {document.original_filename}
+                                        </a>
+                                    ) : (
+                                        <>-</>
+                                    )}
                                 </TableCell>
                                 <TableCell>{document.title}</TableCell>
                                 <TableCell>{document.category}</TableCell>

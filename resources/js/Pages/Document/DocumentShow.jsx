@@ -109,14 +109,16 @@ export default function DocumentShow({ document }) {
                                             </Button>
                                         </>
                                     )}
-                                <Button
-                                    variant="success"
-                                    onClick={() =>
-                                        handleDownload(document.file_path)
-                                    }
-                                >
-                                    <Download /> Download
-                                </Button>
+                                {document.status !== "rejected" && (
+                                    <Button
+                                        variant="success"
+                                        onClick={() =>
+                                            handleDownload(document.file_path)
+                                        }
+                                    >
+                                        <Download /> Download
+                                    </Button>
+                                )}
                             </div>
                         </>
                     }
