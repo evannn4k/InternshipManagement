@@ -76,6 +76,15 @@ export default function AttendanceSummaryTabble({ users }) {
                                         0,
                                     ) ?? 0}
                                 </TableCell>
+                                <TableCell>
+                                    {user.active_placement?.avg_attendance
+                                        ? Math.round(
+                                              user.active_placement
+                                                  .avg_attendance,
+                                          )
+                                        : 0}
+                                    %
+                                </TableCell>
                             </TableRow>
                         ))
                     ) : (

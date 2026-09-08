@@ -62,12 +62,20 @@ class CheckInAttendanceController extends Controller
             $credentials['attendance_date'] = now()->format('Y-m-d');
             $credentials['placement_id'] = $placement->id;
             $credentials['check_in_at'] = now();
-            $credentials['status'] = "present";
 
-            if (now()->format('H:i:s') > $placement->program->work_start_time->format('H:i:s')) {
+            if ($credentials["status"] == "present" && now()->format('H:i:s') > $placement->program->work_start_time->format('H:i:s')) {
                 $credentials['status'] = "late";
                 $credentials['late_minutes'] = ceil(abs(now()->diffInMinutes($placement->program->work_start_time)));
             }
+
+            $total_attendance = $placement->total_attendance + 1;
+            $total_present = $placement->total_present + (in_array($credentials['status'], ["late", "present"]) ? 1 : 0);
+
+            $placement->update([
+                "total_attendance" => $total_attendance,
+                "total_present" => $total_present,
+                "avg_attendance" => number_format(($total_present / $total_attendance) * 100, 2),
+            ]);
 
             Attendance::create($credentials);
 

@@ -12,10 +12,8 @@ import {
 import { CalendarX, Clock, TrendingUp, Users } from "lucide-react";
 import AttendanceSummaryTabble from "./components/attendance-summary-table";
 
-export default function AttendanceSummary({ data }) {
+export default function AttendanceSummary({ data, attendance }) {
     const { can } = useCan();
-
-    console.log(data)
 
     const cardData = [
         {
@@ -23,7 +21,11 @@ export default function AttendanceSummary({ data }) {
             value: data.data.length,
             icon: <Users />,
         },
-        { title: "Kehadiran rata-rata", value: 93 + "%", icon: <TrendingUp /> },
+        {
+            title: "Kehadiran rata-rata",
+            value: Math.round(attendance.avg) + "%",
+            icon: <TrendingUp />,
+        },
         {
             title: "Total telat",
             value: data.data
@@ -66,7 +68,7 @@ export default function AttendanceSummary({ data }) {
                         </Card>
                     ))}
                 </div>
-                <AttendanceSummaryTabble users={data.data} />
+                <AttendanceSummaryTabble users={data.data} a />
                 {/* <ListPagination data={data} /> */}
             </Layout>
         </>

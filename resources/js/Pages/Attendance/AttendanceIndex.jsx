@@ -22,7 +22,7 @@ export default function AttendanceIndex({ data, placements }) {
     const { can } = useCan();
     const [search, setSearch] = useState("");
     const modal = useModal();
-    const internNotesForm = useForm({ intern_notes: "" });
+    const checkInForm = useForm({ intern_notes: "", status: "" });
 
     const handleDelete = () => {
         router.delete("/attendance/" + modal.data);
@@ -43,19 +43,19 @@ export default function AttendanceIndex({ data, placements }) {
     };
 
     const handleCheckIn = () => {
-        internNotesForm.post("/attendance/check-in", {
+        checkInForm.post("/attendance/check-in", {
             onSuccess: () => {
                 modal.closeModal();
-                internNotesForm.reset();
+                checkInForm.reset();
             },
         });
     };
 
     const handleCheckOut = () => {
-        internNotesForm.put("/attendance/" + modal.data.id + "/check-out", {
+        checkInForm.put("/attendance/" + modal.data.id + "/check-out", {
             onSuccess: () => {
                 modal.closeModal();
-                internNotesForm.reset();
+                checkInForm.reset();
             },
         });
     };
@@ -87,12 +87,13 @@ export default function AttendanceIndex({ data, placements }) {
         },
     ];
 
-    const handleChangeInternNotes = (e) => {
-        internNotesForm.setData({ intern_notes: e.target.value });
+    const handleChange = (e) => {
+        checkInForm.setData({
+            ...checkInForm.data,
+            [e.target.id]: e.target.value,
+        });
     };
 
-    console.log(data)
-    
     return (
         <>
             <Head>
@@ -109,10 +110,10 @@ export default function AttendanceIndex({ data, placements }) {
                         name="check-in"
                         description="Masukkan data absensi Anda"
                         action={handleCheckIn}
-                        disabled={internNotesForm.processing}
+                        disabled={checkInForm.processing}
                         actionLabel={
                             <>
-                                {internNotesForm.processing && <Spinner />}
+                                {checkInForm.processing && <Spinner />}
                                 Check In
                             </>
                         }
@@ -120,16 +121,43 @@ export default function AttendanceIndex({ data, placements }) {
                             <form>
                                 <FormSection>
                                     <FormField
+                                        label="Status"
+                                        name="status"
+                                        error={checkInForm.errors.status}
+                                        value={checkInForm.data.status}
+                                        type="select"
+                                        options={[
+                                            {
+                                                label: "Pilih status",
+                                                value: "",
+                                            },
+                                            {
+                                                label: "Present",
+                                                value: "present",
+                                            },
+                                            {
+                                                label: "Absent",
+                                                value: "absent",
+                                            },
+                                            {
+                                                label: "Sick",
+                                                value: "sick",
+                                            },
+                                            {
+                                                label: "Permitted",
+                                                value: "permitted",
+                                            },
+                                        ]}
+                                        onChange={handleChange}
+                                        required={true}
+                                    />
+                                    <FormField
                                         label="Catatan"
                                         name="intern_notes"
-                                        error={
-                                            internNotesForm.errors.intern_notes
-                                        }
-                                        value={
-                                            internNotesForm.data.intern_notes
-                                        }
+                                        error={checkInForm.errors.intern_notes}
+                                        value={checkInForm.data.intern_notes}
                                         type="textarea"
-                                        onChange={handleChangeInternNotes}
+                                        onChange={handleChange}
                                     />
                                 </FormSection>
                             </form>
@@ -145,10 +173,10 @@ export default function AttendanceIndex({ data, placements }) {
                         name="check-out"
                         description="Tandai selesai"
                         action={handleCheckOut}
-                        disabled={internNotesForm.processing}
+                        disabled={checkInForm.processing}
                         actionLabel={
                             <>
-                                {internNotesForm.processing && <Spinner />}
+                                {checkInForm.processing && <Spinner />}
                                 Check Out
                             </>
                         }

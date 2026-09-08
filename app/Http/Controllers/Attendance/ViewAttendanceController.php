@@ -59,10 +59,17 @@ class ViewAttendanceController extends Controller
     {
         Gate::authorize('attendance:read');
 
-        $data = User::with(['activePlacement', 'activePlacement.program', 'activePlacement.attendance'])->whereHas("role", function ($r) {
+        $data = User::with(['activePlacement', 'activePlacement.program:id,name', 'activePlacement.attendance'])->whereHas("role", function ($r) {
             return $r->where("name", "intern");
         })->paginate();
 
-        return Inertia::render("Attendance/AttendanceSummary", compact("data"));
+        $attendance = [];
+        $avg = Placement::whereHas("intern.role", fn($r) => $r->name = "intern")->selectRaw("SUM(total_attendance) as total_attendance, SUM(total_present) as total_present")->first();
+
+        $attendance['total_attendance'] = $avg->total_attendance;
+        $attendance['total_present'] = $avg->total_present;
+        $attendance['avg'] = number_format($avg->total_present / $avg->total_attendance * 100, 2);
+
+        return Inertia::render("Attendance/AttendanceSummary", compact("data", "attendance"));
     }
 }

@@ -35,7 +35,7 @@ export default function PlacementShow({ placement, attendance, task }) {
         present: attendance.present,
         permission: attendance.sickAndPermitted,
         absent: attendance.absent,
-        percentage: attendance.attendance_percentage,
+        percentage: Math.round(placement.avg_attendance),
     };
 
     const tasksSummary = placement.tasks_summary ?? {
@@ -45,8 +45,6 @@ export default function PlacementShow({ placement, attendance, task }) {
         pending: task.pending,
         completion_rate: task.completion_rate,
     };
-
-    console.log(task);
 
     const handleDownload = (path) => {
         window.location.href = `/download?path=${path}`;

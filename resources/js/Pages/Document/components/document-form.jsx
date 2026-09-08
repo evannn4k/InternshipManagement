@@ -53,8 +53,6 @@ export default function DocumentForm({ modal, placements }) {
         }
     }, [isOpenModal]);
 
-    console.log(data);
-
     const handleSubmit = (e) => {
         e.preventDefault();
 

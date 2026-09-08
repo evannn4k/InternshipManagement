@@ -107,7 +107,10 @@ export default function WeeklyReportIndex({ data, defaultDates }) {
                                 keyFilter="status"
                             />
                             {can("weekly-report:create") && (
-                                <Button variant="success" onClick={() => modal.openCreate()}>
+                                <Button
+                                    variant="success"
+                                    onClick={() => modal.openCreate()}
+                                >
                                     <Plus /> Tambah
                                 </Button>
                             )}

@@ -86,7 +86,12 @@ export default function RoleMenu({ roles, permissions }) {
                                         <TableCell className="text-right">
                                             <Button
                                                 size="sm"
-                                                variant="success"
+                                                variant={
+                                                    selectedRole?.name ===
+                                                    role.name
+                                                        ? "success"
+                                                        : "outline"
+                                                }
                                                 onClick={() =>
                                                     setSelectedRole(role)
                                                 }

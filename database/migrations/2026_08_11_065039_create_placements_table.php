@@ -23,6 +23,9 @@ return new class extends Migration
             $table->string('position_title')->nullable();
             $table->text('objective')->nullable();
             $table->text('termination_reason')->nullable();
+            $table->decimal('avg_attendance', 5, 2)->nullable();
+            $table->integer('total_attendance')->nullable();
+            $table->integer('total_present')->nullable();
             $table->timestamps();
         });
     }

@@ -79,7 +79,7 @@ export function AppSidebar({ ...props }) {
             title: "Management Data",
             items: [
                 {
-                    name: "School",
+                    name: "Sekolah",
                     href: "/school",
                     icon: School,
                     permission: "school:read",
