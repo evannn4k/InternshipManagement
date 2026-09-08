@@ -1,26 +1,26 @@
 import { DashboardCard } from "./dashboard-card";
 
-export function SectionCards() {
+export function SectionCards({ data }) {
     const dataCard = [
         {
             title: "Total Internships",
-            value: 30,
+            value: data.total_intern,
             description: "Total peserta magang yang aktif.",
         },
         {
             title: "Total Tugas",
-            value: 30,
-            description: "Total tugas yang harus diselesaikan.",
+            value: data.total_task,
+            description: "Total seluruh tugas peserta magang.",
         },
         {
             title: "Total Laporan Mingguan",
-            value: 30,
-            description: "Total laporan mingguan yang sudah dikirim.",
+            value: data.total_report,
+            description: "Total laporan mingguan yang sudah disetujui.",
         },
         {
             title: "Total Dokumen",
-            value: 30,
-            description: "Total dokumen yang sudah dikirim.",
+            value: data.total_document,
+            description: "Total dokumen yang sudah diterima.",
         },
     ];
 

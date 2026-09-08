@@ -70,6 +70,6 @@ class ViewAttendanceController extends Controller
         $attendance['total_present'] = $avg->total_present;
         $attendance['avg'] = number_format($avg->total_present / $avg->total_attendance * 100, 2);
 
-        return Inertia::render("Attendance/AttendanceSummary", compact("data", "attendance"));
+        return Inertia::render("Attendance/AttendanceSummary", compact("data"));
     }
 }
