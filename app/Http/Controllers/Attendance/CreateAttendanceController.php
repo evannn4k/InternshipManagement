@@ -43,8 +43,17 @@ class CreateAttendanceController extends Controller
             }
 
             if ($credentials['status'] === "late" && Carbon::parse($credentials['check_in_at'])->format('H:i') > $placement->program->work_start_time->format('H:i')) {
-                $credentials['late_minutes'] = abs(now()->diffInMinutes($placement->program->work_start_time));
+                $credentials['late_minutes'] = abs(nodw()->diffInMinutes($placement->program->work_start_time));
             }
+
+            $total_attendance = $placement->total_attendance + 1;
+            $total_present = $placement->total_present + (in_array($credentials['status'], ["late", "present"]) ? 1 : 0);
+            
+            $placement->update([
+                "total_attendance" => $total_attendance,
+                "total_present" => $total_present,
+                "avg_attendance" => number_format(($total_present / $total_attendance) * 100, 2),
+            ]);
 
             Attendance::create($credentials);
 

@@ -1,5 +1,5 @@
-<?php
-
+    <?php
+ 
 use App\Http\Controllers\Attendance\CheckInAttendanceController;
 use App\Http\Controllers\Attendance\CheckOutAttendanceController;
 use App\Http\Controllers\Attendance\CreateAttendanceController;

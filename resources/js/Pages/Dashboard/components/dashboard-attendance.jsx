@@ -45,7 +45,7 @@ export function DashboardAttendance({ attendances }) {
                             ))
                         ) : (
                             <TableRow>
-                                <TableCell colSpan={3} className="p-8">
+                                <TableCell colSpan={4} className="p-8">
                                     <div className="flex items-center flex-col gap-2">
                                         <PackageOpen className="size-8 text-muted-foreground" />
                                         <span>Tidak ada data</span>

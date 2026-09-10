@@ -24,7 +24,7 @@ class CheckInAttendanceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "status" => "nullable|string|in:present,absent,sick,permitted",
+            "status" => "required|string|in:present,absent,sick,permitted",
             "intern_notes" => "nullable|string"
         ];
     }

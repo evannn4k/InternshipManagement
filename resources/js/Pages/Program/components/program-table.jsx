@@ -129,7 +129,7 @@ export default function ProgramTable({ programs, form }) {
                         ))
                     ) : (
                         <TableRow>
-                            <TableCell colSpan={6} className="p-8">
+                            <TableCell colSpan={7} className="p-8">
                                 <div className="flex items-center flex-col gap-2">
                                     <FiPackage className="size-8 text-muted-foreground" />
                                     <span>Tidak ada data</span>
