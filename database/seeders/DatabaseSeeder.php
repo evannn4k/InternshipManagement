@@ -48,6 +48,12 @@ class DatabaseSeeder extends Seeder
                 'name' => 'role:manage',
             ],
             [
+                'name' => 'dashboard:read',
+            ],
+            [
+                'name' => 'actifity:read',
+            ],
+            [
                 'name' => 'profile:read',
             ],
             [

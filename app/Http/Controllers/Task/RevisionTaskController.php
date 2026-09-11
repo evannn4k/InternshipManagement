@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Task;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Task\RevisionTaskRequest;
+use App\Models\Activity;
 use App\Models\Task;
 use App\Notifications\FcmNotification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 
@@ -34,6 +36,18 @@ class RevisionTaskController extends Controller
             $credentials['reviewed_at'] = now();
 
             $task->update($credentials);
+
+            $activity = [
+                "user_id" => Auth::user()->id,
+                "action" => "Task status changed.",
+                "subject" => "task",
+                "subject_id" => $task->id,
+                "old_value" => $task->status,
+                "new_value" => "revision_requested",
+                "ip_address" =>  $request->ip()
+            ];
+
+            Activity::create($activity);
 
             $intern = $task->placement->intern;
 

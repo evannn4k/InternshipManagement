@@ -41,7 +41,7 @@ export default function ProfileShow({ auth: user }) {
     });
 
     const [avatarPreview, setAvatarPreview] = useState(
-        user.avatar ? `/storage/${user.avatar}` : null,
+        user.avatar ? `/storage/images/user/${user.avatar}` : null,
     );
 
     const handleChange = (e) => {

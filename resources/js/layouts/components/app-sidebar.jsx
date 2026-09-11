@@ -27,11 +27,8 @@ import {
     School,
     Shield,
     User,
-    CreditCard,
-    Bell,
     MoreVertical,
     LogOut,
-    SquareActivity,
     SquareArrowRightEnter,
     ClipboardList,
     ScrollText,
@@ -41,6 +38,8 @@ import {
     ChartCandlestick,
 } from "lucide-react";
 import { useCan } from "@/hooks/use-can";
+import { Activity } from "lucide-react";
+import { BriefcaseBusiness } from "lucide-react";
 
 export function AppSidebar({ ...props }) {
     const { auth } = usePage().props;
@@ -56,7 +55,7 @@ export function AppSidebar({ ...props }) {
                     name: "Dashboard",
                     href: "/dashboard",
                     icon: PieChart,
-                    permission: null,
+                    permission: "dashboard:read",
                     activePattern: "/dashboard",
                 },
                 {
@@ -88,7 +87,7 @@ export function AppSidebar({ ...props }) {
                 {
                     name: "Program",
                     href: "/program",
-                    icon: SquareActivity,
+                    icon: BriefcaseBusiness,
                     permission: "program:read",
                     activePattern: "/program",
                 },
@@ -107,13 +106,6 @@ export function AppSidebar({ ...props }) {
                     activePattern: "/task",
                 },
                 {
-                    name: "Laporan Mingguan",
-                    href: "/weekly-report",
-                    icon: BookText,
-                    permission: "weekly-report:read",
-                    activePattern: "/weekly-report",
-                },
-                {
                     name: "Dokumen",
                     href: "/document",
                     icon: FileText,
@@ -121,11 +113,25 @@ export function AppSidebar({ ...props }) {
                     activePattern: "/document",
                 },
                 {
+                    name: "Laporan Mingguan",
+                    href: "/weekly-report",
+                    icon: BookText,
+                    permission: "weekly-report:read",
+                    activePattern: "/weekly-report",
+                },
+                {
                     name: "Evaluasi",
                     href: "/evaluation",
                     icon: ChartCandlestick,
                     permission: "evaluation:read",
                     activePattern: "/evaluation",
+                },
+                {
+                    name: "Log Aktifitas",
+                    href: "/activity",
+                    icon: Activity,
+                    permission: "activity:read",
+                    activePattern: "/activity",
                 },
             ],
         },
@@ -183,11 +189,7 @@ export function AppSidebar({ ...props }) {
             </SidebarHeader>
             <SidebarContent>
                 {navigation.map((nav) => {
-                    if (
-                        !nav.items.some(
-                            (item) => !item.permission || can(item.permission),
-                        )
-                    )
+                    if (!nav.items.some((item) => can(item.permission)))
                         return null;
                     return (
                         <SidebarGroup key={nav.title}>
@@ -237,10 +239,13 @@ export function AppSidebar({ ...props }) {
                                         className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
                                     >
                                         <Avatar className="h-8 w-8 rounded-lg grayscale">
-                                            <AvatarImage />
-                                            <AvatarFallback className="rounded-lg">
-                                                CN
-                                            </AvatarFallback>
+                                            <AvatarImage
+                                                src={
+                                                    auth.avatar
+                                                        ? `/storage/images/user/${auth.avatar}`
+                                                        : "/storage/images/main/default.jpg"
+                                                }
+                                            />
                                         </Avatar>
                                         <div className="grid flex-1 text-left text-sm leading-tight">
                                             <span className="truncate font-medium">
@@ -264,10 +269,13 @@ export function AppSidebar({ ...props }) {
                                     <DropdownMenuLabel className="p-0 font-normal">
                                         <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                                             <Avatar className="h-8 w-8 rounded-lg">
-                                                <AvatarImage />
-                                                <AvatarFallback className="rounded-lg">
-                                                    CN
-                                                </AvatarFallback>
+                                                <AvatarImage
+                                                    src={
+                                                        auth.avatar
+                                                            ? `/storage/images/user/${auth.avatar}`
+                                                            : "/storage/images/main/default.jpg"
+                                                    }
+                                                />
                                             </Avatar>
                                             <div className="grid flex-1 text-left text-sm leading-tight">
                                                 <span className="truncate font-medium">

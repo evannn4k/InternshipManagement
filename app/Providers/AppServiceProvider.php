@@ -34,6 +34,12 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('role:manage', function () {
             return Auth::user()->hasPermission("role:manage");
         });
+        Gate::define('dashboard:read', function (User $user) {
+            return $this->user->hasPermission("dashboard:read");
+        });
+        Gate::define('activity:read', function (User $user) {
+            return $this->user->hasPermission("activity:read");
+        });
 
         Gate::define('school:read', [SchoolPolicy::class, "read"]);
         Gate::define('school:create', [SchoolPolicy::class, "create"]);

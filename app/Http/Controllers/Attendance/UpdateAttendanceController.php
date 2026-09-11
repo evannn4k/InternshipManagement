@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Attendance;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Attendance\UpdateAttendanceRequest;
+use App\Models\Activity;
 use App\Models\Attendance;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -35,11 +36,23 @@ class UpdateAttendanceController extends Controller
 
             $credentials['corrected_by'] = Auth::user()->id;
 
-            if ($credentials['status'] === "late" && Carbon::parse($credentials['check_in_at'])->format('H:i') > $placement->program->work_start_time->format('H:i')) {
-                $credentials['late_minutes'] = abs(now()->diffInMinutes($placement->program->work_start_time));
+            if (($credentials['status'] === "present" || $credentials['status'] === "late") && Carbon::parse($credentials['check_in_at'])->format('H:i') > $placement->program->work_start_time->format('H:i')) {
+                $credentials['late_minutes'] = number_format(abs(now()->diffInMinutes($placement->program->work_start_time)), 0);
             } else {
                 $credentials['late_minutes'] = null;
             }
+
+            $activity = [
+                "user_id" => Auth::user()->id,
+                "action" => "Attendance corrected",
+                "subject" => "attendance",
+                "subject_id" => $attendance->id,
+                "old_value" => "-",
+                "new_value" => "-",
+                "ip_address" =>  $request->ip()
+            ];
+
+            Activity::create($activity);
 
             $attendance->update($credentials);
 

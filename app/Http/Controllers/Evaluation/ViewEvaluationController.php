@@ -31,7 +31,9 @@ class ViewEvaluationController extends Controller
         }
 
         $data = Evaluation::hasRole(Auth::user())->with(['evaluator:id,name', 'placement:id,intern_id,program_id,position_title', 'placement.intern:id,name', 'placement.program:id,name'])->when($search, function ($query, $search) {
-            return $query->where('name', 'like', "%$search%");
+            return $query->whereHas('placement.intern', function ($q) use ($search) {
+                return $q->where("name", "like",  "%$search%");
+            });
         })->when($filter, function ($query) use ($key, $filter) {
             return $query->where($key, $filter);
         })->orderByDesc('created_at')->paginate(10)->withQueryString();

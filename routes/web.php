@@ -1,5 +1,6 @@
     <?php
- 
+
+use App\Http\Controllers\Activity\ViewActivityController;
 use App\Http\Controllers\Attendance\CheckInAttendanceController;
 use App\Http\Controllers\Attendance\CheckOutAttendanceController;
 use App\Http\Controllers\Attendance\CreateAttendanceController;
@@ -81,6 +82,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/fcm-token', FcmController::class)->name("fcm.token");
     Route::get('/download', DownloadFileController::class);
     Route::get('/dashboard', DashboardController::class);
+    Route::get('/activity', ViewActivityController::class);
 
     Route::prefix('/profile')->name('profile.')->group(function () {
         Route::get('/', ViewProfileController::class)->name('index');

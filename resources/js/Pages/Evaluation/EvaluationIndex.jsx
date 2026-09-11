@@ -46,6 +46,14 @@ export default function EvaluationIndex({ data, placements }) {
             label: "Semua",
             value: "",
         },
+        {
+            label: "Terlihat",
+            value: "",
+        },
+        {
+            label: "Tidak terlihat",
+            value: "",
+        },
     ];
 
     return (
@@ -79,13 +87,16 @@ export default function EvaluationIndex({ data, placements }) {
                     rightActions={
                         <div className="flex gap-2 items-center">
                             <ListFilter
-                                name="Status"
+                                name="Terlihat"
                                 handleFilter={handleFilter}
                                 options={filterStatus}
-                                keyFilter="status"
+                                keyFilter="is_visible_to_intern"
                             />
                             {can("evaluation:create") && (
-                                <Button variant="success" onClick={() => modal.openCreate()}>
+                                <Button
+                                    variant="success"
+                                    onClick={() => modal.openCreate()}
+                                >
                                     <Plus /> Tambah
                                 </Button>
                             )}

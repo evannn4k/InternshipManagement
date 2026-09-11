@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Task;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Task\CompletedTaskRequest;
+use App\Models\Activity;
 use App\Models\Task;
 use App\Notifications\FcmNotification;
 use Illuminate\Http\Request;
@@ -37,6 +38,19 @@ class CompletedTaskController extends Controller
             $credentials['completed_at'] = now();
 
             $task->update($credentials);
+
+
+            $activity = [
+                "user_id" => Auth::user()->id,
+                "action" => "Task status changed.",
+                "subject" => "task",
+                "subject_id" => $task->id,
+                "old_value" => $task->status,
+                "new_value" => "completed",
+                "ip_address" =>  $request->ip()
+            ];
+
+            Activity::create($activity);
 
             $intern = $task->placement->intern;
 

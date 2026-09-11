@@ -4,12 +4,10 @@ namespace App\Http\Controllers\Evaluation;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Evaluation\CreateEvaluationRequest;
+use App\Models\Activity;
 use App\Models\Evaluation;
 use App\Models\Placement;
 use App\Notifications\FcmNotification;
-use Google\Service\DriveActivity\Create;
-use Google\Service\VMwareEngine\Credentials;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
@@ -38,7 +36,19 @@ class CreateEvaluationController extends Controller
 
             $credentials['evaluator_id'] = $user->id;
 
-            Evaluation::create($credentials);
+            $evaluation = Evaluation::create($credentials);
+
+            $activity = [
+                "user_id" => Auth::user()->id,
+                "action" => "Evaluation published",
+                "subject" => "evaluation",
+                "subject_id" => $evaluation->id,
+                "old_value" => "-",
+                "new_value" => "-",
+                "ip_address" =>  $request->ip()
+            ];
+
+            Activity::create($activity);
 
             if ($credentials['is_visible_to_intern'] == 1) {
                 $intern = Placement::find($credentials['placement_id'])->intern;
