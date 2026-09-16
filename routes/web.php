@@ -1,4 +1,4 @@
-    <?php
+<?php
 
 use App\Http\Controllers\Activity\ViewActivityController;
 use App\Http\Controllers\Attendance\CheckInAttendanceController;
@@ -88,7 +88,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/', ViewProfileController::class)->name('index');
         Route::put('/', UpdateProfileController::class)->name('update');
     });
-    
+
     Route::prefix('/user')->name('user.')->group(function () {
         Route::get('/', [ViewUserController::class, 'index'])->name('index');
         Route::post('/', CreateUserController::class)->name('create');

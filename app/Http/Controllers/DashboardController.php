@@ -7,6 +7,7 @@ use App\Models\Document;
 use App\Models\Task;
 use App\Models\User;
 use App\Models\WeeklyReport;
+use Illuminate\Support\Carbon;
 use Inertia\Inertia;
 
 class DashboardController extends Controller
@@ -24,8 +25,33 @@ class DashboardController extends Controller
         $data['total_document'] = Document::where("status", "accepted")->count();
 
         $tasks = Task::with("placement:id,intern_id", "placement.intern:id,name")->orderBy("created_at")->limit(10)->get();
-        $attendances = Attendance::with("placement:id,intern_id", "placement.intern:id,name")->orderBy("created_at")->limit(10)->get();
+        $attendances = Attendance::select("id", "placement_id", "status", "attendance_date")->with("placement:id,intern_id", "placement.intern:id,name")->orderBy("created_at")->limit(10)->get();
 
-        return Inertia::render("Dashboard/Dashboard", compact("data", "tasks", "attendances"));
+        $chartAttendance = Attendance::whereBetween("attendance_date", [now()->subDays(7)->format('d-m-Y'), now()->format('d-m-Y')])->orderBy("attendance_date")->get()->groupBy(function ($att) {
+            Carbon::setLocale('id');
+            return Carbon::parse($att->attendance_date)->translatedFormat("l");
+        })->map(function ($g) { 
+            return [
+                "total_present" => $g->whereIn("status", ['present', 'late'])->count(),
+                "total_absent" => $g->whereIn("status", ['absent', 'permitted', 'sick'])->count()
+            ];
+        });
+
+        $chartTask = Task::whereBetween("started_at", [now()->subDays(7), now()])->orderBy("started_at")->get()->groupBy(function ($att) {
+            Carbon::setLocale('id');
+            return Carbon::parse($att->started_at)->translatedFormat("l");
+        })->map(function ($g) {
+            return [
+                "total_task" => $g->count(),
+                "total_completed" => $g->where("status", "completed")->count()
+            ];
+        });
+
+        $chartData = [
+            "chartAttendance"  => $chartAttendance,
+            "chartTask"  => $chartTask
+        ];
+
+        return Inertia::render("Dashboard/Dashboard", compact("data", "tasks", "attendances", "chartData"));
     }
 }

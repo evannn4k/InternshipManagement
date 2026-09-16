@@ -14,7 +14,7 @@ import { PackageOpen } from "lucide-react";
 export function DashboardAttendance({ attendances }) {
     return (
         <div className="flex flex-col gap-2">
-            <CardDescription>Abssensi terbaru</CardDescription>
+            <CardDescription>10 data absensi terbaru</CardDescription>
             <div className="overflow-hidden rounded-lg border">
                 <Table className="m-0">
                     <TableHeader className="bg-gradient-to-t from-emerald-50 to-white">

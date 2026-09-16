@@ -82,6 +82,7 @@ export default function TaskShow({ task }) {
                                     <FileX /> Revisi
                                 </Button>
                                 <Button
+                                    variant="success"
                                     onClick={() =>
                                         modal.openModal("completed", task)
                                     }

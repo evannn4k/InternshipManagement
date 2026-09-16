@@ -9,12 +9,14 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import { router } from "@inertiajs/react";
+import { CircleX } from "lucide-react";
+import { CircleCheck } from "lucide-react";
 import { PackageOpen } from "lucide-react";
 
 export function DashboardTask({ tasks }) {
     return (
         <div className="flex flex-col gap-2">
-            <CardDescription>Tugas terbaru</CardDescription>
+            <CardDescription>10 data tugas terbaru</CardDescription>
             <div className="overflow-hidden rounded-lg border">
                 <Table className="m-0">
                     <TableHeader className="bg-gradient-to-t from-emerald-50 to-white">

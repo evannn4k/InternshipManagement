@@ -85,6 +85,7 @@ export default function TaskTable({ tasks, modal, handleChangeStatus }) {
                         <TableHead>Nama</TableHead>
                         <TableHead>Status</TableHead>
                         <TableHead>Prioritas</TableHead>
+                        <TableHead>Dimulai pada</TableHead>
                         <TableHead>Pengumpulan</TableHead>
                         <TableHead>Waktu pengumpulan</TableHead>
                         <TableHead className="text-right">Aksi</TableHead>
@@ -140,6 +141,7 @@ export default function TaskTable({ tasks, modal, handleChangeStatus }) {
                                         {task.priority}
                                     </Badge>
                                 </TableCell>
+                                <TableCell>{task.started_at}</TableCell>
                                 <TableCell>
                                     <Badge
                                         variant={
