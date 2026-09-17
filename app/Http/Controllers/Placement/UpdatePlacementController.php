@@ -37,7 +37,7 @@ class UpdatePlacementController extends Controller
                     "user_id" => Auth::user()->id,
                     "action" => "Change placement mentor",
                     "subject" => "placement",
-                    "subject_id" => $placement->mentor_id,
+                    "subject_id" => $placement->id,
                     "old_value" => $placement->mentor_id,
                     "new_value" => $credentials['mentor_id'],
                     "ip_address" =>  $request->ip()

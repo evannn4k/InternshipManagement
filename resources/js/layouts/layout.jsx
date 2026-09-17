@@ -8,10 +8,9 @@ import { Separator } from "@/components/ui/separator";
 import { usePage } from "@inertiajs/react";
 import { toast } from "sonner";
 import { useEffect } from "react";
-import { requestNotificationPermission } from "@/utils/notification";
 
 export default function Layout({ children, header }) {
-    const { flash, auth } = usePage().props;
+    const { flash } = usePage().props;
     useEffect(() => {
         if (flash.success) {
             toast.success(flash.success);
@@ -20,12 +19,6 @@ export default function Layout({ children, header }) {
             toast.error(flash.error);
         }
     }, [flash]);
-
-    useEffect(() => {
-        if (auth && !auth.fcm_token) {
-            requestNotificationPermission();
-        }
-    }, []);
 
     return (
         <SidebarProvider

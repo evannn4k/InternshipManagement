@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
-class TestingController extends Controller
+class MainController extends Controller
 {
     /**
      * Handle the incoming request.

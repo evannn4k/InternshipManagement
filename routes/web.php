@@ -48,7 +48,7 @@ use App\Http\Controllers\Task\RevisionTaskController;
 use App\Http\Controllers\Task\SubmitTaskController;
 use App\Http\Controllers\Task\UpdateTaskController;
 use App\Http\Controllers\Task\ViewTaskController;
-use App\Http\Controllers\TestingController;
+use App\Http\Controllers\MainController;
 use App\Http\Controllers\User\CreateUserController;
 use App\Http\Controllers\User\DeleteUserController;
 use App\Http\Controllers\User\ResetPasswordUserController;
@@ -65,7 +65,7 @@ use App\Http\Controllers\Profile\UpdateProfileController;
 use App\Http\Controllers\Profile\ViewProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [TestingController::class, "index"]);
+Route::get('/', [MainController::class, "index"]);
 
 Route::middleware('guest')->group(function () {
     Route::get('/login', [ViewAuthController::class, 'login'])->name('login');

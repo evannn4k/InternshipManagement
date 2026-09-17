@@ -18,6 +18,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Link, useForm } from "@inertiajs/react";
 import { Spinner } from "@/components/ui/spinner";
+import { requestNotificationPermission } from "@/utils/notification";
 
 export function LoginForm({ className, ...props }) {
     const { data, setData, post, errors, processing } = useForm({
@@ -27,7 +28,11 @@ export function LoginForm({ className, ...props }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        post("/login");
+        post("/login", {
+            onSuccess: () => {
+                requestNotificationPermission();
+            },
+        });
     };
 
     return (
@@ -62,7 +67,8 @@ export function LoginForm({ className, ...props }) {
                             </Field>
                             <Field>
                                 <FieldLabel htmlFor="password">
-                                    Password<span className="text-destructive">*</span>
+                                    Password
+                                    <span className="text-destructive">*</span>
                                 </FieldLabel>
                                 <Input
                                     id="password"
@@ -78,11 +84,14 @@ export function LoginForm({ className, ...props }) {
                                 )}
                             </Field>
                             <Field>
-                                <Button variant="success" type="submit" disabled={processing}>
-                                    {processing && (
-                                        <Spinner />
-                                    )}
-                                    Login</Button>
+                                <Button
+                                    variant="success"
+                                    type="submit"
+                                    disabled={processing}
+                                >
+                                    {processing && <Spinner />}
+                                    Login
+                                </Button>
                                 <FieldDescription className="text-center">
                                     Don&apos;t have an account?{" "}
                                     <Link href="/register">Sign up</Link>

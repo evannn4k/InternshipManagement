@@ -19,6 +19,8 @@ class DeleteUserController extends Controller
         Gate::authorize("user:delete");
 
         try {
+            $user->is_active = false;
+            $user->save();
             $user->delete();
 
             return redirect()
